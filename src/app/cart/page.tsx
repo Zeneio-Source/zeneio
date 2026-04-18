@@ -185,7 +185,7 @@ export default function CartPage() {
 
             {/* Free Shipping Progress */}
             {cartState.subtotal < 99 && (
-              <div class="glass rounded-2xl p-5 text-center">
+              <div className="glass rounded-2xl p-5 text-center">
                 <p className="text-sm text-white/60 mb-2">
                   Add <strong className="text-zeneio-accent">{formatPrice(99 - cartState.subtotal)}</strong> more for free shipping!
                 </p>

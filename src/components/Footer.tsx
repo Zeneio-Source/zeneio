@@ -10,8 +10,11 @@ export default function Footer() {
         
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
-          <Link href="/" className="inline-block mb-6">
-            <img src="/logo-brand.png" className="h-10 w-auto" alt="ZENEIO Logo" />
+          <Link href="/" className="flex items-center gap-3 mb-6">
+            <img src="/logo.png" className="h-10 w-auto" alt="ZENEIO Logo" />
+            <div className="text-2xl font-black tracking-tighter italic uppercase text-white">
+              ZENEIO<span className="text-[#81D8D0]">.</span>
+            </div>
           </Link>
           <p className="max-w-xs text-white/30 text-sm font-light leading-relaxed mb-8 uppercase tracking-widest">
             The intersection of biology and electronics. Crafted for the future of human sensation.

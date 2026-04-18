@@ -10,7 +10,10 @@ export default function Navbar() {
     <header className="fixed top-0 w-full z-50 p-4 md:p-6">
       <nav className="max-w-7xl mx-auto glass rounded-full px-6 md:px-10 py-4 md:py-5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <img src="/logo-brand.png" className="h-8 md:h-10 w-auto" alt="ZENEIO Logo" />
+          <img src="/logo.png" className="h-8 md:h-10 w-auto" alt="ZENEIO Logo" />
+          <div className="text-xl md:text-2xl font-black tracking-tighter italic uppercase text-white">
+            ZENEIO<span className="text-[#81D8D0]">.</span>
+          </div>
         </Link>
         
         {/* Desktop Nav */}

@@ -8,8 +8,9 @@ import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import { useCart } from '@/lib/cart-context';
 import {
-  Product, formatPrice, CATEGORIES, ALL_PRODUCTS
+  Product, formatPrice, ALL_PRODUCTS
 } from '@/lib/products-data';
+import { CATEGORIES } from '@/lib/types';
 import {
   Star, Heart, ShoppingBag, Share2, Truck, Shield,
   ChevronRight, Minus, Plus, Check, ArrowLeft,

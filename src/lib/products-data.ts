@@ -32,7 +32,7 @@ export const maleProducts: Product[] = [
       'IPX7 Waterproof - Bath & Shower Safe',
       '90-Minute Battery Life, USB Rechargeable',
       'Flexible Fit, One Size Fits Most',
-      'Whisper-Quiet Motor (<40dB)',
+      'Whisper-Quiet Motor (under 40dB)',
     ],
     specifications: {
       Material: 'Premium Silicone',
@@ -41,7 +41,7 @@ export const maleProducts: Product[] = [
       Battery: 'USB Rechargeable Li-ion',
       Runtime: '90 minutes',
       Waterproof: 'IPX7',
-      Noise Level: '<40dB',
+      Noise Level: 'under 40dB',
     },
     rating: 4.8,
     reviewCount: 342,

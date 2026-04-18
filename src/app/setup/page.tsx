@@ -1,22 +1,30 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-// This page auto-triggers database initialization
-export default async function SetupPage() {
-  try {
-    const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : '';
-    
-    const res = await fetch(`${baseUrl}/api/setup`, { method: 'POST' });
-    const data = await res.json();
-    
-    if (data.success) {
-      console.log('Database initialized:', data);
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+// This page auto-triggers database initialization on first visit
+export default function SetupPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    async function initDB() {
+      try {
+        await fetch('/api/setup', { method: 'POST' });
+      } catch {
+        // Silently fail
+      }
+      router.push('/');
     }
-  } catch (error: any) {
-    console.error('Auto-setup failed:', error.message);
-  }
-  
-  // Redirect to home after attempting setup
-  redirect('/');
+    initDB();
+  }, [router]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="text-center">
+        <div className="w-8 h-8 border-2 border-[#81D8D0] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-white/40 text-sm uppercase tracking-widest">Initializing...</p>
+      </div>
+    </div>
+  );
 }

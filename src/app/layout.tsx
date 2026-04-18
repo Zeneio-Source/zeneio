@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import AgeVerification from '@/components/AgeVerification';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://zeneio-platform.vercel.app'),
   title: 'ZENEIO | Bio-Tech & Sensual Wellness 2026',
   description: 'Precision engineered for your most private moments. Experience intimacy evolved through pure engineering.',
   icons: {

@@ -274,7 +274,7 @@ export const femaleProducts: Product[] = [
       Material: 'Medical-Grade Silicone',
       InsertableLength: '11cm',
       Girth: '3.5cm',
-      Thrust Depth: '1cm',
+      ThrustDepth: '1cm',
       Battery: '2200mAh Rechargeable',
       Runtime: '90 min thrusting / 150 min vibe only',
       Waterproof: 'IPX6',
@@ -577,7 +577,7 @@ export const lingerieProducts: Product[] = [
     ],
     specifications: {
       Material: 'Lace + Mesh + Elastane blend',
-      Bra Style: 'Balconette underwire',
+      BraStyle: 'Balconette underwire',
       Garter: '4-clip adjustable',
       Stockings: 'Sheer 15D, back-seam detail',
       Sizes: '32B-36D (US sizing)',

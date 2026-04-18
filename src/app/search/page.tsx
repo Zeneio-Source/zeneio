@@ -4,11 +4,6 @@ import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: 'Search | ZENEIO',
-  description: 'Search ZENEIO products and content.',
-};
-
 const allProducts = [
   { id: 'pro', name: 'ZENEIO PRO', price: '$49.99', tag: 'Flagship Alpha' },
   { id: 'neo', name: 'ZENEIO NEO', price: '$29.99', tag: 'AI-Sync Smart' },

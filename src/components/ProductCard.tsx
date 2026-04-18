@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { Heart, ShoppingBag, Star, Eye } from 'lucide-react';
-import { Product, formatPrice } from '@/lib/types';
+import { Product } from '@/lib/types';
+import { formatPrice } from '@/lib/products-data';
 
 interface ProductCardProps {
   product: Product;

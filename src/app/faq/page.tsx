@@ -1,126 +1,75 @@
 'use client';
+import React, { useState } from 'react';import Link from 'next/link';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { ChevronDown } from 'lucide-react';
 
-import React from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-
-const faqs = [
-  {
-    category: 'Products',
-    questions: [
-      { q: 'Are your products safe?', a: 'Yes. All ZENEIO products are made from medical-grade silicone (platinum cure), tested for biocompatibility, and certified by international safety standards including CE, RoHS, and FCC. Every device undergoes rigorous quality testing.' },
-      { q: 'How do I clean my device?', a: 'Use warm water and mild unscented soap, or a dedicated toy cleaner. All our devices are IPX5+ waterproof for easy cleaning. Never use alcohol-based cleaners as they can damage the silicone over time.' },
-      { q: 'What is the battery life?', a: 'Battery life varies by model: NEO (240 min), WAND (180 min), MICRO (90 min), CURVE (150 min), PRO (300 min). All devices feature USB-C fast charging — a full charge takes just 90 minutes.' },
-      { q: 'Do you have a warranty?', a: 'Every ZENEIO device comes with a 2-year manufacturer warranty covering defects in materials and workmanship. Register your product online within 30 days of purchase to activate extended coverage.' },
-      { q: 'Can I use these with lubricant?', a: 'Absolutely! We recommend water-based lubricants only. Avoid silicone-based lubes as they can degrade medical-grade silicone over time.' },
-    ],
-  },
-  {
-    category: 'Shipping & Delivery',
-    questions: [
-      { q: 'How is shipping handled?', a: 'All orders ship in 100% discreet, unmarked packaging. The return address shows "ZL Logistics" with no indication of contents. No branding or logos on the exterior.' },
-      { q: 'How long does delivery take?', a: 'Standard shipping: 7-14 business days worldwide. Express shipping: 3-5 business days. Orders placed before 2PM JST ship same day. You\'ll receive a tracking number via email once shipped.' },
-      { q: 'Which countries do you ship to?', a: 'We ship to 48 countries across North America, Europe, Asia-Pacific, and select regions in South America & Africa. Check the full list at checkout — if your country appears, we deliver there.' },
-      { q: 'Is customs/duties included?', a: 'Prices include duties and taxes for most destinations. For countries not covered by DDP (Delivered Duty Paid), any applicable import fees are the buyer\'s responsibility. This is clearly shown at checkout.' },
-      { q: 'Can I track my order?', a: 'Yes! Once shipped, you\'ll receive an email with tracking information. Track your order anytime through our website using your order number.' },
-    ],
-  },
-  {
-    category: 'Privacy & Security',
-    questions: [
-      { q: 'Is my purchase completely private?', a: '100%. Your data is encrypted end-to-end. We don\'t sell or share any personal information. Billing statements show "ZL Commerce" — nothing about products purchased.' },
-      { q: 'What payment methods do you accept?', a: 'We accept all major credit cards (Visa, Mastercard, Amex), PayPal, Apple Pay, Google Pay, and cryptocurrency (BTC, ETH). All transactions are secured with 256-bit SSL encryption.' },
-      { q: 'Will I receive marketing emails?', a: 'Only if you opt-in during checkout. Unsubscribe anytime with one click. We never spam — ever.' },
-      { q: 'How long do you keep my data?', a: 'We retain order data for 3 years (required for warranty support). You can request complete deletion at any time by contacting support@zeneio.com.' },
-    ],
-  },
-  {
-    category: 'Returns & Support',
-    questions: [
-      { q: 'Can I return a product?', a: 'Due to hygiene reasons, unopened items can be returned within 30 days. Opened items are eligible for exchange only if defective. Contact us first before returning anything.' },
-      { q: 'My device isn\'t working. What do I do?', a: 'First, try charging it fully for 2 hours. If issues persist, email support@zeneio.com with your order number and a description of the problem. Our team typically responds within 12 hours.' },
-      { q: 'Do you offer refunds?', a: 'Refunds are available for unopened items returned within 30 days. Refunds process in 5-10 business days back to the original payment method. Defective items receive free replacement.' },
-    ],
-  },
+const faqCategories = [
+  { title: 'Shipping & Delivery', icon: '📦', items: [
+    { q: 'How long does shipping take?', a: 'Standard shipping: 5-10 business days. Express: 2-4 business days. Orders placed before 2PM EST ship same day.' },
+    { q: 'Is shipping discreet?', a: 'Absolutely. All packages ship in plain cardboard boxes with "ZNE Logistics" as the return address. No product names or branding visible.' },
+    { q: 'Which countries do you ship to?', a: 'We ship to over 50 countries worldwide including USA, Canada, UK, EU, Australia, Japan, and many more.' },
+    { q: 'Is there free shipping?', a: 'Yes! All orders over $99 qualify for free standard shipping to most countries. Express shipping is always available at checkout.' },
+    { q: 'Can I track my order?', a: 'Yes! Once your order ships, you\'ll receive an email with tracking information. You can also track it in your account under "My Orders".' },
+  ]},
+  { title: 'Products & Quality', icon: '✨', items: [
+    { q: 'Are your products body-safe?', a: 'Yes. All ZENEIO products are made from medical-grade silicone, ABS plastic, or other body-safe materials. They\'re free of phthalates and latex.' },
+    { q: 'How do I clean my products?', a: 'Use warm water and mild soap, or a dedicated toy cleaner. For waterproof products, submerge fully. Air dry completely before storage.' },
+    { q: 'Do products come with a warranty?', a: 'Yes! All products come with a 1-year manufacturer warranty against defects. Register within 30 days for extended coverage.' },
+    { q: 'What if I don\'t like the product?', a: 'We offer a 30-day satisfaction guarantee on unopened products. Due to hygiene reasons, opened products cannot be returned unless defective.' },
+  ]},
+  { title: 'Orders & Payments', icon: '💳', items: [
+    { q: 'What payment methods do you accept?', a: 'We accept all major credit cards (Visa, Mastercard, Amex, Discover), PayPal, and select cryptocurrencies (BTC, ETH, USDT).' },
+    { q: 'Will this show up on my bank statement as something embarrassing?', a: 'No. Your statement will show "ZNE LLC" or similar — nothing indicating the nature of your purchase.' },
+    { q: 'Can I modify or cancel my order?', a: 'You can cancel or modify within 1 hour of placing the order by contacting support. After that window begins processing, we may not be able to make changes.' },
+    { q: 'Do you offer installment payments?', a: 'Yes! We offer Buy Now Pay Later options through trusted providers at checkout. Available for orders $50+.' },
+  ]},
+  { title: 'Account & Privacy', icon: '🔒', items: [
+    { q: 'Is my data secure?', a: 'We use 256-bit SSL encryption, PCI DSS compliance, and never sell your data. Your privacy is our top priority.' },
+    { q: 'Do I need to create an account to buy?', a: 'No, you can check out as a guest. However, creating an account gives you order tracking, wishlist access, and exclusive member offers.' },
+    { q: 'How old do I need to be?', a: 'You must be 18 years or older (or the legal age of majority in your jurisdiction) to purchase from ZENEIO.' },
+    { q: 'Can I delete my account and data?', a: 'Yes. Contact support with a deletion request and we will permanently remove your account and associated data within 30 days per GDPR/CCPA requirements.' },
+  ]},
 ];
 
-function FAQItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = React.useState(false);
-  
-  return (
-    <div className="border border-white/5 rounded-2xl overflow-hidden group hover:border-white/10 transition-all">
-      <button 
-        onClick={() => setOpen(!open)}
-        className="w-full flex justify-between items-center p-6 text-left"
-      >
-        <span className="text-sm font-medium text-white/80 pr-8 group-hover:text-[#81D8D0] transition">{q}</span>
-        <span className={`text-[#81D8D0] flex-shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`}>+</span>
-      </button>
-      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-96' : 'max-h-0'}`}>
-        <div className="px-6 pb-6 text-sm text-white/40 leading-relaxed">{a}</div>
-      </div>
-    </div>
-  );
-}
-
 export default function FAQPage() {
+  const [openCategory, setOpenCategory] = useState<string | null>('Shipping & Delivery');
+  const [openQuestion, setOpenQuestion] = useState<Record<string, string | null>>({});
+
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="page-header"><h1>Frequently Asked Questions</h1><p>Everything you need to know about ZENEIO</p></div>
 
-      {/* Hero */}
-      <section className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block glass px-4 py-2 rounded-full text-[9px] uppercase tracking-[0.4em] font-bold mb-8 text-[#81D8D0] border-[#81D8D0]/20">
-            Help Center
-          </div>
-          <h1 className="text-5xl md:text-7xl font-serif italic font-light leading-[0.9] mb-8">
-            Questions<span className="not-italic font-sans font-black text-glow uppercase">?</span>
-          </h1>
-          <p className="text-white/30 text-lg font-light leading-relaxed max-w-2xl mx-auto">
-            Everything you need to know about ZENEIO products, shipping, privacy, and support.
-          </p>
-
-          {/* Quick search */}
-          <div className="mt-12 max-w-xl mx-auto">
-            <input type="search" placeholder="Search frequently asked questions..."
-              className="w-full glass bg-white/5 border border-white/10 rounded-full px-8 py-5 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Sections */}
-      <section className="py-16 px-6 pb-32">
-        <div className="max-w-3xl mx-auto space-y-16">
-          {faqs.map((section) => (
-            <div key={section.category}>
-              <h2 className="text-2xl font-black tracking-tight uppercase italic text-[#81D8D0]/80 mb-8 sticky top-28 bg-black/90 py-4 backdrop-blur-md z-10">
-                {section.category}
-              </h2>
-              <div className="space-y-4">
-                {section.questions.map((item) => (
-                  <FAQItem key={item.q} {...item} />
-                ))}
+      <div className="section-container pb-20">
+        <div className="max-w-3xl mx-auto space-y-4">{faqCategories.map(cat => (
+          <div key={cat.title} className="glass rounded-2xl overflow-hidden">
+            <button onClick={() => setOpenCategory(openCategory === cat.title ? null : cat.title)}
+              className={`w-full flex items-center justify-between p-5 text-left transition-colors ${openCategory === cat.title ? 'bg-white/[0.03]' : ''}`}>
+              <span className="flex items-center gap-3 font-bold text-sm sm:text-base"><span className="text-xl">{cat.icon}</span>{cat.title}</span>
+              <ChevronDown size={20} className={`text-white/40 transition-transform duration-300 ${openCategory === cat.title ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {openCategory === cat.title && (
+              <div className="px-5 pb-5 space-y-2 animate-fade-in">
+                {cat.items.map((item) => {
+                  const key = `${cat.title}-${item.q}`;
+                  const isOpen = openQuestion[key] === item.q;
+                  return (
+                    <div key={key} className="border-t border-white/5 pt-3 first:pt-0 first:border-t-0">
+                      <button onClick={() => setOpenQuestion(prev => ({ ...prev, [key]: isOpen ? null : item.q }))} className="w-full flex items-start gap-3 text-left py-2 group">
+                        <span className={`mt-1.5 w-4 h-4 rounded-full border flex-shrink-0 flex items-center justify-center transition-all ${isOpen ? 'bg-zeneio-accent border-zeneio-accent' : 'border-white/20'}`}>{isOpen && <span className="w-1.5 h-1.5 rounded-full bg-black" />}</span>
+                        <span className={`text-sm font-medium leading-relaxed ${isOpen ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>{item.q}</span>
+                      </button>
+                      {isOpen && (
+                        <div className="pl-7 pr-2 pb-2 animate-fade-in"><p className="text-sm text-white/45 leading-relaxed">{item.a}</p></div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            )}
+          </div>
+        ))}
 
-      {/* Still need help */}
-      <section className="py-24 px-6 bg-black/40">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl font-black tracking-tighter uppercase italic mb-6">
-            Still Have Questions?<span className="text-[#81D8D0]">.</span>
-          </h2>
-          <p className="text-white/30 text-sm mb-10">Our support team is ready to help.</p>
-          <a href="/contact" className="btn-zeneio text-black inline-block px-16 py-5">
-            Contact Us
-          </a>
-        </div>
-      </section>
+        <div className="text-center mt-12 glass rounded-2xl p-8"><p className="text-sm text-white/40 mb-4">Still have questions?</p><Link href="/contact" className="btn-accent">Contact Our Team</Link></div>
+      </div>
 
-      <Footer />
-    </div>
+      <Footer /></div>
   );
 }

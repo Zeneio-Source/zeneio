@@ -1,130 +1,93 @@
 import React from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { Shield, Target, Users, Globe, Award, Zap, Heart } from 'lucide-react';
 
-export const metadata = {
-  title: 'About ZENEIO | Our Mission',
-  description: 'Learn about ZENEIO - pioneering bio-tech wellness engineering since 2024.',
-};
+const values = [
+  { icon: Shield, title: 'Privacy First', desc: 'Every order ships in plain, unmarked packaging. Your privacy is non-negotiable.' },
+  { icon: Target, title: 'Precision Engineering', desc: 'Medical-grade materials, whisper-quiet motors, and intuitive design in every product.' },
+  { icon: Users, title: 'Inclusive Design', desc: 'Products for all bodies, all orientations, all experience levels. No judgment, ever.' },
+  { icon: Globe, title: 'Global Discreet Shipping', desc: 'Fast, discreet delivery to 50+ countries. What happens at home stays at home.' },
+];
+
+const team = [
+  { name: 'Dr. Elena Chen', role: 'Chief Product Engineer', bio: 'Former biomedical engineer at a leading medical device company. Holds 12 patents in intimate wellness technology.' },
+  { name: 'Marcus Webb', role: 'Head of UX & Design', bio: '10+ years designing products that feel as good as they look. Minimalist by philosophy.' },
+  { name: 'Dr. Aisha Patel', role: 'Chief Wellness Officer', desc: 'Certified sex therapist and advocate for sexual health education worldwide.' },
+  { name: 'James Liu', role: 'CTO', bio: 'Ex-Apple engineer building the tech infrastructure behind ZENEIO\'s smart products.' },
+];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-zeneio-black">
       <Navbar />
-
       {/* Hero */}
-      <section className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block glass px-4 py-2 rounded-full text-[9px] uppercase tracking-[0.4em] font-bold mb-8 text-[#81D8D0] border-[#81D8D0]/20">
-            Our Story
-          </div>
-          <h1 className="text-5xl md:text-7xl font-serif italic font-light leading-[0.9] mb-8">
-            Engineering <span className="not-italic font-sans font-black text-glow uppercase">Intimacy</span>
+      <section className="relative py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-zeneio-accent/[0.04] via-transparent to-zeneio-purple/[0.03]" />
+        <div className="section-container relative z-10 text-center max-w-3xl mx-auto">
+          <p className="text-xs font-bold tracking-[0.25em] uppercase text-zeneio-accent mb-4">About ZENEIO</p>
+          <h1 className="text-display sm:text-heading-1 font-black leading-tight mb-6">
+            We Believe Intimacy Deserves<br/><span className="text-gradient">Better Technology</span>
           </h1>
-          <p className="text-white/30 text-lg font-light leading-relaxed max-w-2xl mx-auto">
-            We are a collective of engineers, designers, and human behavior researchers 
-            united by one belief: technology should enhance every dimension of the human experience.
+          <p className="text-body-lg text-white/45 leading-relaxed mx-auto">
+            Founded in 2024, ZENEIO was born from a simple observation: most adult products are either cheap junk or embarrassingly overpriced. We set out to build something different — precision-engineered products that respect your body, your privacy, and your intelligence.
           </p>
         </div>
       </section>
 
       {/* Mission */}
-      <section className="py-24 px-6 bg-black/40">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 className="text-3xl font-black tracking-tight uppercase italic mb-6">The Mission<span className="text-[#81D8D0]">.</span></h2>
-            <div className="space-y-6 text-white/40 text-sm leading-relaxed">
-              <p>Founded in 2024 in Tokyo, ZENEIO emerged from a simple observation: the wellness industry had been ignoring an entire category of human needs.</p>
-              <p>We set out to apply the same precision engineering principles used in medical devices and consumer electronics to products that matter deeply to personal well-being.</p>
-              <p>Every ZENEIO device is the result of 200+ hours of research, testing with real users across 12 countries, and iterative design based on feedback from thousands of individuals.</p>
+      <section className="section-container py-16 lg:py-24 border-t border-white/5">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-5">
+            <p className="text-xs font-bold tracking-widest uppercase text-zeneio-accent">Our Mission</p>
+            <h2 className="text-heading-2 font-bold">Redefining Intimate Wellness Through Bio-Tech</h2>
+            <div className="space-y-4 text-body text-white/45 leading-relaxed">
+              <p>We combine cutting-edge bio-engineering with deep understanding of human anatomy and pleasure science. Every ZENEIO product undergoes rigorous testing — not just for safety, but for satisfaction.</p>
+              <p>Our team of engineers, designers, and wellness experts work together to create products that feel like they belong in the 21st century. Because your most private moments deserve nothing less than excellence.</p>
             </div>
           </div>
-          <div className="glass rounded-[40px] p-10 border border-white/5 space-y-6">
-            {[
-              { label: 'Founded', value: '2024' },
-              { label: 'Headquarters', value: 'Tokyo, Japan' },
-              { label: 'Products Shipped', value: '50,000+' },
-              { label: 'Countries', value: '48' },
-              { label: 'Team Size', value: '23 Engineers' },
-              { label: 'R&D Investment', value: '$2.4M' },
-            ].map((stat) => (
-              <div key={stat.label} className="flex justify-between items-center py-3 border-b border-white/5 last:border-0">
-                <span className="text-[9px] uppercase font-black tracking-[0.3em] text-white/30">{stat.label}</span>
-                <span className="text-sm font-light text-[#81D8D0]">{stat.value}</span>
-              </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[{ value: '2024', label: 'Founded' }, { value: '50K+', label: 'Customers' }, { value: '30+', label: 'Products' }, { value: '50+', label: 'Countries' }].map(s => (
+              <div key={s.label} className="glass rounded-2xl p-6 text-center"><p className="text-3xl font-black text-gradient">{s.value}</p><p className="text-sm text-white/40 mt-1">{s.label}</p></div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-center mb-20">
-            Our Principles<span className="text-[#81D8D0]">.</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                num: '01',
-                title: 'Precision First',
-                desc: 'Every millimeter, every vibration pattern, every material choice is calculated. No guesswork, only data-driven design.',
-              },
-              {
-                num: '02', 
-                title: 'Privacy Sacred',
-                desc: 'Your data is yours. Discreet shipping, no tracking, encrypted communications. What happens at ZENEIO stays private.',
-              },
-              {
-                num: '03',
-                title: 'Inclusive Design',
-                desc: 'Products tested on diverse bodies, preferences, and abilities. Wellness is universal, so is our approach.',
-              },
-            ].map((value) => (
-              <div key={value.num} className="glass rounded-[40px] p-10 border border-white/5 group hover:border-[#81D8D0]/20 transition-all duration-500">
-                <div className="text-5xl font-black text-[#81D8D0]/20 mb-6 group-hover:text-[#81D8D0]/40 transition">{value.num}</div>
-                <h3 className="text-xl font-black tracking-tight uppercase mb-4">{value.title}</h3>
-                <p className="text-white/30 text-sm leading-relaxed font-light">{value.desc}</p>
-              </div>
-            ))}
+      <section className="border-t border-white/5"><div className="section-container py-16 lg:py-24">
+        <p className="text-xs font-bold tracking-widest uppercase text-white/30 mb-2 text-center">What We Stand For</p>
+        <h2 className="text-heading-2 font-bold text-center mb-10">Our Values</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">{values.map(v => (
+          <div key={v.title} className="glass rounded-2xl p-6 group hover:border-white/15 transition-all">
+            <v.icon size={28} className="text-zeneio-accent mb-4" />
+            <h3 className="font-bold text-sm mb-2">{v.title}</h3>
+            <p className="text-sm text-white/40 leading-relaxed">{v.desc}</p>
           </div>
-        </div>
-      </section>
+        ))}</div>
+      </div></section>
 
       {/* Team */}
-      <section className="py-24 px-6 bg-black/40">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-black tracking-tighter uppercase italic mb-6">Behind The Lab</h2>
-          <p className="text-white/30 text-sm leading-relaxed max-w-xl mx-auto mb-12">
-            Our team combines expertise from Sony R&D, Apple Human Interface, and Stanford Biodesign.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { name: 'Dr. Yuki Tanaka', role: 'Chief Engineer', init: 'YT' },
-              { name: 'Sarah Chen', role: 'Human Research Lead', init: 'SC' },
-              { name: 'Marcus Webb', role: 'Product Design Director', init: 'MW' },
-              { name: 'Elena Rossi', role: 'Materials Scientist', init: 'ER' },
-            ].map((person) => (
-              <div key={person.init} className="glass rounded-3xl p-6 border border-white/5">
-                <div className="w-16 h-16 rounded-full bg-[#81D8D0]/10 flex items-center justify-center text-[#81D8D0] font-black text-lg mx-auto mb-4">
-                  {person.init}
-                </div>
-                <h4 className="text-sm font-bold text-white/80">{person.name}</h4>
-                <p className="text-[8px] uppercase tracking-widest text-white/30 mt-1">{person.role}</p>
-              </div>
-            ))}
+      <section className="bg-zeneio-darker border-y border-white/5"><div className="section-container py-16 lg:py-24">
+        <p className="text-xs font-bold tracking-widest uppercase text-white/30 mb-2 text-center">The People Behind It</p>
+        <h2 className="text-heading-2 font-bold text-center mb-10">Meet Our Team</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">{team.map(m => (
+          <div key={m.name} className="text-center group">
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-zeneio-accent/20 to-zeneio-purple/20 flex items-center justify-center text-2xl font-bold text-zeneio-accent mb-4 group-hover:scale-105 transition-transform">{m.name.charAt(0)}</div>
+            <h3 className="font-bold text-sm">{m.name}</h3>
+            <p className="text-xs text-zeneio-accent mt-0.5">{m.role}</p>
+            <p className="text-xs text-white/35 mt-2 leading-relaxed line-clamp-3">{m.bio || m.desc || ''}</p>
           </div>
-        </div>
-      </section>
+        ))}</div>
+      </div></section>
 
       {/* CTA */}
-      <section className="py-32 px-6 text-center">
-        <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic mb-8">
-          Ready to Explore?<span className="text-[#81D8D0]">.</span>
-        </h2>
-        <a href="/products" className="btn-zeneio text-black inline-block px-16 py-6 text-sm">
-          View Collection
-        </a>
+      <section className="section-container py-20 text-center">
+        <Heart size={48} className="mx-auto text-pink-400/20 mb-6" />
+        <h2 className="text-heading-3 font-bold mb-3">Ready to Experience the Difference?</h2>
+        <p className="text-white/40 mb-8 max-w-md mx-auto">Join 50,000+ customers who have upgraded their intimate moments.</p>
+        <Link href="/products" className="btn-accent btn-lg">Shop Now →</Link>
       </section>
 
       <Footer />

@@ -1,161 +1,54 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: 'Blog | ZENEIO - Wellness Insights',
-  description: 'Expert articles on wellness technology, intimacy science, and bio-tech innovations.',
-};
-
 const blogPosts = [
-  {
-    slug: 'neural-sync-technology-explained',
-    title: 'Neural-Sync Technology: How Your Body Controls the Experience',
-    excerpt: 'Deep dive into the AI-powered haptic feedback system that adapts in real-time to your body\'s responses.',
-    category: 'Technology',
-    readTime: '8 min',
-    date: 'Apr 15, 2026',
-    image: '/blog/neural-sync.jpg',
-  },
-  {
-    slug: 'guide-to-first-vibrator',
-    title: 'The Complete Beginner\'s Guide to Choosing Your First Device',
-    excerpt: 'Everything you need to know before your first purchase — from materials to motor types to finding what works for you.',
-    category: 'Guide',
-    readTime: '12 min',
-    date: 'Apr 10, 2026',
-    image: '/blog/beginner-guide.jpg',
-  },
-  {
-    slug: 'science-of-intimate-wellness',
-    title: 'The Science Behind Intimate Wellness: What Research Actually Says',
-    excerpt: 'We analyzed 200+ peer-reviewed studies on sexual health and wellness. Here are the key findings that shaped our product design.',
-    category: 'Science',
-    readTime: '15 min',
-    date: 'Apr 5, 2026',
-    image: '/blog/science-wellness.jpg',
-  },
-  {
-    slug: 'privacy-in-digital-age',
-    title: 'Your Privacy Matters: How We Protect Every Purchase',
-    excerpt: 'A transparent look at our data practices, shipping protocols, and why discretion is non-negotiable.',
-    category: 'Privacy',
-    readTime: '6 min',
-    date: 'Mar 28, 2026',
-    image: '/blog/privacy.jpg',
-  },
-  {
-    slug: 'materials-matter-silicone-vs-tpe',
-    title: 'Silicone vs TPE vs ABS: Why Material Choice Is Critical',
-    excerpt: 'Not all materials are created equal. Learn why medical-grade silicone costs more — and why it\'s worth every penny.',
-    category: 'Education',
-    readTime: '10 min',
-    date: 'Mar 20, 2026',
-    image: '/blog/materials.jpg',
-  },
-  {
-    slug: 'long-distance-connection',
-    title: 'Staying Connected: App-Controlled Devices for Long-Distance Relationships',
-    excerpt: 'How smart devices with partner sync features are transforming intimate connections across distances.',
-    category: 'Lifestyle',
-    readTime: '9 min',
-    date: 'Mar 15, 2026',
-    image: '/blog/long-distance.jpg',
-  },
+  { slug: 'guide-to-first-vibrator', title: 'Your First Vibrator: A Complete Buyer\'s Guide for 2026', excerpt: 'Confused by the endless options? We break down everything you need to know to choose your first vibe with confidence.', category: 'Guides', readTime: '8 min', date: 'Apr 15, 2026', image: '' },
+  { slug: 'couples-toys-that-actually-work', title: '10 Couples\' Toys That Actually Improve Your Intimate Life (Tested & Reviewed)', excerpt: 'We spent 3 months testing the most popular couples toys. Here are the ones worth your money — and which to skip.', category: 'Reviews', readTime: '12 min', date: 'Apr 10, 2026', image: '' },
+  { slug: 'kegel-exercises-guide', title: 'Kegel Exercises: The Complete Science-Backed Guide', excerpt: 'Everything you need to know about pelvic floor exercises — benefits, techniques, and how to use Kegel balls safely.', category: 'Wellness', readTime: '6 min', date: 'Apr 5, 2026', image: '' },
+  { slug: 'lingerie-confidence-guide', title: 'How Lingerie Can Transform Your Body Confidence', excerpt: 'It\'s not about looking good for someone else. It\'s about feeling good in your own skin. Here\'s how.', category: 'Lifestyle', readTime: '5 min', date: 'Mar 28, 2026', image: '' },
+  { slug: 'sex-tech-innovation-2026', title: 'The State of Sex Tech in 2026: What\'s New & What\'s Coming', excerpt: 'From AI-powered devices to app-controlled experiences — here\'s what the future of intimate wellness looks like.', category: 'Tech', readTime: '10 min', date: 'Mar 20, 2026', image: '' },
+  { slug: 'discreet-shipping-explained', title: 'Discreet Shipping: How It Works & Why It Matters', excerpt: 'A complete guide to discreet packaging, billing privacy, and keeping your purchases completely private.', category: 'Info', readTime: '4 min', date: 'Mar 15, 2026', image: '' },
 ];
-
-const categories = ['All', 'Technology', 'Guide', 'Science', 'Privacy', 'Education', 'Lifestyle'];
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="page-header">
+      <h1>The ZENEIO Blog</h1><p>Intimate wellness guides, product reviews, and industry insights</p></div>
 
-      {/* Hero */}
-      <section className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block glass px-4 py-2 rounded-full text-[9px] uppercase tracking-[0.4em] font-bold mb-8 text-[#81D8D0] border-[#81D8D0]/20">
-            ZENEIO Journal
+      <div className="section-container pb-24">
+        {/* Featured Post */}
+        <Link href={`/blog/${blogPosts[0].slug}`} className="group block mb-12">
+          <div className="glass rounded-3xl overflow-hidden lg:flex" style={{ minHeight: '400px' }}>
+            <div className="lg:w-[55%] aspect-[16/10] lg:aspect-auto bg-gradient-to-br from-zeneio-accent/10 to-zeneio-purple/5 flex items-center justify-center text-white/5 text-7xl font-black">IMG</div>
+            <div className="lg:w-[45%] p-8 lg:p-10 flex flex-col justify-center space-y-4">
+              <span className="badge badge-new w-fit">{blogPosts[0].category}</span>
+              <h2 className="text-heading-2 sm:text-heading-1 font-bold leading-tight group-hover:text-zeneio-accent transition-colors">{blogPosts[0].title}</h2>
+              <p className="text-body text-white/45 leading-relaxed">{blogPosts[0].excerpt}</p>
+              <p className="text-sm text-white/30">{blogPosts[0].date} · {blogPosts[0].readTime}</p>
+            </div>
           </div>
-          <h1 className="text-5xl md:text-7xl font-serif italic font-light leading-[0.9] mb-8">
-            The Lab <span className="not-italic font-sans font-black text-glow uppercase">Notes</span>
-          </h1>
-          <p className="text-white/30 text-lg font-light leading-relaxed max-w-2xl mx-auto">
-            Insights on wellness technology, intimacy science, and the future of human connection.
-          </p>
-        </div>
+        </Link>
 
-        {/* Categories */}
-        <div className="max-w-3xl mx-auto mt-16 flex flex-wrap gap-3 justify-center">
-          {categories.map((cat) => (
-            <button key={cat} className={`px-8 py-3 rounded-full text-[9px] uppercase font-black tracking-[0.2em] border transition-all ${cat === 'All' ? 'bg-[#81D8D0] text-black border-[#81D8D0]' : 'border-white/10 text-white/40 hover:border-white/30 hover:text-white'}`}>
-              {cat}
-            </button>
-          ))}
-        </div>
-      </section>
+        {/* Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">{blogPosts.slice(1).map(post => (
+          <Link key={post.slug} href={`/blog/${post.slug}`} className="glass rounded-2xl overflow-hidden group hover:border-white/15 transition-all">
+            <div className="aspect-video bg-gradient-to-br from-zeneio-gray/50 to-zeneio-darker flex items-center justify-center text-white/5 text-4xl font-black group-hover:text-white/10 transition-colors">IMG</div>
+            <div className="p-5 space-y-2.5">
+              <span className="text-[11px] font-bold tracking-wider uppercase text-zeneio-accent/70">{post.category}</span>
+              <h3 className="font-bold text-base leading-snug line-clamp-2 group-hover:text-zeneio-accent transition-colors">{post.title}</h3>
+              <p className="text-sm text-white/35 line-clamp-2">{post.excerpt}</p>
+              <p className="text-xs text-white/25 pt-1">{post.date} · {post.readTime}</p>
+            </div>
+          </Link>
+        ))}</div>
 
-      {/* Blog Grid */}
-      <section className="py-16 px-6 pb-32">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <Link href={`/blog/${post.slug}`} key={post.slug} 
-              className="glass rounded-[40px] border border-white/5 overflow-hidden group hover:border-[#81D8D0]/20 transition-all duration-500">
-              
-              {/* Image placeholder */}
-              <div className="aspect-[16/10] bg-gradient-to-br from-[#81D8D0]/10 to-white/5 flex items-center justify-center relative overflow-hidden">
-                <span className="text-4xl font-serif italic text-[#81D8D0]/20 group-hover:text-[#81D8D0]/40 transition">Z</span>
-                <div className="absolute top-4 left-4">
-                  <span className="glass px-3 py-1 rounded-full text-[8px] uppercase font-black tracking-widest text-[#81D8D0]">{post.category}</span>
-                </div>
-              </div>
+        {/* Load More */}
+        <div className="text-center mt-12"><button className="btn-outline">Load More Articles</button></div>
+      </div>
 
-              {/* Content */}
-              <div className="p-8">
-                <div className="flex items-center gap-4 mb-4 text-[8px] uppercase tracking-widest text-white/20 font-bold">
-                  <time>{post.date}</time>
-                  <span>•</span>
-                  <span>{post.readTime} read</span>
-                </div>
-                <h2 className="text-xl font-bold tracking-tight text-white/90 group-hover:text-[#81D8D0] transition mb-4 leading-tight">
-                  {post.title}
-                </h2>
-                <p className="text-sm text-white/30 leading-relaxed line-clamp-3">{post.excerpt}</p>
-                
-                <div className="mt-6 flex items-center text-[9px] uppercase font-black tracking-[0.3em] text-[#81D8D0] group-hover:text-white transition">
-                  Read Article <span className="ml-2 group-hover:translate-x-2 transition-transform">→</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Newsletter CTA */}
-        <div className="mt-24 glass rounded-[50px] p-12 md:p-20 border border-white/5 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[#81D8D0]/5 blur-[100px]"></div>
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-black tracking-tighter uppercase italic mb-4">
-              Stay In The Loop<span className="text-[#81D8D0]">.</span>
-            </h2>
-            <p className="text-white/40 text-sm mb-10 leading-relaxed">
-              Get weekly insights on wellness tech, exclusive early access to new products, and member-only discounts.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input type="email" placeholder="Your email address"
-                className="flex-1 bg-white/5 border border-white/10 rounded-full px-8 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-              <button type="submit" className="btn-zeneio text-black px-10 py-4 text-xs whitespace-nowrap">
-                Subscribe
-              </button>
-            </form>
-            <p className="mt-4 text-[8px] text-white/20 uppercase tracking-widest">
-              No spam ever. Unsubscribe anytime.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      <Footer /></div>
   );
 }

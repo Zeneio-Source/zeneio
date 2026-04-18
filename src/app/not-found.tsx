@@ -1,41 +1,27 @@
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { Home, ArrowLeft, Search } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-zeneio-black flex items-center justify-center px-4">
+      <div className="text-center max-w-md mx-auto animate-fade-up">
+        <div className="text-8xl sm:text-9xl font-black text-gradient leading-none mb-4">404</div>
+        <h1 className="text-heading-2 font-bold mb-3">Page Not Found</h1>
+        <p className="text-white/40 mb-8 leading-relaxed">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved. 
+          Maybe it&apos;s in a better place now.
+        </p>
 
-      <main className="flex-grow flex items-center justify-center px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#81D8D0]/3 blur-[100px]"></div>
-
-        <div className="relative z-10 text-center max-w-lg">
-          <div className="text-[12rem] md:text-[15rem] font-serif italic font-light leading-none text-white/[0.03] select-none -mt-10">
-            404
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic mb-4 -mt-24 relative z-10">
-            Page Not Found<span className="text-[#81D8D0]">.</span>
-          </h1>
-          
-          <p className="text-white/30 text-base font-light leading-relaxed mb-12 max-w-md mx-auto">
-            The page you&apos;re looking for doesn&apos;t exist or has been moved.
-            Let&apos;s get you back on track.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/" className="btn-zeneio text-black px-12 py-5 inline-block">
-              Go Home
-            </Link>
-            <Link href="/products" className="px-12 py-5 rounded-full text-[10px] uppercase font-black tracking-[0.3em] text-white/40 border border-white/10 hover:border-white/30 hover:text-white transition inline-block">
-              Browse Products
-            </Link>
-          </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-10">
+          <Link href="/" className="btn-accent"><Home size={16} /> Go Home</Link>
+          <Link href="/products" className="btn-outline"><Search size={16} /> Browse Products</Link>
+          <Link href="/contact" className="btn-ghost">Contact Us</Link>
         </div>
-      </main>
 
-      <Footer />
+        <p className="text-xs text-white/20">
+          Error code: 404 · Page missing · Need help? <Link href="/contact" className="underline hover:text-white transition-colors">Contact support</Link>
+        </p>
+      </div>
     </div>
   );
 }

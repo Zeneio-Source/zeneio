@@ -1,46 +1,51 @@
-import React from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { Cpu, Battery, Waves, Thermometer } from 'lucide-react';
+
+const technologies = [
+  { icon: Cpu, title: 'AI Learning Engine', desc: 'Our proprietary algorithms learn user preferences over time to deliver personalized experiences that get better with every use.' },
+  { icon: Waves, title: 'Rumbly Motor Tech', desc: 'Unlike cheap buzzy motors, our custom-designed rumbly motors deliver deep, resonant vibrations that feel natural — not mechanical.' },
+  { icon: Battery, title: 'Long-Life Power', desc: 'High-density Li-ion batteries with intelligent power management. Up to 180 minutes of continuous use on a single charge.' },
+  { icon: Thermometer, title: 'Active Heating', desc: 'Precision temperature control (38°C–42°C) with medical-grade thermal sensors for realistic body-warmth sensation.' },
+];
 
 export default function EngineeringPage() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
-        <div className="text-center mb-32">
-            <div className="inline-block glass px-4 py-2 rounded-full text-[9px] uppercase tracking-[0.4em] font-bold mb-10 text-[#81D8D0] border-[#81D8D0]/20">
-                Inside the Lab
-            </div>
-            <h1 className="text-7xl md:text-[9rem] font-serif italic font-light leading-[0.85] mb-8">
-                The Science <br /> <span className="not-italic font-sans font-black tracking-tighter text-glow uppercase">of Joy</span>
-            </h1>
-        </div>
+    <div className="min-h-screen bg-zeneio-black"><Navbar /><section className="relative py-20 lg:py-32 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-zeneio-purple/[0.05] via-transparent to-zeneio-accent/[0.03]" />
+      <div className="section-container relative z-10 text-center max-w-3xl mx-auto">
+        <p className="text-xs font-bold tracking-[0.25em] uppercase text-zeneio-purple mb-4">Our Technology</p>
+        <h1 className="text-display sm:text-heading-1 font-black leading-tight mb-6">Engineering<br/><span className="text-gradient">That Feels Right</span></h1>
+        <p className="text-body-lg text-white/45 leading-relaxed">Every ZENEIO product is built on a foundation of bio-engineering research, premium materials science, and obsessive attention to detail.</p>
+      </div></section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center mb-40">
-            <div className="glass aspect-[4/5] rounded-[60px] overflow-hidden flex items-center justify-center relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#81D8D0]/20 to-transparent"></div>
-                <div className="w-1/2 h-1/2 bg-white/5 rounded-full blur-[100px] animate-pulse"></div>
-                <p className="relative z-10 text-[10px] uppercase font-black tracking-[1em] text-white/10 rotate-90">GEN-4 CORE</p>
-            </div>
-            <div className="space-y-12">
-                <h2 className="text-4xl font-black uppercase italic tracking-tighter">Haptic Precision.</h2>
-                <p className="text-white/40 text-xl font-light leading-relaxed tracking-wide">
-                    At ZENEIO, we don't build toys. We engineer high-frequency bio-resonance devices. Our team consists of former consumer electronics designers and anatomical researchers who believe intimacy deserves the same level of innovation as your smartphone.
-                </p>
-                <div className="space-y-8">
-                    <div className="border-l-2 border-[#81D8D0] pl-8">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-[#81D8D0] mb-2">Sonic Dynamics</h4>
-                        <p className="text-sm font-bold text-white/60 uppercase tracking-widest leading-relaxed">Our Gen-4 motors operate at frequencies designed to stimulate deep neural tissue while maintaining a noise level below 18 decibels.</p>
-                    </div>
-                    <div className="border-l-2 border-white/10 pl-8">
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Satin-Touch™ Bio-Silicone</h4>
-                        <p className="text-sm font-bold text-white/60 uppercase tracking-widest leading-relaxed">Medical-grade, non-porous material treated with a proprietary vacuum-coating for a friction-less glide.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+      <div className="section-container pb-24">
+        {/* Technologies Grid */}
+        <div className="grid sm:grid-cols-2 gap-6 mb-16">{technologies.map(tech => (
+          <div key={tech.title} className="glass rounded-2xl p-6 sm:p-8 group hover:border-white/10 transition-all">
+            <tech.icon size={28} className="text-zeneio-accent mb-4" />
+            <h3 className="font-bold text-lg mb-2">{tech.title}</h3>
+            <p className="text-sm text-white/40 leading-relaxed">{tech.desc}</p>
+          </div>))}</div>
+
+        {/* Materials Section */}
+        <section className="glass rounded-3xl p-8 sm:p-12 text-center max-w-3xl mx-auto mb-16">
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-zeneio-accent mb-3">Materials Science</p>
+          <h2 className="text-heading-2 font-bold mb-6">Only The Best For Your Body</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
+            {[{ name: 'Medical Silicone', grade: 'Platinum-Cured', icon: '🧪' }, { name: 'ABS Plastic', grade: 'Food-Safe Grade', icon: '⚙️' }, { name: 'Premium TPE', grade: 'Phthalate-Free', icon: '💎' }, { name: 'Stainless Steel', grade: '#316 Medical', icon: '🔩' }].map(mat => (
+              <div key={mat.name} className="glass rounded-xl p-4 group hover:bg-white/5 transition-all"><span className="text-2xl block mb-2">{mat.icon}</span><p className="font-semibold text-sm">{mat.name}</p><p className="text-xs text-white/30 mt-0.5">{mat.grade}</p></div>
+            ))}
+          </div>
+        </section>
+
+        {/* Quality Standards */}
+        <section className="max-w-2xl mx-auto text-center space-y-8">
+          <h2 className="text-heading-3 font-bold">Quality You Can Trust</h2>
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[{ label: 'ISO 13485', sub: 'Certified' }, { label: 'CE Marked', sub: 'EU Compliant' }, { label: 'FDA Registered', sub: 'Facility' }].map(cert => (
+              <div key={cert.label} className="glass rounded-xl p-5"><p className="font-black text-xl text-gradient">{cert.label}</p><p className="text-xs text-white/35 mt-1">{cert.sub}</p></div>
+            ))}
+          </div>
+        </section>
+      </div><Footer /></div>
   );
 }

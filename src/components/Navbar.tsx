@@ -1,90 +1,270 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { CATEGORIES, CategorySlug } from '@/lib/types';
+import { useCart } from '@/lib/cart-context';
+import { useAuth } from '@/lib/auth-context';
+import {
+  Menu, X, ShoppingBag, User, Search, ChevronDown,
+  Heart, Package, Settings, LogOut, Grid3X3
+} from 'lucide-react';
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [categoryDropdown, setCategoryDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const { state: cartState } = useCart();
+  const { isAuthenticated, user } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
+
+  // Category icons mapping
+  const categoryIcons: Record<string, string> = {
+    male: '♂',
+    female: '♀',
+    lingerie: '✦',
+  };
 
   return (
-    <header className="fixed top-0 w-full z-50 p-4 md:p-6">
-      <nav className="max-w-7xl mx-auto glass rounded-full px-6 md:px-10 py-4 md:py-5 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <img src="/logo.png" className="h-8 md:h-10 w-auto" alt="ZENEIO Logo" />
-          <div className="text-xl md:text-2xl font-black tracking-tighter italic uppercase text-white">
-            ZENEIO<span className="text-[#81D8D0]">.</span>
+    <>
+      {/* Top Banner - Desktop Only */}
+      <div className="hidden lg:block bg-zeneio-accent text-black text-center py-1.5 text-xs font-semibold tracking-widest uppercase">
+        Free Shipping on Orders $99+ • Discreet Packaging • Secure Checkout
+      </div>
+
+      {/* Main Navbar */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled
+            ? 'bg-zeneio-black/95 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/30'
+            : 'bg-transparent'
+        } ${!isScrolled ? 'lg:bg-transparent' : ''}`}
+      >
+        <div className="section-container">
+          <div className="flex items-center justify-between h-16 lg:h-[72px]">
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden p-2 text-white hover:text-zeneio-accent transition-colors"
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu size={22} />
+            </button>
+
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="text-xl lg:text-2xl font-black tracking-tighter group-hover:text-zeneio-accent transition-colors duration-300">
+                ZENEIO<span className="text-zeneio-accent">.</span>
+              </span>
+              <span className="hidden sm:block text-[10px] font-medium tracking-[0.25em] uppercase text-white/40 mt-0.5">
+                Bio-Tech Wellness
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-8">
+              {/* Categories Dropdown */}
+              <div
+                className="relative group"
+                onMouseEnter={() => setCategoryDropdown('categories')}
+                onMouseLeave={() => setCategoryDropdown(null)}
+              >
+                <button className="flex items-center gap-1.5 text-sm font-semibold text-white/80 hover:text-white transition-colors py-5">
+                  <Grid3X3 size={16} />
+                  Shop
+                  <ChevronDown size={14} className={`transition-transform duration-300 ${categoryDropdown === 'categories' ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Mega Menu Dropdown */}
+                {categoryDropdown === 'categories' && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-100 animate-fade-in">
+                    <div className="glass-strong rounded-2xl p-6 min-w-[520px] grid grid-cols-3 gap-6 shadow-card-hover">
+                      {CATEGORIES.map((cat) => (
+                        <Link
+                          key={cat.slug}
+                          href={`/products?category=${cat.slug}`}
+                          className="group/cat flex flex-col items-center gap-3 p-4 rounded-xl hover:bg-white/5 transition-all duration-300"
+                          onClick={() => setCategoryDropdown(null)}
+                        >
+                          <div
+                            className="w-20 h-20 rounded-2xl flex items-center justify-center text-3xl transition-transform duration-300 group-hover/cat:scale-110"
+                            style={{ background: `${cat.color}15`, border: `1px solid ${cat.color}30` }}
+                          >
+                            {categoryIcons[cat.slug]}
+                          </div>
+                          <div className="text-center">
+                            <p className="text-sm font-bold text-white">{cat.name}</p>
+                            <p className="text-xs text-white/40 mt-0.5">{cat.nameZh}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link href="/products" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">All Products</Link>
+              <Link href="/blog" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">Blog</Link>
+              <Link href="/about" className="text-sm font-semibold text-white/80 hover:text-white transition-colors">About</Link>
+            </div>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Search Toggle */}
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="p-2.5 text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all hidden sm:flex"
+                aria-label="Search"
+              >
+                <Search size={18} />
+              </button>
+
+              {/* User Account */}
+              <Link
+                href={isAuthenticated ? "/account" : "/login"}
+                className="p-2.5 text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all"
+                aria-label="Account"
+              >
+                {isAuthenticated ? (
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-zeneio-accent to-zeneio-purple flex items-center justify-center text-xs font-bold text-black">
+                    {user?.name?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                ) : (
+                  <User size={18} />
+                )}
+              </Link>
+
+              {/* Wishlist */}
+              <Link href="/account/wishlist" className="p-2.5 text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all hidden sm:flex" aria-label="Wishlist">
+                <Heart size={18} />
+              </Link>
+
+              {/* Cart */}
+              <Link
+                href="/cart"
+                className="relative p-2.5 text-white/70 hover:text-white rounded-xl hover:bg-white/5 transition-all"
+                aria-label="Cart"
+              >
+                <ShoppingBag size={18} />
+                {cartState.itemCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-zeneio-accent text-black text-[10px] font-bold rounded-full flex items-center justify-center animate-fade-in">
+                    {cartState.itemCount}
+                  </span>
+                )}
+              </Link>
+            </div>
           </div>
-        </Link>
-        
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex space-x-8 text-[9px] uppercase font-black tracking-[0.3em] text-white/40">
-          <Link href="/products" className="hover:text-[#81D8D0] transition">Products</Link>
-          <Link href="/about" className="hover:text-[#81D8D0] transition">About</Link>
-          <Link href="/blog" className="hover:text-[#81D8D0] transition">Journal</Link>
-          <Link href="/faq" className="hover:text-[#81D8D0] transition">FAQ</Link>
-          <Link href="/contact" className="hover:text-[#81D8D0] transition">Contact</Link>
         </div>
 
-        <div className="flex items-center gap-4">
-          {/* Search */}
-          <Link href="/search" className="hidden sm:block cursor-pointer group">
-            <svg className="w-4 h-4 text-white/40 group-hover:text-[#81D8D0] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" strokeWidth="1.5"/>
-              <path strokeWidth="1.5" d="M21 21l-4.35-4.35"/>
-            </svg>
-          </Link>
-
-          {/* Cart */}
-          <Link href="/cart" className="relative cursor-pointer group">
-            <svg className="w-5 h-5 text-white/60 group-hover:text-[#81D8D0] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-            <span className="absolute -top-1 -right-1 bg-[#81D8D0] text-black text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">2</span>
-          </Link>
-
-          {/* Mobile Menu Button */}
-          <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden flex flex-col gap-1.5 cursor-pointer">
-            <span className={`w-5 h-0.5 bg-white/60 transition-transform ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-            <span className={`w-5 h-0.5 bg-white/60 transition-opacity ${menuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`w-5 h-0.5 bg-white/60 transition-transform ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-          </button>
+        {/* Search Bar (Expandable) */}
+        <div className={`overflow-hidden transition-all duration-300 ${searchOpen ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className="section-container pb-4">
+            <form action={`/search`} method="get" className="relative max-w-2xl mx-auto">
+              <input
+                type="text"
+                name="q"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search products..."
+                className="input-field pl-12 pr-4 py-3 rounded-xl text-base"
+                autoFocus
+              />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/35" />
+            </form>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="lg:hidden absolute top-full left-6 right-6 mt-2 glass rounded-3xl border border-white/10 overflow-hidden animate-in slide-in-from-top duration-200">
-          <div className="p-8 space-y-6">
-            {[
-              { href: '/products', label: 'Products' },
-              { href: '/about', label: 'About' },
-              { href: '/blog', label: 'Journal' },
-              { href: '/news', label: 'News' },
-              { href: '/faq', label: 'FAQ' },
-              { href: '/quiz', label: 'The Quiz' },
-              { href: '/contact', label: 'Contact' },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-                className="block text-lg font-bold text-white/70 hover:text-[#81D8D0] transition uppercase tracking-wider">
-                {link.label}
+      {/* Mobile Full-Screen Menu */}
+      <div className={`fixed inset-0 z-[60] bg-zeneio-black transition-all duration-500 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+        <div className="h-full flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-xl font-black tracking-tighter">
+              ZENEIO<span className="text-zeneio-accent">.</span>
+            </Link>
+            <button onClick={() => setMobileMenuOpen(false)} className="p-2 text-white/70">
+              <X size={24} />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="flex-1 overflow-y-auto px-6 py-8 space-y-1">
+            {/* Categories Section */}
+            <p className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/30 mb-3">Categories</p>
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/products?category=${cat.slug}`}
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-4 px-4 py-4 rounded-xl text-lg font-semibold text-white/90 hover:bg-white/5 transition-colors"
+              >
+                <span className="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style={{ background: `${cat.color}15` }}>
+                  {categoryIcons[cat.slug]}
+                </span>
+                <div>
+                  <span>{cat.name}</span>
+                  <span className="text-sm text-white/40 ml-2">{cat.nameZh}</span>
+                </div>
               </Link>
             ))}
-            
-            <div className="pt-6 border-t border-white/5 space-y-4">
-              <Link href="/search" className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition">
-                🔍 Search
-              </Link>
-              <Link href="/cart" className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition">
-                🛒 Cart (2)
-              </Link>
-            </div>
 
-            <div className="pt-4 border-t border-white/5 text-[9px] text-white/20 uppercase tracking-widest">
-              <p>© 2026 ZENEIO Labs</p>
+            <div className="h-px bg-white/5 my-4"></div>
+
+            {/* Other Links */}
+            <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-lg font-semibold text-white/80 hover:text-white transition-colors">All Products</Link>
+            <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-lg font-semibold text-white/80 hover:text-white transition-colors">Blog</Link>
+            <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-lg font-semibold text-white/80 hover:text-white transition-colors">About Us</Link>
+            <Link href="/faq" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-lg font-semibold text-white/80 hover:text-white transition-colors">FAQ</Link>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-lg font-semibold text-white/80 hover:text-white transition-colors">Contact</Link>
+
+            <div className="h-px bg-white/5 my-4"></div>
+
+            {/* Account Link */}
+            {isAuthenticated ? (
+              <>
+                <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-lg font-semibold text-white/80">
+                  <Package size={20} /> My Account
+                </Link>
+                <Link href="/account/orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-lg font-semibold text-white/80">
+                  <Package size={20} /> My Orders
+                </Link>
+                <Link href="/account/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-lg font-semibold text-white/80">
+                  <Heart size={20} /> Wishlist
+                </Link>
+              </>
+            ) : (
+              <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-lg font-semibold text-white/80">
+                <User size={20} /> Sign In / Register
+              </Link>
+            )}
+
+            <div className="mt-8">
+              <Link href="/products" onClick={() => setMobileMenuOpen(false)} className="btn-accent w-full justify-center text-base py-4">
+                Shop Now
+              </Link>
             </div>
           </div>
         </div>
-      )}
-    </header>
+      </div>
+    </>
   );
 }

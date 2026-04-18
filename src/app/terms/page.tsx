@@ -1,66 +1,26 @@
-import React from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-
-export const metadata = {
-  title: 'Terms of Service | ZENEIO',
-  description: 'Terms and conditions for ZENEIO bio-tech wellness products.',
-};
+import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="page-header"><h1>Terms of Service</h1><p>Last updated: April 1, 2026</p></div>
 
-      <main className="pt-40 pb-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic mb-6">
-            Terms<span className="text-[#81D8D0]">.</span>
-          </h1>
-          
-          <div className="glass rounded-3xl p-10 md:p-16 border border-white/5 space-y-8 text-white/50 text-sm leading-relaxed">
-            
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">1. Acceptance of Terms</h2>
-              <p>By accessing and using ZENEIO products and services, you agree to be bound by these Terms of Service. If you do not agree, please do not use our services.</p>
-            </section>
+      <div className="section-container pb-20 max-w-3xl mx-auto space-y-8">
+        {[
+          { title: 'Age Requirement', content: 'By using this website or purchasing any products, you confirm that you are at least 18 years old (or the legal age of majority in your jurisdiction). All products on ZENEIO are intended for adult use only.' },
+          { title: 'Products & Pricing', content: 'All prices are listed in USD unless otherwise noted. We reserve the right to modify prices at any time without notice, but the price applicable to your order will be the price displayed at checkout. Product images are for illustration purposes — actual products may vary slightly.' },
+          { title: 'Orders & Payment', content: 'All orders require payment before shipment. We accept credit cards, PayPal, and cryptocurrency (BTC, ETH, USDT). By placing an order, you agree to pay the total amount including product costs, shipping, and applicable taxes.' },
+          { title: 'Shipping & Returns', content: ['Standard shipping is free on orders $99+ to most countries.', 'All shipping is discreet — plain packaging with "ZNE Logistics" return address.', 'Unopened products can be returned within 30 days for a full refund.', 'Opened products cannot be returned due to hygiene reasons unless defective.', 'Defective products are covered under our 1-year warranty.'].join('\n') },
+          { title: 'Discreet Billing', content: 'Credit card statements will show "ZNE LLC" as the merchant name. No product names, categories, or descriptive terms will appear on your statement. This is our commitment to your privacy.' },
+          { title: 'Intellectual Property', content: 'All content on this website — including text, images, logos, designs, and code — is the property of ZENEIO and protected by copyright law. Reproduction without written permission is prohibited.' },
+          { title: 'Limitation of Liability', content: 'ZENEIO provides products for personal use only. We are not responsible for misuse of products, allergic reactions to materials, or any claims arising from improper use. Use products responsibly and according to included instructions.' },
+        ].map((section) => (
+          <section key={section.title} className="glass rounded-2xl p-6 sm:p-8">
+            <h2 className="font-bold text-base sm:text-lg mb-3">{section.title}</h2>
+            <p className="text-sm text-white/45 leading-relaxed whitespace-pre-line">{section.content}</p>
+          </section>
+        ))}
 
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">2. Age Requirement</h2>
-              <p>All users must be 18 years of age or older to purchase or use ZENEIO products. By using this site, you confirm you meet this requirement.</p>
-            </section>
-
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">3. Products & Pricing</h2>
-              <p>Prices are listed in USD and are subject to change without notice. All product specifications are accurate to the best of our knowledge at time of publication.</p>
-            </section>
-
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">4. Shipping & Returns</h2>
-              <p>All orders ship in 100% discreet, unmarked packaging. Due to the nature of our products, we cannot accept returns on opened items for hygiene reasons. Defective products may be exchanged within 30 days.</p>
-            </section>
-
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">5. Privacy</h2>
-              <p>Your privacy is paramount. We never share your data with third parties. See our Privacy Policy for full details.</p>
-            </section>
-
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">6. Disclaimer</h2>
-              <p>ZENEIO products are intended for personal wellness use only. They are not medical devices and should not replace professional medical advice.</p>
-            </section>
-
-            <section>
-              <h2 className="text-white font-bold text-lg mb-4 uppercase tracking-wider">7. Contact</h2>
-              <p>For any questions regarding these terms: support@zeneio.com</p>
-              <p className="mt-4 text-white/30 text-xs">Last updated: April 2026</p>
-            </section>
-
-          </div>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+        <p className="text-xs text-white/20 text-center pt-4">By using zeneio-platform.vercel.app, you agree to these Terms of Service. Questions? <a href="/contact" className="text-zeneio-accent hover:underline">Contact us</a>.</p>
+      </div><Footer /></div>
   );
 }

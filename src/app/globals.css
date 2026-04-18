@@ -2,25 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   ZENEIO Global Styles - E-commerce Platform
+   ============================================ */
+
+/* --- CSS Custom Properties --- */
 :root {
-  --accent: #81D8D0; /* Tiffany Blue */
-  --bg: #0A0A0A; 
-  --glass: rgba(255, 255, 255, 0.03);
+  --accent: #81D8D0;
+  --accent-dark: #5BBFB6;
+  --bg-primary: #0A0A0A;
+  --bg-secondary: #111111;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-primary: #FFFFFF;
+  --text-secondary: #888888;
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --error: #F87171;
+}
+
+/* --- Base Reset & Typography --- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background-color: var(--bg);
-  color: #FFF;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Selection */
+::selection {
+  background-color: rgba(129, 216, 208, 0.3);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* --- Font Classes --- */
 .font-serif {
-  font-family: 'Instrument Serif', serif;
+  font-family: 'Instrument Serif', Georgia, serif;
 }
 
-/* 2026 Liquid Background Effect */
+/* --- Background Effects --- */
 .liquid-bg {
-  background: radial-gradient(circle at 50% 50%, #1A1A1A, #0A0A0A);
+  background: radial-gradient(circle at 50% 50%, #1a1a1a, #0a0a0a);
   position: relative;
   min-height: 100vh;
 }
@@ -32,8 +80,8 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 20%, rgba(129, 216, 208, 0.08), transparent 40%),
-              radial-gradient(circle at 70% 80%, rgba(100, 100, 255, 0.05), transparent 40%);
+  background: radial-gradient(circle at 30% 20%, rgba(129,216,208,0.06), transparent 40%),
+              radial-gradient(circle at 70% 80%, rgba(155,135,245,0.04), transparent 40%);
   animation: rotate 25s linear infinite;
   z-index: -1;
 }
@@ -43,45 +91,467 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Glassmorphism UI */
+/* --- Glassmorphism System --- */
 .glass {
-  background: var(--glass);
+  background: var(--bg-card);
   backdrop-filter: blur(25px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid var(--border-color);
 }
 
-/* Tactile Engineering Buttons */
+.glass-strong {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Button System --- */
 .btn-zeneio {
   position: relative;
   background: #FFF;
   color: #000;
-  padding: 1.25rem 3rem;
+  padding: 0.875rem 2.5rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   font-size: 0.7rem;
-  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 100%, 0 100%);
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 92% 100%, 0 100%);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  outline: none;
 }
 
 .btn-zeneio:hover {
   background: var(--accent);
   color: #000;
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(129,216,208,0.25);
 }
 
+.btn-zeneio:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, #81D8D0, #9B87F5);
+  color: #000;
+  font-weight: 700;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-accent:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(129,216,208,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-outline:hover {
+  background: rgba(129,216,208,0.1);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-ghost:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.05);
+}
+
+.btn-sm {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+.btn-lg {
+  padding: 1.125rem 3.5rem;
+  font-size: 0.75rem;
+}
+
+/* --- Product Cards --- */
 .product-card {
-  background: rgba(255, 255, 255, 0.02);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.5s ease;
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative;
 }
 
 .product-card:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: var(--accent);
-  transform: translateY(-10px);
+  border-color: rgba(129, 216, 208, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(129,216,208,0.08);
 }
 
+.product-card .product-image-wrapper {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #151515;
+}
+
+.product-card .product-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.product-card:hover .product-image-wrapper img {
+  transform: scale(1.08);
+}
+
+.product-card .quick-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.35s ease;
+}
+
+.product-card:hover .quick-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Category Card */
+.category-card {
+  position: relative;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.category-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  transition: all 0.4s ease;
+}
+
+.category-card:hover::after {
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(129,216,208,0.15) 50%, transparent 100%);
+}
+
+.category-card .category-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  z-index: 2;
+}
+
+/* Text Effects */
 .text-glow {
-  text-shadow: 0 0 15px rgba(129, 216, 208, 0.4);
+  text-shadow: 0 0 20px rgba(129,216,208,0.4), 0 0 40px rgba(129,216,208,0.15);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #81D8D0, #9B87F5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+}
+
+.badge-new {
+  background: rgba(129,216,208,0.15);
+  color: #81D8D0;
+  border: 1px solid rgba(129,216,208,0.3);
+}
+
+.badge-hot {
+  background: rgba(244,114,182,0.15);
+  color: #F472B6;
+  border: 1px solid rgba(244,114,182,0.3);
+}
+
+.badge-sale {
+  background: rgba(250,191,36,0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(250,191,36,0.3);
+}
+
+/* Form Inputs (Dark Theme) */
+.input-field {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  outline: none;
+  width: 100%;
+}
+
+.input-field:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.06);
+  box-shadow: 0 0 0 3px rgba(129,216,208,0.1);
+}
+
+.input-field::placeholder {
+  color: rgba(255,255,255,0.35);
+}
+
+.input-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Quantity Selector */
+.quantity-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.quantity-selector button {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.1rem;
+}
+
+.quantity-selector button:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+.quantity-selector input {
+  width: 48px;
+  height: 38px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+/* Star Rating */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  color: #FBBF24;
+}
+
+/* Price */
+.price-original {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.price-current {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.price-discount {
+  color: #F472B6;
+  font-weight: 700;
+}
+
+/* Section Container for consistent page layout */
+.section-container {
+  max-width: 88rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Page Header Pattern */
+.page-header {
+  padding-top: 8rem;
+  padding-bottom: 3rem;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(129,216,208,0.03) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border-color);
+}
+
+@media (min-width: 768px) {
+  .page-header {
+    padding-top: 10rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.page-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .page-header h1 {
+    font-size: 3rem;
+  }
+}
+
+.page-header p {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* Divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+}
+
+/* Skeleton Loading */
+.skeleton {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0.03) 25%, 
+    rgba(255,255,255,0.07) 50%, 
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Mobile Touch Target */
+@media (max-width: 767px) {
+  .btn-zeneio,
+  .btn-accent,
+  .btn-outline {
+    min-height: 48px; /* iOS touch target minimum */
+  }
+
+  .quantity-selector button,
+  .quantity-selector input {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

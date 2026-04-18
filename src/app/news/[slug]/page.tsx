@@ -1,101 +1,43 @@
+'use client';
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 
-export const metadata = {
-  title: '[slug] | ZENEIO News',
-  description: 'ZENEIO News Article',
-};
-
-const sampleArticle = {
-  title: 'ZENEIO PRO Launches Worldwide — Our Most Advanced Device Yet',
-  category: 'Product Launch',
-  date: 'April 18, 2026',
-  author: 'ZENEIO Communications Team',
-  
-  content: `
-    <p class="lead">Today, ZENEIO announces the global launch of the PRO device — our most advanced product ever. Featuring Gen-5 Quad motor technology, AI-powered pattern learning, and a completely redesigned form factor based on 18 months of user research.</p>
-    
-    <h2>A New Standard</h2>
-    <p>PRO represents everything we've learned since launching ZENEIO in 2024. Over 50,000 devices shipped, thousands of user interviews, and countless hours of R&D have culminated in what we believe is the most sophisticated personal wellness device ever created.</p>
-
-    <h2>Key Innovations</h2>
-    
-    <ul>
-      <li><strong>Gen-5 Quad Motor System</strong> — Four independently controlled motors deliver 256 unique vibration combinations</li>
-      <li><strong>AI Pattern Engine</strong> — Learns your preferences across sessions and suggests optimal patterns</li>
-      <li><strong>300-Minute Battery</strong> — Industry-leading battery life with USB-C PD fast charging</li>
-      <li><strong>IPX8 Waterproof</strong> — Fully submersible up to 1.5 meters for 30 minutes</li>
-      <li><strong>Platinum Silicone</strong> — Our softest, most durable material yet</li>
-      <li><strong>Heating Function</strong> — Gradual warmth up to 42°C for enhanced comfort</li>
-    </ul>
-
-    <blockquote>"We didn't just want to make another vibrator. We wanted to create something that fundamentally changes how people think about personal wellness technology." <cite>— Yuki Tanaka, CEO & Chief Engineer</cite></blockquote>
-
-    <h2>Pricing & Availability</h2>
-    <p>ZENEIO PRO is now available worldwide at $49.99 USD (regional pricing varies). Orders ship within 24 hours with free discreet shipping on all orders over $75.</p>
-
-    <p>The device comes with a premium storage case, USB-C cable, quick-start guide, and 2-year warranty registration card.</p>
-
-    <h2>What's Next</h2>
-    <p>Following PRO's launch, we're already working on three new products planned for Q3 2026, including our first wearable line and a couples-focused dual-device system. Stay tuned.</p>
-  `,
-};
-
-export default function NewsArticlePage({ params }: { params: { slug: string } }) {
+export default function NewsArticlePage() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="section-container pt-28 pb-20">
+      <Link href="/news" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white mb-8"><ArrowLeft size={14} /> Back to News</Link>
+      
+      <article className="max-w-3xl mx-auto">
+        <span className="text-xs font-bold tracking-widest uppercase text-zeneio-purple/80">TechCrunch · Apr 18, 2026</span>
+        <h1 className="text-heading-1 font-bold mt-3 mb-6 leading-tight">ZENEIO Unveils AI-Powered Vibrator with Personalized Learning Technology</h1>
 
-      <article className="pt-40 pb-16 px-6">
-        <div className="max-w-3xl mx-auto">
-          <Link href="/news" className="inline-flex items-center text-[9px] uppercase font-black tracking-[0.3em] text-white/30 hover:text-[#81D8D0] transition mb-12">
-            ← Back to News
-          </Link>
+        <div className="space-y-6 text-body text-white/45 leading-relaxed">
+          <p className="text-body-lg first-letter:text-5xl first-letter:font-bold first-letter:text-zeneio-purple first-letter:float-left first-letter:mr-3">
+            SAN FRANCISCO — ZENEIO, the bio-tech intimate wellness brand, today announced the launch of its flagship APEX Auto Stroker Elite — what it calls &quot;the world&apos;s first AI-powered personal pleasure device.&quot;
+          </p>
+          <p>The device features proprietary stroke-learning technology that adapts to user preferences over time, a 360-degree rotating textured sleeve, and companion app support for long-distance partner control.</p>
+          <p>&quot;We spent three years developing this technology,&quot; said Dr. Elena Chen, ZENEIO&apos;s Chief Product Engineer. &quot;The goal wasn&apos;t just to make something vibrate — it was to create a device that genuinely learns what you like and gets better at it every time you use it.&quot;</p>
 
-          <div className="flex items-center gap-4 mb-8">
-            <span className="glass px-4 py-2 rounded-full text-[9px] uppercase font-black tracking-widest text-[#81D8D0] border-[#81D8D0]/20">
-              {sampleArticle.category}
-            </span>
-            <time className="text-[9px] uppercase tracking-widest text-white/30 font-bold">{sampleArticle.date}</time>
-          </div>
+          <blockquote className="glass rounded-xl p-6 border-l-2 border-zeneio-purple my-8 not-italic">
+            <p className="font-medium text-white/70 !mb-0">&ldquo;This represents a fundamental shift in how we think about personal wellness technology. It&apos;s not just about intensity anymore — it&apos;s about intelligence.&rdquo;</p>
+            <cite className="text-sm text-white/30 mt-2 block not-italic">— Industry Analyst, TechCrunch</cite>
+          </blockquote>
 
-          <h1 className="text-4xl md:text-6xl font-serif italic font-light leading-[0.95] mb-10 text-white">
-            {sampleArticle.title}
-          </h1>
+          <p>Key features of the APEX Elite include:</p>
+          <ul className="list-disc pl-5 space-y-2 marker:text-zeneio-purple">
+            <li>AI-driven stroke analysis with personalized pattern learning</li>
+            <li>7 rotation modes with adjustable speed</li>
+            <li>Heated core (38°C–42°C) for realistic sensation</li>
+            <li>App connectivity for solo or partner control</li>
+            <li>Real-time performance analytics dashboard</li>
+          </ul>
 
-          <div className="flex items-center gap-4 pb-12 border-b border-white/5 mb-12">
-            <div className="w-12 h-12 rounded-full bg-[#81D8D0]/10 flex items-center justify-center text-[#81D8D0] font-bold text-sm">Z</div>
-            <div>
-              <p className="text-sm font-bold text-white/80">{sampleArticle.author}</p>
-              <p className="text-[9px] text-white/30 uppercase tracking-wider">Press Release</p>
-            </div>
-          </div>
-
-          <div 
-            className="prose prose-invert prose-lg max-w-none 
-              prose-headings:text-white prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
-              prose-p:text-white/50 prose-p:leading-relaxed
-              prose-a:text-[#81D8D0]
-              prose-strong:text-white
-              prose-li:text-white/50
-              prose-blockquote:border-l-[#81D8D0]/30 prose-blockquote:bg-white/[0.02]"
-            dangerouslySetInnerHTML={{ __html: sampleArticle.content }}
-          />
+          <p>The APEX Elite launches globally on April 25, 2026, with an MSRP of $189.99. Pre-orders are available now through ZENEIO&apos;s website.</p>
         </div>
       </article>
-
-      {/* CTA */}
-      <section className="py-20 px-6 bg-black/40">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Experience ZENEIO PRO</h2>
-          <p className="text-white/40 text-sm mb-8">See why customers are calling it "the future of wellness technology."</p>
-          <a href="/products" className="btn-zeneio text-black inline-block px-14 py-5">Shop Now</a>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+    </div><Footer /></div>
   );
 }

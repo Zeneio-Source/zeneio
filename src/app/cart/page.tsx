@@ -1,164 +1,214 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-
-const initialItems = [
-  {
-    id: 'pro',
-    name: 'ZENEIO PRO',
-    tagline: 'Flagship Alpha',
-    price: 49.99,
-    image: '/products/pro.png',
-    quantity: 1,
-  },
-  {
-    id: 'wand',
-    name: 'ZENEIO WAND',
-    tagline: 'Therapeutic Pro',
-    price: 35.95,
-    quantity: 1,
-  },
-];
+import { useCart } from '@/lib/cart-context';
+import { formatPrice } from '@/lib/types';
+import {
+  ShoppingBag, Minus, Plus, X, ArrowLeft,
+  Truck, ShieldCheck, Tag, ChevronRight
+} from 'lucide-react';
 
 export default function CartPage() {
-  const [items, setItems] = useState(initialItems);
-  
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 75 ? 0 : 9.99;
-  const total = subtotal + shipping;
+  const { state: cartState, removeItem, updateQuantity, clearCart } = useCart();
 
-  const updateQty = (id: string, delta: number) => {
-    setItems(items.map(item => 
-      item.id === id ? { ...item, quantity: Math.max(0, Math.min(10, item.quantity + delta)) } : item
-    ).filter(item => item.quantity > 0));
-  };
+  if (cartState.items.length === 0) {
+    return (
+      <div className="min-h-screen bg-zeneio-black">
+        <Navbar />
+        <div className="section-container pt-32 pb-20 text-center">
+          <ShoppingBag size={64} className="mx-auto text-white/10 mb-6" />
+          <h1 className="text-heading-2 font-bold mb-3">Your Cart is Empty</h1>
+          <p className="text-white/40 mb-8 max-w-md mx-auto">
+            Looks like you haven&apos;t added anything to your cart yet.
+            Explore our collection and find something perfect for you.
+          </p>
+          <Link href="/products" className="btn-accent btn-lg">
+            Start Shopping
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-zeneio-black">
       <Navbar />
 
-      <main className="pt-32 pb-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-12">
-            <h1 className="text-4xl md:text-5xl font-serif italic font-light tracking-tight text-white">
-              Your Cart<span className="text-[#81D8D0]">.</span>
-            </h1>
-            <span className="text-sm text-white/30">{items.length} item{items.length !== 1 ? 's' : ''}</span>
-          </div>
+      {/* Page Header */}
+      <div className="page-header">
+        <h1>Shopping Cart ({cartState.itemCount})</h1>
+        <p>{cartState.itemCount} item{cartState.itemCount !== 1 ? 's' : ''} in your cart</p>
+      </div>
 
-          {items.length === 0 ? (
-            /* Empty Cart */
-            <div className="text-center py-24 glass rounded-[50px] border border-white/5">
-              <div className="text-6xl mb-6 opacity-30">🛒</div>
-              <h2 className="text-2xl font-bold text-white/60 mb-4">Your cart is empty</h2>
-              <p className="text-white/30 mb-10">Looks like you haven't added anything yet.</p>
-              <Link href="/products" className="btn-zeneio text-black px-14 py-5 inline-block">
-                Browse Products
-              </Link>
+      <div className="section-container pb-24">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-10">
+          {/* Cart Items */}
+          <div className="space-y-4">
+            {/* Header row - desktop */}
+            <div className="hidden md:grid grid-cols-12 gap-4 text-xs font-bold tracking-wider uppercase text-white/30 px-4 pb-2 border-b border-white/5">
+              <span className="col-span-5">Product</span>
+              <span className="col-span-3 text-center">Quantity</span>
+              <span className="col-span-2 text-right">Price</span>
+              <span className="col-span-2 text-right">Total</span>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              
-              {/* Cart Items */}
-              <div className="lg:col-span-2 space-y-6">
-                {items.map((item) => (
-                  <div key={item.id} className="glass rounded-3xl p-6 md:p-8 border border-white/5 flex flex-col md:flex-row gap-6 items-start md:items-center group">
-                    
-                    {/* Image */}
-                    <Link href={`/products/${item.id}`} className="w-28 h-28 md:w-32 md:h-32 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 overflow-hidden">
-                      <span className="font-serif italic text-3xl text-[#81D8D0]/30">Z</span>
-                    </Link>
 
-                    {/* Info */}
-                    <div className="flex-grow min-w-0">
-                      <Link href={`/products/${item.id}`}>
-                        <h3 className="font-bold text-white/80 hover:text-[#81D8D0] transition text-lg">{item.name}</h3>
-                      </Link>
-                      <p className="text-xs text-white/30 mt-1 uppercase tracking-wider">{item.tagline}</p>
-                      
-                      {/* Quantity - Mobile friendly */}
-                      <div className="mt-4 flex items-center gap-4">
-                        <div className="flex items-center glass rounded-full border border-white/10 overflow-hidden">
-                          <button onClick={() => updateQty(item.id, -1)} className="px-4 py-2 text-white/40 hover:text-white transition">−</button>
-                          <span className="px-4 py-2 text-sm font-bold text-white">{item.quantity}</span>
-                          <button onClick={() => updateQty(item.id, 1)} className="px-4 py-2 text-white/40 hover:text-white transition">+</button>
-                        </div>
-                        
-                        <button onClick={() => updateQty(item.id, -item.quantity)} className="text-[9px] uppercase tracking-widest text-red-400/60 hover:text-red-400 transition ml-auto">
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Price */}
-                    <div className="flex-shrink-0 text-right mt-4 md:mt-0">
-                      <p className="text-xl font-light text-white">${(item.price * item.quantity).toFixed(2)}</p>
-                      {item.quantity > 1 && <p className="text-[9px] text-white/20 mt-1">${item.price.toFixed(2)} each</p>}
-                    </div>
+            {cartState.items.map(item => (
+              <div key={item.id} className="glass rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-in group">
+                {/* Product Image & Info */}
+                <Link href={`/products/${item.product.slug}`} className="flex items-center gap-4 w-full sm:w-auto md:col-span-5">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-zeneio-gray flex-shrink-0">
+                    <img src={item.product.images[0]} alt={item.product.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.jpg'; }}
+                    />
                   </div>
-                ))}
-              </div>
-
-              {/* Order Summary */}
-              <div className="lg:col-span-1">
-                <div className="glass rounded-[40px] p-8 md:p-10 border border-white/5 sticky top-32 space-y-6">
-                  <h3 className="text-xl font-black tracking-tight uppercase text-white mb-2">Order Summary</h3>
-                  
-                  <div className="space-y-4 pt-4 border-t border-white/5">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/30">Subtotal ({items.length} item{items.length !== 1 ? 's' : ''})</span>
-                      <span className="text-white/70">${subtotal.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-white/30">Shipping</span>
-                      <span className={shipping === 0 ? "text-green-400" : "text-white/70"}>
-                        {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
-                      </span>
-                    </div>
-                    {subtotal < 75 && (
-                      <p className="text-[8px] text-[#81D8D0]/60 uppercase tracking-widest">
-                        Add ${(75 - subtotal).toFixed(2)} more for free shipping!
-                      </p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold text-sm sm:text-base text-white/90 hover:text-zeneio-accent transition-colors line-clamp-2">
+                      {item.product.name}
+                    </h3>
+                    {item.variantName && (
+                      <p className="text-xs text-white/35 mt-1">{item.variantName}</p>
                     )}
-                    <div className="flex justify-between pt-4 border-t border-white/5">
-                      <span className="font-black text-white">Total</span>
-                      <span className="font-black text-xl text-[#81D8D0]">${total.toFixed(2)}</span>
-                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="text-xs text-white/25 hover:text-red-400 transition-colors mt-2 sm:hidden inline-flex items-center gap-1"
+                    >
+                      <X size={12} /> Remove
+                    </button>
+                  </div>
+                </Link>
+
+                {/* Quantity */}
+                <div className="flex items-center justify-between w-full sm:w-auto sm:justify-center md:col-span-3">
+                  <div className="quantity-selector mx-auto">
+                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>
+                      <Minus size={14} />
+                    </button>
+                    <input type="number" value={item.quantity} readOnly />
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                      <Plus size={14} />
+                    </button>
                   </div>
 
-                  <Link href="/checkout" className="btn-zeneio w-full text-black py-5 block text-center text-xs uppercase font-black tracking-[0.2em]">
-                    Proceed to Checkout
-                  </Link>
-
-                  {/* Trust */}
-                  <div className="space-y-3 pt-4 border-t border-white/5">
-                    <div className="flex items-center gap-3 text-[8px] text-white/25 uppercase tracking-widest">
-                      <span>🔒 Secure SSL Encryption</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-[8px] text-white/25 uppercase tracking-widest">
-                      <span>📦 100% Discreet Shipping</span>
-                    </div>
-                    <div className="flex gap-2 pt-2">
-                      {['Visa', 'MC', 'Amex', 'PayPal'].map((card) => (
-                        <span key={card} className="glass px-3 py-1 rounded text-[7px] text-white/20 border border-white/5">{card}</span>
-                      ))}
-                    </div>
-                  </div>
+                  {/* Mobile remove button */}
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="hidden sm:block text-white/25 hover:text-red-400 transition-colors"
+                  >
+                    <X size={18} />
+                  </button>
                 </div>
 
-                {/* Continue Shopping */}
-                <Link href="/products" className="block text-center mt-6 text-[9px] uppercase tracking-widest text-white/30 hover:text-white transition">
-                  ← Continue Shopping
-                </Link>
+                {/* Price (desktop) */}
+                <div className="hidden md:flex md:col-span-2 md:justify-end md:items-center">
+                  <span className="font-medium text-sm">{formatPrice(item.product.price)}</span>
+                </div>
+
+                {/* Total */}
+                <div className="flex items-center justify-between w-full sm:w-auto md:col-span-2 md:justify-end">
+                  <span className="md:hidden text-xs text-white/30">Subtotal</span>
+                  <span className="font-bold text-zeneio-accent">{formatPrice(item.product.price * item.quantity)}</span>
+                </div>
+              </div>
+            ))}
+
+            {/* Cart Actions */}
+            <div className="flex items-center justify-between pt-4 border-t border-white/5">
+              <Link href="/products" className="btn-ghost text-sm">
+                <ArrowLeft size={16} /> Continue Shopping
+              </Link>
+              <button onClick={clearCart} className="btn-ghost text-sm !text-red-400/60 hover:!text-red-400">
+                Clear Cart
+              </button>
+            </div>
+          </div>
+
+          {/* Order Summary Sidebar */}
+          <aside className="lg:sticky lg:top-28 h-fit space-y-4">
+            <div className="glass rounded-2xl p-6 space-y-5">
+              <h3 className="font-bold text-lg">Order Summary</h3>
+
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-white/50">Subtotal ({cartState.itemCount})</span>
+                  <span className="font-medium">{formatPrice(cartState.subtotal)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Shipping</span>
+                  <span className={`font-medium ${cartState.shippingCost === 0 ? 'text-green-400' : ''}`}>
+                    {cartState.shippingCost === 0 ? 'Free' : formatPrice(cartState.shippingCost)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Estimated Tax</span>
+                  <span className="font-medium">{formatPrice(cartState.tax)}</span>
+                </div>
+
+                {cartState.discount > 0 && (
+                  <div className="flex justify-between text-pink-400">
+                    <span>Discount</span>
+                    <span>-{formatPrice(cartState.discount)}</span>
+                  </div>
+                )}
+
+                <div className="h-px bg-white/5" />
+
+                <div className="flex justify-between text-base">
+                  <span className="font-bold">Total</span>
+                  <span className="font-black text-zeneio-accent">{formatPrice(cartState.total)}</span>
+                </div>
+              </div>
+
+              {/* Promo Code */}
+              <div className="flex gap-2">
+                <input type="text" placeholder="Promo code" className="input-field rounded-xl text-sm py-2.5" />
+                <button className="px-4 glass rounded-xl text-sm font-semibold text-white/70 hover:text-white transition-colors whitespace-nowrap">
+                  Apply
+                </button>
+              </div>
+
+              {/* Checkout Button */}
+              <Link href="/checkout" className="btn-accent w-full justify-center py-4 text-base">
+                Proceed to Checkout <ChevronRight size={16} />
+              </Link>
+
+              {/* Trust badges */}
+              <div className="flex items-center justify-center gap-4 pt-2 text-[11px] text-white/25">
+                <span className="flex items-center gap-1"><ShieldCheck size={12} /> Secure SSL</span>
+                <span className="flex items-center gap-1"><Truck size={12} /> Discreet Ship</span>
               </div>
             </div>
-          )}
+
+            {/* Free Shipping Progress */}
+            {cartState.subtotal < 99 && (
+              <div class="glass rounded-2xl p-5 text-center">
+                <p className="text-sm text-white/60 mb-2">
+                  Add <strong className="text-zeneio-accent">{formatPrice(99 - cartState.subtotal)}</strong> more for free shipping!
+                </p>
+                <div className="w-full h-2 rounded-full bg-white/5 overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-zeneio-accent to-zeneio-purple rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min((cartState.subtotal / 99) * 100, 100)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-white/30 mt-2">{formatPrice(cartState.subtotal)} of $99</p>
+              </div>
+            )}
+
+            {/* Payment Methods */}
+            <div className="text-center text-xs text-white/20 space-y-2">
+              <p>We Accept</p>
+              <div className="flex items-center justify-center gap-2 text-lg opacity-40">
+                💳 🏦 🔒 💰
+              </div>
+            </div>
+          </aside>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

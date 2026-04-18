@@ -1,79 +1,147 @@
 'use client';
-
 import React, { useState } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { Sparkles, ArrowRight, CheckCircle2, RotateCcw, Heart, Zap } from 'lucide-react';
 
-export default function PleasureQuiz() {
-  const [step, setStep] = useState(1);
+const questions = [
+  {
+    id: 1,
+    question: "What's your primary interest?",
+    options: [
+      { text: "Solo pleasure & self-discovery", category: "solo" },
+      { text: "Couples play & shared experiences", category: "couples" },
+      { text: "Both! I want versatility", category: "both" },
+    ],
+  },
+  {
+    id: 2,
+    question: "What matters most to you in a product?",
+    options: [
+      { text: "Discretion & quietness (shhh...)", value: "quiet" },
+      { text: "Power & intensity (go big!)", value: "power" },
+      { text: "Smart features & app control", value: "tech" },
+      { text: "Simple & easy to use", value: "simple" },
+    ],
+  },
+  {
+    id: 3,
+    question: "Where would you primarily use this?",
+    options: [
+      { text: "In bed / bedroom only", location: "bedroom" },
+      { text: "Bathroom / shower too 🚿", location: "waterproof" },
+      { text: "Traveling / on the go ✈️", location: "travel" },
+      { text: "Anywhere & everywhere!", location: "anywhere" },
+    ],
+  },
+  {
+    id: 4,
+    question: "What's your budget range?",
+    options: [
+      { text: "$20-$50 — Getting started", budget: "entry" },
+      { text: "$50-$100 — Quality matters", budget: "mid" },
+      { text: "$100+ — Premium experience", budget: "premium" },
+      { text: "Money is no object 😎", budget: "luxury" },
+    ],
+  },
+];
 
-  const steps = [
-    {
-      q: "What is your primary focus?",
-      options: ["Sensory Exploration", "Intense Climax", "Daily Wellness"]
-    },
-    {
-      q: "Preferred stimulation type?",
-      options: ["Air Pulse (Touchless)", "Deep Vibration", "Constant Heat"]
-    },
-    {
-        q: "How experienced are you with Zeneio tech?",
-        options: ["First Timer", "Regular User", "Tech Enthusiast"]
-    }
-  ];
+export default function QuizPage() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [completed, setCompleted] = useState(false);
 
-  const handleNext = () => {
-    if (step < steps.length) {
-      setStep(step + 1);
+  const handleAnswer = (value: string) => {
+    const newAnswers = { ...answers, [questions[step].id]: value };
+    setAnswers(newAnswers);
+
+    if (step < questions.length - 1) {
+      setTimeout(() => setStep(step + 1), 300);
     } else {
-      alert("Algorithm Complete: We recommend ZENEIO PRO for your profile.");
+      setCompleted(true);
     }
   };
 
+  const resetQuiz = () => { setStep(0); setAnswers({}); setCompleted(false); };
+
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      
-      <main className="min-h-screen flex items-center justify-center pt-32 pb-20 px-6">
-        <div className="max-w-2xl w-full glass rounded-[60px] p-16 border-white/5 relative overflow-hidden">
-          {/* Animated Accent */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#81D8D0]/5 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-zeneio-black"><Navbar />
 
-          <div className="flex justify-between items-center mb-16">
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#81D8D0]">Zeneio Algorithm</span>
-              <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Step 0{step} / 03</span>
+      {!completed ? (
+        <section className="min-h-[80vh] flex items-center justify-center px-4">
+          <div className="w-full max-w-xl mx-auto animate-fade-up">
+            {/* Progress */}
+            <div className="flex items-center gap-2 mb-8">
+              <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-zeneio-accent to-zeneio-purple rounded-full transition-all duration-500"
+                  style={{ width: `${((step) / questions.length) * 100}%` }} />
+              </div>
+              <span className="text-xs font-medium text-white/40">{step + 1}/{questions.length}</span>
+            </div>
+
+            {/* Question Card */}
+            <div className="glass rounded-3xl p-8 sm:p-10 text-center space-y-8">
+              <Sparkles size={28} className="mx-auto text-zeneio-accent/50" />
+              
+              <h2 className="text-heading-3 font-bold leading-tight">{questions[step].question}</h2>
+
+              <div className="space-y-3">
+                {questions[step].options.map((option, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleAnswer(option.text)}
+                    className={`w-full text-left px-6 py-4 rounded-xl border font-medium text-sm transition-all hover:border-zeneio-accent/30 hover:bg-zeneio-accent/[0.03] group ${
+                      answers[questions[step].id] === option.text
+                        ? 'border-zeneio-accent bg-zeneio-accent/10 text-white'
+                        : 'border-white/5 text-white/70'
+                    }`}
+                  >
+                    <span className={`mr-2 opacity-40 ${answers[questions[step].id] === option.text ? '!opacity-100' : ''}`}>{['A', 'B', 'C', 'D'][i]}</span>
+                    {option.text}
+                  </button>
+                ))}
+              </div>
+
+              {/* Back button */}
+              {step > 0 && (
+                <button onClick={() => setStep(step - 1)} className="btn-ghost mx-auto">← Back</button>
+              )}
+            </div>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-12 tracking-tighter uppercase italic leading-tight">
-            {steps[step - 1].q}
-          </h2>
+        </section>
 
-          <div className="flex flex-col gap-5">
-            {steps[step - 1].options.map((option, i) => (
-              <button 
-                key={i}
-                onClick={handleNext}
-                className="w-full py-6 px-10 rounded-3xl bg-white/5 border border-white/5 text-left hover:bg-white/10 hover:border-[#81D8D0]/50 transition-all group flex justify-between items-center"
-              >
-                <span className="text-[11px] font-black text-white/40 group-hover:text-[#81D8D0] uppercase tracking-[0.2em] transition-colors">{option}</span>
-                <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                   <div className="w-1.5 h-1.5 bg-[#81D8D0] rounded-full"></div>
-                </div>
-              </button>
-            ))}
+      ) : (
+        /* Results */
+        <section className="min-h-[80vh] flex items-center justify-center px-4 py-16">
+          <div className="w-full max-w-lg mx-auto text-center space-y-8 animate-fade-up">
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-pink-400/15 to-purple-400/15 flex items-center justify-center">
+              <Heart size={40} className="text-pink-400" />
+            </div>
+
+            <div>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-zeneio-accent mb-2">Your Perfect Match</p>
+              <h1 className="text-heading-1 font-bold leading-tight">We Found Products<br/>Made For You ✨</h1>
+            </div>
+
+            {/* Results Preview */}
+            <div className="grid grid-cols-2 gap-4">
+              {[{ name: 'NEO Vibrating Ring Pro', price: '$49.99' }, { name: 'AURA Wand Vibrator', price: '$69.99' }, { name: 'SUCTION Rose Toy Pro', price: '$44.99' }, { name: 'Lace Babydoll Set', price: '$34.99' }].map(p => (
+                <Link key={p.name} href="/products" className="glass rounded-xl p-4 group hover:border-pink-400/20 transition-all block">
+                  <p className="font-semibold text-sm truncate group-hover:text-pink-400 transition-colors">{p.name}</p>
+                  <p className="text-xs text-zeneio-accent mt-1">{p.price}</p>
+                </Link>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 pt-4">
+              <Link href="/products" className="btn-accent btn-lg flex-1"><Zap size={16} /> Shop My Recommendations</Link>
+              <button onClick={resetQuiz} className="btn-outline btn-lg"><RotateCcw size={16} /> Retake Quiz</button>
+            </div>
           </div>
+        </section>
+      )}
 
-          <div className="mt-16 w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
-              <div 
-                  className="h-full bg-gradient-to-r from-[#81D8D0] to-blue-500 transition-all duration-700" 
-                  style={{ width: `${(step / steps.length) * 100}%` }}
-              ></div>
-          </div>
-          <p className="mt-8 text-[8px] uppercase font-black text-white/10 tracking-[0.4em] text-center italic">Calculated Haptic Alignment</p>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+      <Footer /></div>
   );
 }

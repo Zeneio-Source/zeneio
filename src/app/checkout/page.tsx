@@ -2,225 +2,408 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useCart } from '@/lib/cart-context';
+import { formatPrice } from '@/lib/types';
+import {
+  ChevronRight, ChevronLeft, Lock, Truck, ShieldCheck,
+  CreditCard, CheckCircle2, Package, ArrowLeft
+} from 'lucide-react';
+
+type CheckoutStep = 1 | 2 | 3;
 
 export default function CheckoutPage() {
-  const [step, setStep] = useState(1);
+  const router = useRouter();
+  const { state: cartState } = useCart();
+  const [step, setStep] = useState<CheckoutStep>(1);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const items = [
-    { name: 'ZENEIO PRO', price: 49.99, qty: 1 },
-    { name: 'ZENEIO WAND', price: 35.95, qty: 1 },
+  // Form states
+  const [contactInfo, setContactInfo] = useState({ email: '', phone: '' });
+  const [shippingAddress, setShippingAddress] = useState({
+    firstName: '', lastName: '',
+    address1: '', address2: '',
+    city: '', state: '', postalCode: '', country: 'United States',
+  });
+  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [sameAsShipping, setSameAsShipping] = useState(true);
+
+  // Redirect if cart empty
+  if (cartState.items.length === 0) {
+    return (
+      <div className="min-h-screen bg-zeneio-black">
+        <Navbar />
+        <div className="section-container pt-32 pb-20 text-center">
+          <Package size={64} className="mx-auto text-white/10 mb-6" />
+          <h1 className="text-heading-2 font-bold mb-3">Your Cart is Empty</h1>
+          <p className="text-white/40 mb-8">Add some products before checking out.</p>
+          <Link href="/products" className="btn-accent btn-lg">Shop Now</Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const steps: { num: CheckoutStep; label: string; icon: typeof Truck }[] = [
+    { num: 1, label: 'Contact', icon: Package },
+    { num: 2, label: 'Shipping', icon: Truck },
+    { num: 3, label: 'Payment', icon: CreditCard },
   ];
-  const subtotal = 85.94;
-  const shipping = 0;
-  const total = 85.94;
+
+  const handlePlaceOrder = async () => {
+    setIsProcessing(true);
+    // Simulate payment processing
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    router.push('/order-success');
+  };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-zeneio-black">
       <Navbar />
 
-      <main className="pt-28 pb-32 px-6">
-        <div className="max-w-4xl mx-auto">
+      {/* Secure Header */}
+      <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/5 border-b border-green-500/10 py-2.5">
+        <div className="section-container flex items-center justify-center gap-2 text-xs font-semibold text-green-400/80">
+          <Lock size={14} /> 256-Bit SSL Encrypted • Discreet Billing • Secure Payment
+        </div>
+      </div>
 
-          {/* Header */}
-          <div className="mb-12">
-            <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-white mb-6">Secure Checkout</h1>
-            
-            {/* Steps */}
-            <div className="flex items-center gap-2 text-[9px] uppercase tracking-widest font-bold">
-              {[1, 2, 3].map((s) => (
-                <React.Fragment key={s}>
-                  <span className={`flex items-center gap-2 ${step >= s ? 'text-[#81D8D0]' : 'text-white/20'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center border ${step >= s ? 'bg-[#81D8D0]/20 border-[#81D8D0]/50 text-[#81D8D0]' : 'border-white/10'}`}>
-                      {step > s ? '✓' : s}
-                    </span>
-                    {s === 1 ? 'Information' : s === 2 ? 'Shipping' : 'Payment'}
-                  </span>
-                  {s < 3 && <span className="w-8 h-px bg-white/10"></span>}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
+      {/* Page Header */}
+      <div className="page-header !pt-24 lg:!pt-28 !pb-6">
+        <Link href="/cart" className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white transition-colors mb-4">
+          <ArrowLeft size={14} /> Back to Cart
+        </Link>
+        <h1>Checkout</h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-            
-            {/* Main Form */}
-            <div className="lg:col-span-3 space-y-8">
-              
-              {/* Contact Info */}
-              <section className="glass rounded-3xl p-8 border border-white/5 space-y-6">
-                <h2 className="text-lg font-bold text-white/80 uppercase tracking-wider">Contact Information</h2>
-                
-                <input type="email" placeholder="Email address *"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input type="checkbox" className="mt-1 accent-[#81D8D0]" />
-                  <span className="text-xs text-white/30 group-hover:text-white/50 transition">Email me with news and offers (optional)</span>
-                </label>
-              </section>
-
-              {/* Shipping Address */}
-              <section className="glass rounded-3xl p-8 border border-white/5 space-y-6">
-                <h2 className="text-lg font-bold text-white/80 uppercase tracking-wider">Shipping Address</h2>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="First name *" 
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                  <input type="text" placeholder="Last name *"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
+        {/* Step Indicator */}
+        <div className="flex items-center justify-center gap-0 mt-8 max-w-md mx-auto w-full">
+          {steps.map((s, i) => (
+            <React.Fragment key={s.num}>
+              <button
+                onClick={() => s.num <= step && setStep(s.num)}
+                className={`flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 group ${
+                  s.num === step ? '' : 'cursor-pointer'
+                }`}
+              >
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                  step > s.num
+                    ? 'bg-green-500 text-black'
+                    : step === s.num
+                      ? 'bg-zeneio-accent text-black'
+                      : 'bg-white/5 text-white/30'
+                }`}>
+                  {step > s.num ? <CheckCircle2 size={16} /> : s.num}
                 </div>
-
-                <input type="text" placeholder="Address *"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                <input type="text" placeholder="Apartment, suite, etc. (optional)"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="City *"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                  <select className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white focus:border-[#81D8D0]/50 focus:outline-none transition appearance-none">
-                    <option value="" className="bg-black">Country *</option>
-                    <option value="us" className="bg-black">United States</option>
-                    <option value="uk" className="bg-black">United Kingdom</option>
-                    <option value="ca" className="bg-black">Canada</option>
-                    <option value="au" className="bg-black">Australia</option>
-                    <option value="de" className="bg-black">Germany</option>
-                    <option value="jp" className="bg-black">Japan</option>
-                  </select>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="State / Province"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                  <input type="text" placeholder="ZIP code *"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                </div>
-
-                <input type="tel" placeholder="Phone (for delivery updates)"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-              </section>
-
-              {/* Shipping Method */}
-              <section className="glass rounded-3xl p-8 border border-white/5 space-y-4">
-                <h2 className="text-lg font-bold text-white/80 uppercase tracking-wider">Shipping Method</h2>
-                
-                {[
-                  { name: 'Standard Discreet Shipping (7-14 days)', price: 'FREE' },
-                  { name: 'Express Discreet Shipping (3-5 days)', price: '$14.99' },
-                ].map((method) => (
-                  <label key={method.name} className="flex items-center justify-between p-4 rounded-xl border border-white/5 hover:border-[#81D8D0]/20 transition cursor-pointer group">
-                    <div className="flex items-center gap-4">
-                      <input type="radio" name="shipping" defaultChecked={method.price === 'FREE'} className="accent-[#81D8D0]" />
-                      <span className="text-sm text-white/60 group-hover:text-white transition">{method.name}</span>
-                    </div>
-                    <span className={`font-medium ${method.price === 'FREE' ? 'text-green-400' : 'text-white/70'}`}>{method.price}</span>
-                  </label>
-                ))}
-              </section>
-
-              {/* Payment */}
-              <section className="glass rounded-3xl p-8 border border-white/5 space-y-6">
-                <h2 className="text-lg font-bold text-white/80 uppercase tracking-wider">Payment</h2>
-                <p className="text-[9px] text-white/25 uppercase tracking-widest">All transactions are secured with 256-bit SSL encryption</p>
-
-                <input type="text" placeholder="Card number *"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition font-mono tracking-wider" />
-
-                <div className="grid grid-cols-2 gap-4">
-                  <input type="text" placeholder="MM / YY *"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition font-mono" />
-                  <input type="text" placeholder="CVC *"
-                    className="glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition font-mono" />
-                </div>
-
-                <input type="text" placeholder="Name on card *"
-                  className="w-full glass bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-sm text-white placeholder:text-white/20 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-
-                {/* Payment Icons */}
-                <div className="flex gap-3 pt-2">
-                  {['Visa', 'Mastercard', 'Amex', 'PayPal'].map((card) => (
-                    <span key={card} className="glass px-3 py-2 rounded-lg text-[8px] text-white/20 border border-white/5">{card}</span>
-                  ))}
-                </div>
-              </section>
-
-              {/* Pay Button */}
-              <button onClick={() => setStep(3)}
-                className="btn-zeneio w-full text-black py-6 text-sm uppercase font-black tracking-[0.2em] rounded-2xl">
-                🔒 Place Order — ${total.toFixed(2)}
+                <span className={`text-[11px] sm:text-xs font-medium hidden sm:inline ${
+                  step >= s.num ? 'text-white' : 'text-white/25'
+                }`}>
+                  {s.label}
+                </span>
               </button>
+              {i < steps.length - 1 && (
+                <div className={`flex-1 h-px mx-2 sm:mx-4 ${step > s.num ? 'bg-green-500' : 'bg-white/10'} hidden sm:block`} />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
 
-              <p className="text-center text-[8px] text-white/15 uppercase tracking-widest">
-                By placing this order, you agree to our Terms of Service and Privacy Policy.
-              </p>
-            </div>
+      <div className="section-container pb-24">
+        <div className="grid lg:grid-cols-[1fr_380px] gap-10">
+          {/* Main Content */}
+          <main className="space-y-6">
+            {/* Step 1: Contact Information */}
+            {step === 1 && (
+              <div className="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+                <h2 className="text-lg font-bold">Contact Information</h2>
+                <p className="text-sm text-white/40">We&apos;ll use this for your order confirmation and shipping updates.</p>
 
-            {/* Sidebar - Order Summary */}
-            <aside className="lg:col-span-2 space-y-6">
-              
-              <div className="glass rounded-3xl p-8 border border-white/5 sticky top-28">
-                <h3 className="text-lg font-bold text-white/80 uppercase tracking-wider mb-6">Order Summary</h3>
-
-                {/* Items */}
-                <div className="space-y-4 mb-6 pb-6 border-b border-white/5">
-                  {items.map((item) => (
-                    <div key={item.name} className="flex gap-4">
-                      <div className="w-16 h-16 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                        <span className="font-serif italic text-lg text-[#81D8D0]/20">Z</span>
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <p className="text-sm text-white/70 truncate">{item.name}</p>
-                        <p className="text-[9px] text-white/20 mt-0.5">Qty: {item.qty}</p>
-                      </div>
-                      <p className="text-sm text-white/50">${(item.price * item.qty).toFixed(2)}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Totals */}
-                <div className="space-y-3">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white/40">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="input-label">Email Address *</label>
+                    <input
+                      type="email"
+                      value={contactInfo.email}
+                      onChange={(e) => setContactInfo(prev => ({ ...prev, email: e.target.value }))}
+                      placeholder="your@email.com"
+                      className="input-field"
+                      required
+                    />
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white/40">Shipping</span>
-                    <span className="text-green-400">FREE</span>
-                  </div>
-                  <div className="flex justify-between pt-4 border-t border-white/5">
-                    <span className="font-bold text-white">Total</span>
-                    <span className="font-bold text-xl text-[#81D8D0]">${total.toFixed(2)}</span>
-                  </div>
-                </div>
-
-                {/* Promo Code */}
-                <div className="mt-6 pt-6 border-t border-white/5">
-                  <div className="flex gap-2">
-                    <input type="text" placeholder="Promo code"
-                      className="flex-1 glass bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/15 focus:border-[#81D8D0]/50 focus:outline-none transition" />
-                    <button className="px-6 py-3 rounded-xl border border-white/10 text-[9px] uppercase tracking-widest text-white/40 hover:text-white hover:border-white/30 transition">
-                      Apply
-                    </button>
+                  <div>
+                    <label className="input-label">Phone Number *</label>
+                    <input
+                      type="tel"
+                      value={contactInfo.phone}
+                      onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
+                      placeholder="+1 (555) 000-0000"
+                      className="input-field"
+                      required
+                    />
                   </div>
                 </div>
 
-                {/* Guarantees */}
-                <div className="mt-6 pt-6 border-t border-white/5 space-y-3">
-                  {['🔒 Secure 256-bit SSL', '📦 100% Discreet Package', '↩ Easy Returns Policy', '✓ 2-Year Warranty'].map((g) => (
-                    <p key={g} className="text-[8px] text-white/20">{g}</p>
-                  ))}
+                <div className="flex justify-end pt-2">
+                  <button onClick={() => setStep(2)} className="btn-accent px-8">
+                    Continue to Shipping <ChevronRight size={16} />
+                  </button>
                 </div>
               </div>
+            )}
 
-              <Link href="/cart" className="block text-center text-[9px] uppercase tracking-widest text-white/20 hover:text-white/50 transition">
-                ← Back to Cart
-              </Link>
-            </aside>
-          </div>
+            {/* Step 2: Shipping Address */}
+            {step === 2 && (
+              <div className="glass rounded-2xl p-6 sm:p-8 animate-fade-in space-y-6">
+                <h2 className="text-lg font-bold">Shipping Address</h2>
+                
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="input-label">First Name *</label>
+                    <input value={shippingAddress.firstName}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, firstName: e.target.value }))}
+                      placeholder="John" className="input-field" required />
+                  </div>
+                  <div>
+                    <label className="input-label">Last Name *</label>
+                    <input value={shippingAddress.lastName}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, lastName: e.target.value }))}
+                      placeholder="Doe" className="input-field" required />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="input-label">Street Address *</label>
+                    <input value={shippingAddress.address1}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, address1: e.target.value }))}
+                      placeholder="123 Main Street, Apt 4B" className="input-field" required />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="input-label">Apartment / Suite (optional)</label>
+                    <input value={shippingAddress.address2}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, address2: e.target.value }))}
+                      placeholder="Apt, suite, unit, etc." className="input-field" />
+                  </div>
+                  <div>
+                    <label className="input-label">City *</label>
+                    <input value={shippingAddress.city}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, city: e.target.value }))}
+                      placeholder="New York" className="input-field" required />
+                  </div>
+                  <div>
+                    <label className="input-label">State / Province *</label>
+                    <input value={shippingAddress.state}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, state: e.target.value }))}
+                      placeholder="NY" className="input-field" required />
+                  </div>
+                  <div>
+                    <label className="input-label">ZIP / Postal Code *</label>
+                    <input value={shippingAddress.postalCode}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, postalCode: e.target.value }))}
+                      placeholder="10001" className="input-field" required />
+                  </div>
+                  <div>
+                    <label className="input-label">Country *</label>
+                    <select
+                      value={shippingAddress.country}
+                      onChange={(e) => setShippingAddress(prev => ({ ...prev, country: e.target.value }))}
+                      className="input-field cursor-pointer"
+                    >
+                      <option value="United States">🇺🇸 United States</option>
+                      <option value="Canada">🇨🇦 Canada</option>
+                      <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                      <option value="Australia">🇦🇺 Australia</option>
+                      <option value="Germany">🇩🇪 Germany</option>
+                      <option value="France">🇫🇷 France</option>
+                      <option value="Japan">🇯🇵 Japan</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="glass rounded-xl p-4 flex items-start gap-3 mt-4">
+                  <ShieldCheck size={20} className="text-zeneio-accent flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-white/50 leading-relaxed">
+                    <strong>Discreet Packaging:</strong> All orders ship in plain, unmarked boxes.
+                    The return address shows &quot;ZNE Logistics&quot; — no product names or branding visible.
+                  </p>
+                </div>
+
+                <div className="flex justify-between pt-2">
+                  <button onClick={() => setStep(1)} className="btn-outline">
+                    <ChevronLeft size={16} /> Back
+                  </button>
+                  <button onClick={() => setStep(3)} className="btn-accent px-8">
+                    Continue to Payment <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Payment */}
+            {step === 3 && (
+              <div className="space-y-6 animate-fade-in">
+                {/* Payment Method Selection */}
+                <div className="glass rounded-2xl p-6 sm:p-8 space-y-6">
+                  <h2 className="text-lg font-bold">Payment Method</h2>
+
+                  <div className="space-y-3">
+                    {[
+                      { id: 'card', label: 'Credit / Debit Card', desc: 'Visa, Mastercard, Amex, Discover', icon: '💳' },
+                      { id: 'paypal', label: 'PayPal', desc: 'Fast checkout via PayPal account', icon: '🅿️' },
+                      { id: 'crypto', label: 'Cryptocurrency', desc: 'BTC, ETH, USDT accepted', icon: '₿' },
+                    ].map(method => (
+                      <button
+                        key={method.id}
+                        onClick={() => setPaymentMethod(method.id)}
+                        className={`w-full flex items-center gap-4 p-4 rounded-xl border transition-all ${
+                          paymentMethod === method.id
+                            ? 'border-zeneio-accent bg-zeneio-accent/5'
+                            : 'border-white/5 hover:border-white/15 hover:bg-white/[0.02]'
+                        }`}
+                      >
+                        <span className="text-2xl">{method.icon}</span>
+                        <div className="text-left">
+                          <p className={`font-semibold text-sm ${paymentMethod === method.id ? 'text-white' : 'text-white/80'}`}>
+                            {method.label}
+                          </p>
+                          <p className="text-xs text-white/35">{method.desc}</p>
+                        </div>
+                        <div className={`ml-auto w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                          paymentMethod === method.id ? 'border-zeneio-accent' : 'border-white/15'
+                        }`}>
+                          {paymentMethod === method.id && <div className="w-2.5 h-2.5 rounded-full bg-zeneio-accent" />}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Card Details Form (shown when card selected) */}
+                  {paymentMethod === 'card' && (
+                    <div className="space-y-4 pt-4 border-t border-white/5">
+                      <div>
+                        <label className="input-label">Card Number</label>
+                        <input type="text" placeholder="1234 5678 9012 3456" className="input-field font-mono tracking-wider" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="input-label">Expiry Date</label>
+                          <input type="text" placeholder="MM / YY" className="input-field" maxLength={7} />
+                        </div>
+                        <div>
+                          <label className="input-label">CVV</label>
+                          <input type="text" placeholder="•••" className="input-field" maxLength={4} />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="input-label">Name on Card</label>
+                        <input type="text" placeholder="John Doe" className="input-field" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Order Review Summary */}
+                <div className="glass rounded-2xl p-6 space-y-4">
+                  <h3 className="font-bold text-sm uppercase tracking-widest text-white/40">Order Summary</h3>
+
+                  {cartState.items.map(item => (
+                    <div key={item.id} className="flex items-center gap-4">
+                      <img src={item.product.images[0]} alt={item.product.name}
+                        className="w-14 h-14 rounded-lg object-cover bg-zeneio-gray"
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.jpg'; }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{item.product.name}</p>
+                        <p className="text-xs text-white/30">Qty: {item.quantity}</p>
+                      </div>
+                      <p className="font-semibold text-sm">{formatPrice(item.product.price * item.quantity)}</p>
+                    </div>
+                  ))}
+
+                  <div className="h-px bg-white/5" />
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between"><span className="text-white/50">Subtotal</span><span>{formatPrice(cartState.subtotal)}</span></div>
+                    <div className="flex justify-between"><span className="text-white/50">Shipping</span><span>{cartState.shippingCost === 0 ? 'Free' : formatPrice(cartState.shippingCost)}</span></div>
+                    <div className="flex justify-between"><span className="text-white/50">Tax</span><span>{formatPrice(cartState.tax)}</span></div>
+                    <div className="flex justify-between text-base font-bold pt-2 border-t border-white/5 mt-2">
+                      <span>Total</span>
+                      <span className="text-zeneio-accent">{formatPrice(cartState.total)}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-between pt-2">
+                  <button onClick={() => setStep(2)} className="btn-outline">
+                    <ChevronLeft size={16} /> Back
+                  </button>
+                  <button onClick={handlePlaceOrder} disabled={isProcessing}
+                    className="btn-accent px-12 py-4 text-base disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isProcessing ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" fill="none" className="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75"/></svg>
+                        Processing...
+                      </span>
+                    ) : (
+                      <>Lock icon Place Order — {formatPrice(cartState.total)}</>
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* Sidebar - Order Summary (sticky on desktop) */}
+          <aside className="lg:sticky lg:top-28 h-fit space-y-4">
+            <div className="glass rounded-2xl p-6 space-y-5">
+              <h3 className="font-bold">Order Summary</h3>
+
+              {/* Mini Cart Items */}
+              <div className="space-y-3 max-h-64 overflow-y-auto no-scrollbar pr-1">
+                {cartState.items.map(item => (
+                  <div key={item.id} className="flex items-center gap-3">
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-zeneio-gray flex-shrink-0">
+                      <img src={item.product.images[0]} alt="" className="w-full h-full object-cover" />
+                      <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-zeneio-accent text-black text-[10px] font-bold flex items-center justify-center">
+                        {item.quantity}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium truncate">{item.product.name}</p>
+                      <p className="text-xs text-white/30">{formatPrice(item.product.price)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="space-y-2.5 text-sm border-t border-white/5 pt-4">
+                <div className="flex justify-between"><span className="text-white/50">Subtotal</span><span>{formatPrice(cartState.subtotal)}</span></div>
+                <div className="flex justify-between"><span className="text-white/50">Shipping</span>
+                  <span className={cartState.shippingCost === 0 ? 'text-green-400' : ''}>{cartState.shippingCost === 0 ? 'FREE' : formatPrice(cartState.shippingCost)}</span>
+                </div>
+                <div className="flex justify-between"><span className="text-white/50">Tax (est.)</span><span>{formatPrice(cartState.tax)}</span></div>
+                <div className="h-px bg-white/5" />
+                <div className="flex justify-between text-base font-bold">
+                  <span>Total</span>
+                  <span className="text-zeneio-accent">{formatPrice(cartState.total)}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="glass rounded-xl p-3 text-center">
+                <Lock size={18} className="mx-auto text-zeneio-accent/60 mb-1.5" />
+                <p className="text-[11px] text-white/40 leading-tight">Secure<br/>256-bit SSL</p>
+              </div>
+              <div className="glass rounded-xl p-3 text-center">
+                <ShieldCheck size={18} className="mx-auto text-zeneio-accent/60 mb-1.5" />
+                <p className="text-[11px] text-white/40 leading-tight">Discreet<br/>Packaging</p>
+              </div>
+            </div>
+          </aside>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </div>

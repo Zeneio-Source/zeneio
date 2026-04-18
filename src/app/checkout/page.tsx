@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCart } from '@/lib/cart-context';
-import { formatPrice } from '@/lib/types';
+import { formatPrice, ALL_PRODUCTS } from '@/lib/products-data';
 import {
   ChevronRight, ChevronLeft, Lock, Truck, ShieldCheck,
   CreditCard, CheckCircle2, Package, ArrowLeft

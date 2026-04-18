@@ -18,7 +18,7 @@ export default function BlogPostPage() {
           <span>By ZENEIO Team</span><span>·</span><span>Apr 15, 2026</span><span>·</span><span className="flex items-center gap-1"><Clock size={13} /> 8 min read</span>
         </div>
 
-        <img src="" alt="Blog post cover" onError={(e) => {(e.target as HTMLStyleDeclaration).cssText = 'display:none'}} />
+        <img src="" alt="Blog post cover" onError={(e) => {(e.target as HTMLImageElement).cssText = 'display:none'}} />
 
         <div className="prose prose-invert max-w-none mt-8 space-y-6">
           <p className="text-body-lg text-white/50 leading-relaxed first-letter:text-5xl first-letter:font-bold first-letter:text-zeneio-accent first-letter:float-left first-letter:mr-3">

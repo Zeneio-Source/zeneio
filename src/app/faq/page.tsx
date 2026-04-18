@@ -4,11 +4,6 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: 'FAQ | ZENEIO - Frequently Asked Questions',
-  description: 'Find answers to common questions about ZENEIO products, shipping, privacy, and more.',
-};
-
 const faqs = [
   {
     category: 'Products',

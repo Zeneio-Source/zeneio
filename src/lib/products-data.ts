@@ -117,7 +117,7 @@ export const maleProducts: Product[] = [
     ],
     specifications: {
       Material: 'Medical-Grade Silicone',
-      Insertable Length: '10cm',
+      InsertableLength: '10cm',
       Diameter: '2.8cm',
       Battery: 'USB Rechargeable',
       Runtime: '75 minutes',
@@ -152,8 +152,8 @@ export const maleProducts: Product[] = [
     ],
     specifications: {
       Volume: '30ml',
-      Active Ingredient: 'Lidocaine 9.5%',
-      Onset Time: '5 minutes',
+      ActiveIngredient: 'Lidocaine 9.5%',
+      OnsetTime: '5 minutes',
       Duration: '30-60 minutes',
       Applications: '~200 per bottle',
     },
@@ -188,7 +188,7 @@ export const maleProducts: Product[] = [
     ],
     specifications: {
       Material: 'Premium TPE',
-      Sleeve Depth: '16cm',
+      SleeveDepth: '16cm',
       Diameter: '4cm',
       Base: 'Strong Suction Cup',
       Care: 'Warm water + toy cleaner',
@@ -231,7 +231,7 @@ export const femaleProducts: Product[] = [
     specifications: {
       Material: 'Premium Silicone + ABS',
       Length: '29cm',
-      Head Diameter: '5cm',
+      HeadDiameter: '5cm',
       Motor: 'High-Frequency Rumbly',
       Battery: 'USB Rechargeable',
       Runtime: '180 minutes',
@@ -272,7 +272,7 @@ export const femaleProducts: Product[] = [
     ],
     specifications: {
       Material: 'Medical-Grade Silicone',
-      Insertable Length: '11cm',
+      InsertableLength: '11cm',
       Girth: '3.5cm',
       Thrust Depth: '1cm',
       Battery: '2200mAh Rechargeable',
@@ -349,7 +349,7 @@ export const femaleProducts: Product[] = [
     ],
     specifications: {
       Material: 'Body-Safe Silicone',
-      Ball Diameter: '3.2cm / 3.5cm / 3.8cm',
+      BallDiameter: '3.2cm / 3.5cm / 3.8cm',
       Weights: '25g, 40g, 55g',
       Cord: 'Soft Silicone Retrieval String',
       Storage: 'Velvet Pouch Included',
@@ -501,7 +501,7 @@ export const lingerieProducts: Product[] = [
     ],
     specifications: {
       Material: 'Robe: 100% Polyester Satin; Chemise: Nylon/Lace blend',
-      Robe Length: 'Knee length (~90cm)',
+      RobeLength: 'Knee length (~90cm)',
       Colors: 'Midnight Black / Wine Red / Champagne Gold',
       Sizes: 'S / M / L / XL',
       Closure: 'Self-tie sash belt',

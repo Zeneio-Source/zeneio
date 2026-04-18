@@ -27,10 +27,7 @@ export default function AgeVerification() {
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4">
       <div className="max-w-md w-full glass rounded-[40px] p-12 text-center shadow-2xl border border-white/10">
         <div className="mb-8 flex flex-col items-center gap-4">
-            <img src="/logo.png" alt="Zeneio Logo" className="w-20 h-20 rounded-full border-2 border-[#81D8D0]/30 p-1" />
-            <span className="text-4xl font-black tracking-tighter italic uppercase text-white">
-                ZENEIO<span className="text-[#81D8D0]">.</span>
-            </span>
+            <img src="/logo-brand.png" alt="Zeneio Logo" className="w-48 h-auto" />
         </div>
         <h2 className="text-xl font-bold text-white mb-4 uppercase tracking-widest">Verification Required</h2>
         <p className="text-white/40 mb-10 leading-relaxed text-sm uppercase tracking-wider font-medium">

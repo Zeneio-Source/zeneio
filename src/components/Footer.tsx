@@ -8,9 +8,7 @@ export default function Footer() {
     <footer className="py-24 px-8 border-t border-white/5 bg-black">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
         <div className="col-span-1 md:col-span-2">
-          <div className="text-3xl font-black tracking-tighter italic uppercase mb-8 text-white">
-            ZENEIO<span className="text-[#81D8D0]">.</span>
-          </div>
+          <img src="/logo-brand.png" className="h-12 w-auto mb-8" alt="ZENEIO Logo" />
           <p className="max-w-sm text-white/30 text-sm font-light leading-relaxed mb-10 uppercase tracking-widest">
             The intersection of biology and electronics. <br /> 
             Crafted for the future of human sensation.

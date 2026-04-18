@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const products = [
+const fallbackProducts = [
   {
     id: 'neo',
     name: 'ZENEIO NEO',
@@ -38,13 +38,39 @@ const products = [
   }
 ];
 
-export default function Home() {
+async function getProducts() {
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL || ''}/api/products`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        return data.slice(0, 4).map((p: any) => ({
+          id: p.slug,
+          name: p.name,
+          price: `$${Number(p.price).toFixed(2)}`,
+          tag: p.specs?.motor || 'Premium',
+          desc: p.description?.split('.')[0] || 'Precision Engineering',
+          img: p.image,
+          featured: p.isFeatured,
+        }));
+      }
+    }
+  } catch {
+    // Use fallback
+  }
+  return null;
+}
+
+export default async function Home() {
+  const dbProducts = await getProducts();
+  const products = dbProducts || fallbackProducts;
+
   return (
     <div className="min-h-screen">
       <Navbar />
 
       <main>
-        {/* 2. Immersive Hero */}
+        {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-24">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
             <div className="z-10 text-center lg:text-left">
@@ -55,16 +81,19 @@ export default function Home() {
                 Beyond <br /> <span className="not-italic font-sans font-black tracking-tighter text-glow uppercase">TOUCH</span>
               </h1>
               <p className="max-w-lg mx-auto lg:mx-0 text-white/30 text-lg font-light leading-relaxed mb-14 tracking-wide">
-                Introducing **Neural-Sync** architecture. Medical-grade materials meeting 2026 haptic intelligence. Experience intimacy evolved through pure engineering.
+                Introducing **Neural-Sync** architecture. Medical-grade materials meeting 2026 haptic intelligence.
+                Experience intimacy evolved through pure engineering.
               </p>
               <div className="flex flex-wrap gap-8 justify-center lg:justify-start">
-                <button className="btn-zeneio text-black">Explore Engineering</button>
+                <a href="/products" className="btn-zeneio text-black inline-block">Explore Engineering</a>
                 <button className="px-8 py-4 text-[10px] uppercase font-black tracking-[0.3em] text-white/40 hover:text-white transition">Watch Film</button>
               </div>
             </div>
             <div className="relative group">
               <div className="absolute inset-0 bg-[#81D8D0]/5 rounded-full blur-[100px] group-hover:bg-[#81D8D0]/10 transition duration-1000"></div>
-              <img src="https://sc02.alicdn.com/kf/A1dabe5d4edc840148a73a3f6496a1328S.png" className="relative z-10 w-full h-auto object-cover rounded-3xl opacity-80 group-hover:opacity-100 transition duration-1000" alt="ZENEIO PRO" />
+              <img src="https://sc02.alicdn.com/kf/A1dabe5d4edc840148a73a3f6496a1328S.png" 
+                   className="relative z-10 w-full h-auto object-cover rounded-3xl opacity-80 group-hover:opacity-100 transition duration-1000" 
+                   alt="ZENEIO PRO" loading="eager" />
               
               {/* Real-time Data Overlays */}
               <div className="absolute top-10 right-0 glass p-5 rounded-2xl animate-pulse hidden md:block border border-white/10">
@@ -79,27 +108,42 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3. Curated Engineering */}
+        {/* Product Lineup */}
         <section className="py-32 px-6 bg-black/40">
           <div className="max-w-7xl mx-auto mb-24">
             <div className="flex flex-col md:flex-row justify-between items-end">
-              <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase italic">The Lineup<span className="text-[#81D8D0]">.</span></h2>
-              <p className="max-w-xs text-white/30 text-sm font-light mt-6 md:mt-0 leading-relaxed uppercase tracking-widest text-right">Verified precision tools. Tested for 128 anatomical stress points.</p>
+              <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase italic">
+                The Lineup<span className="text-[#81D8D0]">.</span>
+              </h2>
+              <p className="max-w-xs text-white/30 text-sm font-light mt-6 md:mt-0 leading-relaxed uppercase tracking-widest text-right">
+                Verified precision tools. Tested for 128 anatomical stress points.
+              </p>
             </div>
           </div>
 
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((p) => (
-              <div key={p.id} className={`product-card p-8 rounded-[40px] flex flex-col items-center text-center ${p.featured ? 'border-[#81D8D0]/30' : ''}`}>
+            {products.map((p: any) => (
+              <a href={dbProducts ? `/products/${p.id}` : undefined}
+                 key={p.id} 
+                 className={`product-card p-8 rounded-[40px] flex flex-col items-center text-center ${p.featured ? 'border-[#81D8D0]/30' : ''}`}>
                 <div className="relative w-full aspect-square mb-10 overflow-hidden rounded-3xl bg-white/5 flex items-center justify-center p-12">
-                  <img src={p.img} className="w-full h-full object-contain mix-blend-screen opacity-70 group-hover:opacity-100 transition duration-500" alt={p.name} />
+                  <img src={p.img} 
+                       className="w-full h-full object-contain mix-blend-screen opacity-70 group-hover:opacity-100 transition duration-500" 
+                       alt={p.name} loading="lazy" />
                 </div>
                 <div className="text-[8px] uppercase font-black tracking-[0.3em] text-[#81D8D0] mb-4">{p.tag}</div>
                 <h3 className="text-2xl font-black tracking-tight mb-2 uppercase">{p.name}</h3>
                 <p className="text-white/30 text-xs mb-8 font-light italic">{p.desc}</p>
                 <div className="mt-auto text-xl font-light tracking-widest">{p.price}</div>
-              </div>
+              </a>
             ))}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-20 text-center">
+            <a href="/products" className="btn-zeneio text-black inline-block px-16 py-6 text-sm">
+              View Full Collection
+            </a>
           </div>
         </section>
       </main>

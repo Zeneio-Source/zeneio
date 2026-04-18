@@ -8,10 +8,7 @@ export default function Navbar() {
     <header className="fixed top-0 w-full z-50 p-6 md:p-8">
       <nav className="max-w-7xl mx-auto glass rounded-full px-10 py-5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group">
-          <img src="/logo.png" className="w-8 h-8 rounded-full border border-white/10 group-hover:border-[#81D8D0]/50 transition-colors" alt="ZENEIO Logo" />
-          <div className="text-2xl font-black tracking-tighter italic uppercase text-white">
-            ZENEIO<span className="text-[#81D8D0]">.</span>
-          </div>
+          <img src="/logo-brand.png" className="h-10 w-auto" alt="ZENEIO Logo" />
         </Link>
         <div className="hidden md:flex space-x-12 text-[9px] uppercase font-black tracking-[0.3em] text-white/40">
           <Link href="/products" className="hover:text-[#81D8D0] transition">Engineering</Link>

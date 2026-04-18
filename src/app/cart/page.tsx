@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCart } from '@/lib/cart-context';
-import { formatPrice } from '@/lib/types';
+import { formatPrice } from '@/lib/products-data';
 import {
   ShoppingBag, Minus, Plus, X, ArrowLeft,
   Truck, ShieldCheck, Tag, ChevronRight

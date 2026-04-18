@@ -7,9 +7,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
 import { useCart } from '@/lib/cart-context';
-import {
-  Product, formatPrice, ALL_PRODUCTS
-} from '@/lib/products-data';
+import { Product } from '@/lib/types';
+import { formatPrice, ALL_PRODUCTS } from '@/lib/products-data';
 import { CATEGORIES } from '@/lib/types';
 import {
   Star, Heart, ShoppingBag, Share2, Truck, Shield,

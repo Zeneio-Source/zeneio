@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center gap-3 mb-8">
-            <img src="/logo-brand.png" className="h-10 w-auto" alt="ZENEIO Logo" />
+            <img src="/logo.png" className="h-10 w-auto" alt="ZENEIO Logo" />
             <div className="text-3xl font-black tracking-tighter italic uppercase text-white">
                 ZENEIO<span className="text-[#81D8D0]">.</span>
             </div>

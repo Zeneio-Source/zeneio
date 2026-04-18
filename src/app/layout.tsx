@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: 'ZENEIO | Bio-Tech & Sensual Wellness 2026',
   description: 'Precision engineered for your most private moments. Experience intimacy evolved through pure engineering.',
   icons: {
-    icon: '/logo-brand.png',
-    apple: '/logo-brand.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
   openGraph: {
     title: 'ZENEIO | Bio-Tech & Sensual Wellness 2026',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     siteName: 'ZENEIO',
     images: [
       {
-        url: '/logo-brand.png',
+        url: '/logo.png',
         width: 1200,
         height: 1200,
         alt: 'ZENEIO - Bio-Tech Sensual Wellness',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ZENEIO | Bio-Tech & Sensual Wellness 2026',
     description: 'Precision engineered for your most private moments.',
-    images: ['/logo-brand.png'],
+    images: ['/logo.png'],
   },
 };
 

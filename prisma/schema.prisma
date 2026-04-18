@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  description  String
+  price        Decimal  // In USD
+  image        String
+  category     Category @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  
+  // Tech Specs (JSON for flexibility)
+  specs        Json?    // e.g. { "battery": "240m", "motor": "Gen-4", "waterproof": "IPX8" }
+  
+  inventory    Int      @default(0)
+  isFeatured   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  orders       OrderProduct[]
+}
+
+model Order {
+  id              String         @id @default(cuid())
+  status          OrderStatus    @default(PENDING)
+  totalAmount     Decimal
+  customerEmail   String
+  shippingAddress String?
+  
+  // Payment info for 4th party integration
+  paymentId       String?        @unique
+  paymentStatus   String?
+  
+  items           OrderProduct[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model OrderProduct {
+  id        String  @id @default(cuid())
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}

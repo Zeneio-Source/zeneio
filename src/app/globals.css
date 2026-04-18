@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #81D8D0; /* Tiffany Blue */
+  --bg: #0A0A0A; 
+  --glass: rgba(255, 255, 255, 0.03);
+}
+
+body {
+  background-color: var(--bg);
+  color: #FFF;
+  overflow-x: hidden;
+}
+
+.font-serif {
+  font-family: 'Instrument Serif', serif;
+}
+
+/* 2026 Liquid Background Effect */
+.liquid-bg {
+  background: radial-gradient(circle at 50% 50%, #1A1A1A, #0A0A0A);
+  position: relative;
+  min-height: 100vh;
+}
+
+.liquid-bg::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 20%, rgba(129, 216, 208, 0.08), transparent 40%),
+              radial-gradient(circle at 70% 80%, rgba(100, 100, 255, 0.05), transparent 40%);
+  animation: rotate 25s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Glassmorphism UI */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Tactile Engineering Buttons */
+.btn-zeneio {
+  position: relative;
+  background: #FFF;
+  color: #000;
+  padding: 1.25rem 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.7rem;
+  transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 100%, 0 100%);
+}
+
+.btn-zeneio:hover {
+  background: var(--accent);
+  color: #000;
+  transform: translateY(-4px) scale(1.02);
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease;
+}
+
+.product-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent);
+  transform: translateY(-10px);
+}
+
+.text-glow {
+  text-shadow: 0 0 15px rgba(129, 216, 208, 0.4);
+}

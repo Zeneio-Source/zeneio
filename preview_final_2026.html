@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENEIO | Bio-Tech & Sensual Wellness 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Uncut+Sans:wght@300;400;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --accent: #81D8D0; /* Tiffany Blue */
+            --bg: #0A0A0A; 
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+        body { 
+            font-family: 'Uncut Sans', sans-serif; 
+            background-color: var(--bg); 
+            color: #FFF; 
+            overflow-x: hidden; 
+        }
+        .font-serif { font-family: 'Instrument Serif', serif; }
+        
+        /* 2026 Liquid Background Effect */
+        .liquid-bg {
+            background: radial-gradient(circle at 50% 50%, #1A1A1A, #0A0A0A);
+            position: relative;
+            min-height: 100vh;
+        }
+        .liquid-bg::after {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(129, 216, 208, 0.08), transparent 40%),
+                        radial-gradient(circle at 70% 80%, rgba(100, 100, 255, 0.05), transparent 40%);
+            animation: rotate 25s linear infinite; z-index: -1;
+        }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* Glassmorphism UI */
+        .glass { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        
+        /* Tactile Engineering Buttons */
+        .btn-zeneio {
+            position: relative; background: #FFF; color: #000; padding: 1.25rem 3rem;
+            font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.7rem;
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1); 
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 100%, 0 100%);
+        }
+        .btn-zeneio:hover { background: var(--accent); color: #000; transform: translateY(-4px) scale(1.02); }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s ease;
+        }
+        .product-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+            transform: translateY(-10px);
+        }
+        .text-glow { text-shadow: 0 0 15px rgba(129, 216, 208, 0.4); }
+    </style>
+</head>
+<body class="liquid-bg antialiased">
+
+    <!-- 1. Holographic Navigation -->
+    <header class="fixed top-0 w-full z-50 p-6 md:p-8">
+        <nav class="max-w-7xl mx-auto glass rounded-full px-10 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <img src="public/logo.png" class="w-8 h-8 rounded-full" alt="ZENEIO Logo">
+                <div class="text-2xl font-black tracking-tighter italic uppercase text-white">ZENEIO<span class="text-[#81D8D0]">.</span></div>
+            </div>
+            <div class="hidden md:flex space-x-12 text-[9px] uppercase font-black tracking-[0.3em] text-white/40">
+                <a href="#" class="hover:text-[#81D8D0] transition">Bio-Tech</a>
+                <a href="#" class="hover:text-[#81D8D0] transition">Haptic</a>
+                <a href="#" class="hover:text-[#81D8D0] transition">Lineup</a>
+                <a href="#" class="hover:text-[#81D8D0] transition">The Quiz</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative cursor-pointer group">
+                    <svg class="w-5 h-5 text-white/60 group-hover:text-[#81D8D0] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    <span class="absolute -top-1 -right-1 bg-[#81D8D0] text-black text-[8px] w-3.5 h-3.5 rounded-full flex items-center justify-center font-bold">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 2. Immersive Hero -->
+        <section class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden pt-24">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-16">
+                <div class="z-10">
+                    <div class="inline-block glass px-4 py-2 rounded-full text-[9px] uppercase tracking-[0.4em] font-bold mb-10 text-[#81D8D0] border-[#81D8D0]/20">
+                        Precision Engineered Wellness
+                    </div>
+                    <h1 class="text-7xl md:text-[9rem] font-serif italic font-light leading-[0.85] mb-8">
+                        Beyond <br> <span class="not-italic font-sans font-black tracking-tighter text-glow uppercase">TOUCH</span>
+                    </h1>
+                    <p class="max-w-lg text-white/30 text-lg font-light leading-relaxed mb-14 tracking-wide">
+                        Introducing **Neural-Sync** architecture. Medical-grade materials meeting 2026 haptic intelligence. Experience intimacy evolved through pure engineering.
+                    </p>
+                    <div class="flex flex-wrap gap-8">
+                        <button class="btn-zeneio">Explore Engineering</button>
+                        <button class="px-8 py-4 text-[10px] uppercase font-black tracking-[0.3em] text-white/40 hover:text-white transition">Watch Film</button>
+                    </div>
+                </div>
+                <div class="relative group">
+                    <!-- High-tech product silhouette visualization -->
+                    <div class="absolute inset-0 bg-[#81D8D0]/5 rounded-full blur-[100px] group-hover:bg-[#81D8D0]/10 transition duration-1000"></div>
+                    <img src="https://sc02.alicdn.com/kf/A1dabe5d4edc840148a73a3f6496a1328S.png" class="relative z-10 w-full h-auto object-cover rounded-3xl opacity-80 group-hover:opacity-100 transition duration-1000" alt="ZENEIO PRO">
+                    
+                    <!-- Real-time Data Overlays -->
+                    <div class="absolute top-10 right-0 glass p-5 rounded-2xl animate-pulse">
+                        <p class="text-[8px] uppercase font-black text-white/30 tracking-widest mb-1">Haptic Engine</p>
+                        <p class="text-xl font-black text-[#81D8D0]">Gen-4 Dual</p>
+                    </div>
+                    <div class="absolute bottom-20 left-0 glass p-5 rounded-2xl">
+                        <p class="text-[8px] uppercase font-black text-white/30 tracking-widest mb-1">Silence Rating</p>
+                        <p class="text-xl font-black italic"> < 20dB</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Curated Engineering (Jungle Scout Verified Products) -->
+        <section class="py-32 px-6 bg-black/40">
+            <div class="max-w-7xl mx-auto mb-24">
+                <div class="flex flex-col md:flex-row justify-between items-end">
+                    <h2 class="text-5xl md:text-6xl font-black tracking-tighter uppercase italic">The Lineup<span class="text-[#81D8D0]">.</span></h2>
+                    <p class="max-w-xs text-white/30 text-sm font-light mt-6 md:mt-0 leading-relaxed">Verified precision tools. Tested for 128 anatomical stress points.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1: Based on Toendi -->
+                <div class="product-card p-8 rounded-[40px] flex flex-col items-center text-center">
+                    <div class="relative w-full aspect-square mb-10 overflow-hidden rounded-3xl bg-white/5 flex items-center justify-center p-12">
+                        <img src="https://m.media-amazon.com/images/I/31+tpXb5njL.jpg" class="w-full h-full object-contain mix-blend-screen opacity-70 group-hover:opacity-100">
+                    </div>
+                    <div class="text-[8px] uppercase font-black tracking-[0.3em] text-[#81D8D0] mb-4">AI-Sync Smart</div>
+                    <h3 class="text-2xl font-black tracking-tight mb-2 uppercase">ZENEIO NEO</h3>
+                    <p class="text-white/30 text-xs mb-8 font-light italic">App-Controlled Bio-Feedback</p>
+                    <div class="mt-auto text-xl font-light tracking-widest">$29.99</div>
+                </div>
+
+                <!-- Product 2: Based on Metooka -->
+                <div class="product-card p-8 rounded-[40px] flex flex-col items-center text-center border-[#81D8D0]/30">
+                    <div class="relative w-full aspect-square mb-10 overflow-hidden rounded-3xl bg-white/5 flex items-center justify-center p-12">
+                        <img src="https://m.media-amazon.com/images/I/315e2bzqOqL.jpg" class="w-full h-full object-contain mix-blend-screen opacity-70">
+                    </div>
+                    <div class="text-[8px] uppercase font-black tracking-[0.3em] text-[#81D8D0] mb-4">Therapeutic Pro</div>
+                    <h3 class="text-2xl font-black tracking-tight mb-2 uppercase">ZENEIO WAND</h3>
+                    <p class="text-white/30 text-xs mb-8 font-light italic">8-Speed Deep Resonance</p>
+                    <div class="mt-auto text-xl font-light tracking-widest">$35.95</div>
+                </div>
+
+                <!-- Product 3: Based on Yarosi -->
+                <div class="product-card p-8 rounded-[40px] flex flex-col items-center text-center">
+                    <div class="relative w-full aspect-square mb-10 overflow-hidden rounded-3xl bg-white/5 flex items-center justify-center p-12">
+                        <img src="https://m.media-amazon.com/images/I/414i2cPg7yL.jpg" class="w-full h-full object-contain mix-blend-screen opacity-70">
+                    </div>
+                    <div class="text-[8px] uppercase font-black tracking-[0.3em] text-[#81D8D0] mb-4">Travel Precision</div>
+                    <h3 class="text-2xl font-black tracking-tight mb-2 uppercase">ZENEIO MICRO</h3>
+                    <p class="text-white/30 text-xs mb-8 font-light italic">Compact Sonic Engine</p>
+                    <div class="mt-auto text-xl font-light tracking-widest">$32.95</div>
+                </div>
+
+                <!-- Product 4: Based on NewFlora -->
+                <div class="product-card p-8 rounded-[40px] flex flex-col items-center text-center">
+                    <div class="relative w-full aspect-square mb-10 overflow-hidden rounded-3xl bg-white/5 flex items-center justify-center p-12">
+                        <img src="https://m.media-amazon.com/images/I/41378dve9gL.jpg" class="w-full h-full object-contain mix-blend-screen opacity-70">
+                    </div>
+                    <div class="text-[8px] uppercase font-black tracking-[0.3em] text-[#81D8D0] mb-4">Bio-Mimetic</div>
+                    <h3 class="text-2xl font-black tracking-tight mb-2 uppercase">ZENEIO CURVE</h3>
+                    <p class="text-white/30 text-xs mb-8 font-light italic">S-Shaped Neural Guidance</p>
+                    <div class="mt-auto text-xl font-light tracking-widest">$29.99</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 4. Footer: The Silent Lab -->
+    <footer class="py-24 px-8 border-t border-white/5 bg-black">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20">
+            <div class="col-span-1 md:col-span-2">
+                <div class="text-3xl font-black tracking-tighter italic uppercase mb-8">ZENEIO<span class="text-[#81D8D0]">.</span></div>
+                <p class="max-w-sm text-white/30 text-sm font-light leading-relaxed mb-10 uppercase tracking-widest">
+                    The intersection of biology and electronics. <br> 
+                    Crafted for the future of human sensation.
+                </p>
+                <p class="text-[9px] font-black tracking-[0.4em] text-white/20 uppercase">All devices shipped in 100% unmarked biodegradable tech-packaging.</p>
+            </div>
+            <div>
+                <h4 class="text-[9px] uppercase font-black tracking-[0.3em] mb-10 text-[#81D8D0]">System</h4>
+                <ul class="space-y-6 text-[10px] uppercase font-bold tracking-widest text-white/40">
+                    <li><a href="#" class="hover:text-white transition">Bio-Tech Specs</a></li>
+                    <li><a href="#" class="hover:text-white transition">Haptic Guide</a></li>
+                    <li><a href="#" class="hover:text-white transition">App Sync</a></li>
+                    <li><a href="#" class="hover:text-white transition">Engineering Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[9px] uppercase font-black tracking-[0.3em] mb-10 text-[#81D8D0]">Logistics</h4>
+                <ul class="space-y-6 text-[10px] uppercase font-bold tracking-widest text-white/40">
+                    <li><a href="#" class="hover:text-white transition">Global Node Hubs</a></li>
+                    <li><a href="#" class="hover:text-white transition">Discreet Protocol</a></li>
+                    <li><a href="#" class="hover:text-white transition">Privacy Guard</a></li>
+                    <li><a href="#" class="hover:text-white transition">Support Concierge</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-24 pt-10 border-t border-white/5 flex justify-between items-center text-[8px] font-black uppercase tracking-[0.5em] text-white/10">
+            <span>&copy; 2026 ZENEIO LABS. NEURAL COMPLIANT.</span>
+            <div class="flex gap-10">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+                <a href="#">18+ Verified</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

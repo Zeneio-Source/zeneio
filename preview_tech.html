@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeneio — Tech-Driven Sensual Wellness</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+        }
+        .glossy-finish {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <span class="text-2xl font-black tracking-tighter uppercase italic">Zeneio</span>
+                <div class="hidden md:flex gap-6 text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">
+                    <a href="#" class="hover:text-white transition-colors">Engineering</a>
+                    <a href="#" class="hover:text-white transition-colors">Products</a>
+                    <a href="#" class="hover:text-white transition-colors">The Quiz</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <button class="text-[10px] uppercase tracking-widest font-bold border border-white/20 px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all">
+                    Pre-Order
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Abstract Tech Background -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-rose-500/10 rounded-full blur-[120px]"></div>
+            <div class="absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-6 max-w-5xl">
+            <div class="inline-block px-3 py-1 border border-rose-500/30 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold text-rose-400 mb-8 animate-pulse">
+                Now in Alpha Testing
+            </div>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.9] mb-8 text-white">
+                BEYOND<br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500">TOUCH.</span>
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                Precision engineered for your most private moments. <br/>
+                Tech-driven wellness at the intersection of biology and electronics.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button class="bg-white text-black px-12 py-5 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform text-sm">
+                    Explore Engineering
+                </button>
+                <button class="text-white px-8 py-5 flex items-center gap-2 group tracking-widest text-[10px] font-bold uppercase">
+                    Watch the film
+                    <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
+            <div class="text-[8px] uppercase tracking-[0.4em] font-bold">Scroll</div>
+            <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
+        </div>
+    </section>
+
+    <!-- Comparison Matrix Preview -->
+    <section class="py-32 bg-slate-950 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-20">
+                <h2 class="text-3xl font-bold mb-4 tracking-tight uppercase italic">The Lineup.</h2>
+                <p class="text-slate-500 max-w-md uppercase tracking-widest text-[10px] font-bold">Choose your intensity level.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-3xl overflow-hidden">
+                <div class="p-12 bg-slate-900/50 hover:bg-slate-900 transition-colors">
+                    <div class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-4">The Standard</div>
+                    <h3 class="text-4xl font-black mb-2">ZENEIO AIR</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Lightweight. Portable. Sonic waves for entry-level precision.</p>
+                    <div class="space-y-4 mb-12 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Battery</span> <span>120m</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Motor</span> <span>Sonic Gen-1</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Waterproof</span> <span>IPX7</span></div>
+                    </div>
+                    <button class="w-full py-4 border border-white/10 rounded-full hover:bg-white hover:text-black transition-all text-[10px] font-bold uppercase tracking-widest">Pre-Order</button>
+                </div>
+                <div class="p-12 bg-slate-950 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-rose-500 text-white px-4 py-1 text-[8px] font-black uppercase tracking-widest">Most Advanced</div>
+                    <div class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-4">The Pro</div>
+                    <h3 class="text-4xl font-black mb-2">ZENEIO PRO</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Dual-engine technology. Deep tissue resonance. Smart app control.</p>
+                    <div class="space-y-4 mb-12 text-[10px] uppercase tracking-widest font-bold text-slate-300">
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Battery</span> <span>240m</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Motor</span> <span>Dual-Pulse Gen-4</span></div>
+                        <div class="flex justify-between border-b border-white/10 pb-2"><span>Waterproof</span> <span>IPX8</span></div>
+                    </div>
+                    <button class="w-full py-4 bg-white text-black rounded-full hover:bg-rose-500 hover:text-white transition-all text-[10px] font-bold uppercase tracking-widest">Pre-Order</button>
+                </div>
+                <div class="p-12 bg-slate-900/50 hover:bg-slate-900 transition-colors">
+                    <div class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-4">The New</div>
+                    <h3 class="text-4xl font-black mb-2">ZENEIO NEO</h3>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Ergonomic focus. Silent-drive technology. Bio-feedback sensor.</p>
+                    <div class="space-y-4 mb-12 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Battery</span> <span>180m</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Motor</span> <span>Silent-Vibe X</span></div>
+                        <div class="flex justify-between border-b border-white/5 pb-2"><span>Waterproof</span> <span>IPX7</span></div>
+                    </div>
+                    <button class="w-full py-4 border border-white/10 rounded-full hover:bg-white hover:text-black transition-all text-[10px] font-bold uppercase tracking-widest">Pre-Order</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-white/5 py-20 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+            <div>
+                <span class="text-4xl font-black tracking-tighter uppercase italic mb-6 block">ZENEIO</span>
+                <p class="text-slate-500 text-sm max-w-xs leading-relaxed uppercase tracking-widest font-bold">
+                    Precision Engineered for Human Pleasure.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-16 text-[10px] uppercase tracking-[0.2em] font-bold">
+                <div class="flex flex-col gap-4 text-slate-400">
+                    <span class="text-white">Shop</span>
+                    <a href="#" class="hover:text-white transition-colors">Pro Series</a>
+                    <a href="#" class="hover:text-white transition-colors">Air Series</a>
+                    <a href="#" class="hover:text-white transition-colors">Neo Series</a>
+                </div>
+                <div class="flex flex-col gap-4 text-slate-400">
+                    <span class="text-white">Support</span>
+                    <a href="#" class="hover:text-white transition-colors">Shipping</a>
+                    <a href="#" class="hover:text-white transition-colors">Returns</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                </div>
+                <div class="flex flex-col gap-4 text-slate-400">
+                    <span class="text-white">Connect</span>
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">Twitter</a>
+                    <a href="#" class="hover:text-white transition-colors">Newsletter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

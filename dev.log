@@ -1,0 +1,11 @@
+
+> secret-garden@0.1.0 dev
+> next dev
+
+   ▲ Next.js 14.1.0
+   - Local:        http://localhost:3000
+
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+ ⚠ Attempted to load @next/swc-darwin-arm64, but an error occurred: dlopen(/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node, 0x0001): tried: '/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (code signature in <8DE307F9-922B-3A45-909F-594F7FB43A1F> '/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' not valid for use in process: mapping process and mapped file (non-platform) have different Team IDs), '/System/Volumes/Preboot/Cryptexes/OS/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (no such file), '/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (code signature in <8DE307F9-922B-3A45-909F-594F7FB43A1F> '/Users/jiugege/adult-shop/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' not valid for use in process: mapping process and mapped file (non-platform) have different Team IDs)
+ ⨯ Failed to load SWC binary for darwin/arm64, see more info here: https://nextjs.org/docs/messages/failed-loading-swc
+[?25h

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useReducer } from 'react';
 import { User, AuthState } from './types';
 
 // --- Actions ---

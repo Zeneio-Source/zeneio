@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, 
   Users, 
@@ -10,52 +10,90 @@ import {
   ArrowDownRight,
   Database,
   ShieldCheck,
-  Zap
+  Zap,
+  Loader2
 } from 'lucide-react';
 
-const stats = [
-  { 
-    label: '营收通量', 
-    value: '$12,482.90', 
-    trend: '+12.5%', 
-    trendUp: true, 
-    icon: Zap,
-    description: '累计采购总额'
-  },
-  { 
-    label: '活跃矩阵', 
-    value: '1,284', 
-    trend: '+3.2%', 
-    trendUp: true, 
-    icon: Users,
-    description: '实时神经流量监测'
-  },
-  { 
-    label: '采购日志', 
-    value: '156', 
-    trend: '-2.1%', 
-    trendUp: false, 
-    icon: ShoppingCart,
-    description: '成功完成的安全交付'
-  },
-  { 
-    label: '系统完整性', 
-    value: '99.98%', 
-    trend: '稳定', 
-    trendUp: true, 
-    icon: ShieldCheck,
-    description: '端到端加密健康度'
-  },
-];
-
-const recentOrders = [
-  { id: 'ZN-ORD-9421', user: '匿名用户 #42', product: 'NEO Vibrating Ring Pro', amount: '$49.99', status: '已送达', time: '12分钟前' },
-  { id: 'ZN-ORD-9420', user: '匿名用户 #18', product: 'APEX Auto Stroker', amount: '$189.99', status: '处理中', time: '45分钟前' },
-  { id: 'ZN-ORD-9419', user: '匿名用户 #09', product: 'BLOOM Rabbit Vibe', amount: '$119.99', status: '已发货', time: '1小时前' },
-  { id: 'ZN-ORD-9418', user: '匿名用户 #77', product: 'AURA Wand Vibrator', amount: '$89.99', status: '已送达', time: '3小时前' },
-];
-
 export default function AdminDashboard() {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await fetch('/api/admin/stats');
+        const json = await res.json();
+        setData(json);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchStats();
+  }, []);
+
+  const [syncing, setSyncing] = useState(false);
+
+  async function syncDatabase() {
+    setSyncing(true);
+    try {
+      const res = await fetch('/api/setup');
+      const json = await res.json();
+      alert(`矩阵数据同步完成！已录入 ${json.products} 个硬件组件。`);
+      window.location.reload();
+    } catch (err) {
+      alert('数据同步失败');
+    } finally {
+      setSyncing(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
+        <Loader2 className="w-10 h-10 text-zeneio-accent animate-spin" />
+        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">Initializing Neural Uplink...</p>
+      </div>
+    );
+  }
+
+  const stats = [
+    { 
+      label: '营收通量', 
+      value: data?.stats?.totalRevenue || '$0.00', 
+      trend: '+12.5%', 
+      trendUp: true, 
+      icon: Zap,
+      description: '累计采购总额'
+    },
+    { 
+      label: '活跃矩阵', 
+      value: '1,284', 
+      trend: '+3.2%', 
+      trendUp: true, 
+      icon: Users,
+      description: '实时神经流量监测'
+    },
+    { 
+      label: '采购日志', 
+      value: data?.stats?.totalOrders || '0', 
+      trend: 'Total', 
+      trendUp: true, 
+      icon: ShoppingCart,
+      description: '成功完成的安全交付'
+    },
+    { 
+      label: '系统完整性', 
+      value: data?.stats?.systemIntegrity || '100%', 
+      trend: '稳定', 
+      trendUp: true, 
+      icon: ShieldCheck,
+      description: '端到端加密健康度'
+    },
+  ];
+
+  const recentOrders = data?.recentOrders || [];
   return (
     <div className="relative z-10 space-y-10">
       {/* Header */}
@@ -69,6 +107,14 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <button 
+            onClick={syncDatabase}
+            disabled={syncing}
+            className="glass px-4 py-2 rounded-xl flex items-center gap-2 border-white/5 text-[10px] font-bold uppercase tracking-[0.2em] text-zeneio-accent hover:bg-zeneio-accent/10 transition-all"
+          >
+            <Database size={14} className={syncing ? 'animate-spin' : ''} />
+            {syncing ? '矩阵同步中...' : '同步研究数据'}
+          </button>
           <div className="glass px-4 py-2 rounded-xl flex items-center gap-3 border-white/5">
             <div className="flex flex-col items-end">
               <span className="text-[10px] font-mono text-white/30 uppercase tracking-tighter leading-none mb-1">最后同步时间</span>

@@ -12,7 +12,7 @@ import {
 } from '@/lib/products-data';
 import {
   SlidersHorizontal, Grid3X3, List,
-  ChevronDown, X, ArrowUpDown
+  ChevronDown, X, ArrowUpDown, Loader2
 } from 'lucide-react';
 import { Suspense } from 'react';
 
@@ -49,10 +49,29 @@ function ProductsContent() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [showSortMenu, setShowSortMenu] = useState(false);
+  
+  const [dbProducts, setDbProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadProducts() {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        setDbProducts(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadProducts();
+  }, []);
 
   // Filter & Sort Products
   const filteredProducts = useMemo(() => {
-    let products = [...ALL_PRODUCTS];
+    let products = [...dbProducts];
 
     // Filter by category
     if (activeCategory) {
@@ -314,7 +333,12 @@ function ProductsContent() {
             )}
 
             {/* Product Grid / List */}
-            {paginatedProducts.length > 0 ? (
+            {loading ? (
+              <div className="flex flex-col items-center justify-center h-[50vh] space-y-4">
+                 <Loader2 className="w-10 h-10 text-zeneio-accent animate-spin" />
+                 <p className="text-[10px] font-mono text-white/20 uppercase tracking-[0.3em]">Querying Hardware Database...</p>
+              </div>
+            ) : paginatedProducts.length > 0 ? (
               <div className={
                 viewMode === 'grid'
                   ? 'grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6'

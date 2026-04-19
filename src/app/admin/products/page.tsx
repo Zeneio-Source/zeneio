@@ -1,106 +1,161 @@
 'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import { ALL_PRODUCTS, formatPrice } from '@/lib/products-data';
-import { Plus, Search, Edit3, Trash2, Eye, Package } from 'lucide-react';
 
-export default function AdminProductsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  const filtered = searchQuery.trim()
-    ? ALL_PRODUCTS.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.includes(searchQuery.toLowerCase()))
-    : ALL_PRODUCTS;
+import React, { useState, useEffect } from 'react';
+import { 
+  Plus, 
+  Search, 
+  Edit2, 
+  Trash2, 
+  ExternalLink,
+  Loader2,
+  Package,
+  CheckCircle2,
+  XCircle
+} from 'lucide-react';
 
-  const categoryIcons: Record<string, string> = { male: '♂', female: '♀', lingerie: '✦' };
-  const categoryColors: Record<string, string> = { male: '#81D8D0', female: '#F472B6', lingerie: '#9B87F5' };
+export default function InventoryLab() {
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  async function fetchProducts() {
+    try {
+      const res = await fetch('/api/admin/products');
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function deleteProduct(id: string) {
+    if (!confirm('确定要销毁该组件吗？此操作无法撤销。')) return;
+    try {
+      await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
+      setProducts(products.filter(p => p.id !== id));
+    } catch (err) {
+      alert('Failed to delete');
+    }
+  }
+
+  const filteredProducts = products.filter(p => 
+    p.name.toLowerCase().includes(search.toLowerCase()) || 
+    p.slug.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="section-container pt-24 lg:pt-28 pb-20">
-      <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+    <div className="space-y-8 relative z-10">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <p className="text-xs font-bold tracking-widest uppercase text-white/30 mb-1">Admin Dashboard</p>
-          <h1 className="text-heading-2 font-bold">Product Management</h1>
-          <p className="text-sm text-white/40 mt-1">{ALL_PRODUCTS.length} total products</p>
+          <h1 className="text-3xl font-black tracking-tighter uppercase italic text-white mb-2">
+            Inventory Lab<span className="text-zeneio-accent">.</span>
+          </h1>
+          <p className="text-sm text-white/30 font-medium tracking-wide uppercase">
+            Managing hardware specifications and stockpile integrity
+          </p>
         </div>
-        <Link href="/products" className="btn-outline"><Eye size={14} /> View Store</Link>
+        <button className="btn-accent flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest">
+          <Plus size={18} /> Add New Component
+        </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-        {[{ label: 'Total Products', value: ALL_PRODUCTS.length.toString() }, { label: 'In Stock', value: ALL_PRODUCTS.filter(p => p.inStock).length.toString() }, { label: 'On Sale', value: ALL_PRODUCTS.filter(p => p.discountPercent && p.discountPercent > 0).length.toString() }, { label: 'Categories', value: '3' }].map(s => (
-          <div key={s.label} className="glass rounded-xl p-4"><p className="text-xl font-black">{s.value}</p><p className="text-[11px] text-white/35 mt-0.5">{s.label}</p></div>
-        ))}
-      </div>
-
-      {/* Search + Add */}
-      <div className="flex items-center gap-3 mb-6">
+      {/* Search & Filter */}
+      <div className="glass p-4 rounded-2xl border-white/5 flex items-center gap-4">
         <div className="relative flex-1">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
-          <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search products..." className="input-field !rounded-xl pl-10 py-2.5 text-sm" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
+          <input 
+            type="text" 
+            placeholder="Search by name, slug, or SKU..."
+            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-zeneio-accent/50 transition-all"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-        <button className="btn-accent !py-2.5"><Plus size={16} /> Add Product</button>
+        <div className="hidden md:flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 uppercase tracking-widest">
+          Status: Operational
+        </div>
       </div>
 
-      {/* Products Table */}
-      <div className="glass rounded-2xl overflow-hidden">
-        {/* Mobile cards */}
-        <div className="lg:hidden divide-y divide-white/5">
-          {filtered.map(product => (
-            <div key={product.id} className="p-4 space-y-3">
-              <div className="flex items-center gap-3">
-                <img src={product.images[0]} alt={product.name} className="w-12 h-12 rounded-lg object-cover bg-zeneio-gray"
-                  onError={(e) => {(e.target as HTMLImageElement).src = '/images/placeholder.jpg';}} />
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm truncate">{product.name}</p>
-                  <p className="text-xs text-zeneio-accent">{formatPrice(product.price)}</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <span style={{ color: categoryColors[product.category] }} className="text-[11px] font-medium uppercase tracking-wider">
-                  {categoryIcons[product.category]} {product.category}
-                </span>
-                <div className="flex items-center gap-1">
-                  <button className="btn-ghost !py-1.5 !px-3 text-xs"><Edit3 size={13} /></button>
-                  <button className="btn-ghost !py-1.5 !px-3 text-xs !text-red-400/60"><Trash2 size={13} /></button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop table */}
-        <table className="hidden lg:table w-full text-sm">
-          <thead><tr className="border-b border-white/5">
-            <th className="text-left px-5 py-3 text-[11px] font-bold tracking-widest uppercase text-white/30">Product</th>
-            <th className="text-left px-5 py-3 text-[11px] font-bold tracking-widest uppercase text-white/30">Category</th>
-            <th className="text-left px-5 py-3 text-[11px] font-bold tracking-widest uppercase text-white/30">Price</th>
-            <th className="text-left px-5 py-3 text-[11px] font-bold tracking-widest uppercase text-white/30">Stock</th>
-            <th className="text-right px-5 py-3 text-[11px] font-bold tracking-widest uppercase text-white/30">Actions</th>
-          </tr></thead>
+      {/* Product Table */}
+      <div className="glass rounded-2xl overflow-hidden border-white/5">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
+              <th className="px-6 py-4">Component / SKU</th>
+              <th className="px-6 py-4">Category</th>
+              <th className="px-6 py-4">Price</th>
+              <th className="px-6 py-4">Stock</th>
+              <th className="px-6 py-4">Status</th>
+              <th className="px-6 py-4 text-right">Actions</th>
+            </tr>
+          </thead>
           <tbody className="divide-y divide-white/5">
-            {filtered.map(product => (
-              <tr key={product.id} className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-5 py-4">
-                  <div className="flex items-center gap-3">
-                    <img src={product.images[0]} alt="" className="w-11 h-11 rounded-lg object-cover bg-zeneio-gray flex-shrink-0"
-                      onError={(e) =>{(e.target as HTMLImageElement).src = '/images/placeholder.jpg';}} />
-                    <span className="font-medium truncate max-w-[200px] group-hover:text-zeneio-accent transition-colors">{product.name}</span>
+            {loading ? (
+              <tr>
+                <td colSpan={6} className="px-6 py-20 text-center">
+                   <Loader2 className="w-8 h-8 text-zeneio-accent animate-spin mx-auto mb-4" />
+                   <p className="text-xs font-mono text-white/20 uppercase">Scanning Inventory...</p>
+                </td>
+              </tr>
+            ) : filteredProducts.length === 0 ? (
+              <tr>
+                <td colSpan={6} className="px-6 py-20 text-center">
+                   <Package className="w-8 h-8 text-white/10 mx-auto mb-4" />
+                   <p className="text-xs font-mono text-white/20 uppercase">No components found in matrix</p>
+                </td>
+              </tr>
+            ) : filteredProducts.map((p) => (
+              <tr key={p.id} className="hover:bg-white/[0.01] transition-colors group">
+                <td className="px-6 py-5">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-white/5 border border-white/10 overflow-hidden flex-shrink-0">
+                      <img src={p.image} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-white/80">{p.name}</p>
+                      <p className="text-[10px] font-mono text-white/20 uppercase">{p.slug}</p>
+                    </div>
                   </div>
                 </td>
-                <td className="px-5 py-4"><span style={{color: categoryColors[product.category]}} className="capitalize">{product.category}</span></td>
-                <td className="px-5 py-4 font-mono font-semibold text-zeneio-accent">{formatPrice(product.price)}</td>
-                <td className="px-5 py-4">
-                  <span className={`inline-flex items-center gap-1 text-xs font-medium ${product.inStock ? 'text-green-400' : 'text-red-400'}`}>
-                    {product.inStock ? `✓ ${product.stockCount || 'Yes'}` : 'Out'}
+                <td className="px-6 py-5">
+                  <span className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 border border-white/10 text-white/40 uppercase tracking-widest">
+                    {p.category.name}
                   </span>
                 </td>
-                <td className="px-5 py-4 text-right">
-                  <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="p-2 rounded-lg hover:bg-white/5 transition-colors text-white/50 hover:text-white"><Edit3 size={15} /></button>
-                    <button className="p-2 rounded-lg hover:bg-red-500/10 transition-colors text-red-400/60 hover:text-red-400"><Trash2 size={15} /></button>
-                    <Link href={`/products/${product.slug}`} className="p-2 rounded-lg hover:bg-white/5 transition-colors text-white/50 hover:text-white"><Eye size={15} /></Link>
+                <td className="px-6 py-5 text-sm font-mono text-white/70">${Number(p.price).toFixed(2)}</td>
+                <td className="px-6 py-5">
+                   <div className="flex items-center gap-2">
+                     <span className={`text-sm font-bold ${p.inventory > 10 ? 'text-white/60' : 'text-amber-400'}`}>
+                       {p.inventory}
+                     </span>
+                     <div className="w-12 h-1 bg-white/5 rounded-full overflow-hidden">
+                        <div className={`h-full ${p.inventory > 10 ? 'bg-zeneio-accent/40' : 'bg-amber-400/40'}`} style={{ width: `${Math.min(p.inventory, 100)}%` }} />
+                     </div>
+                   </div>
+                </td>
+                <td className="px-6 py-5">
+                   <div className="flex items-center gap-1.5">
+                     <div className={`w-1.5 h-1.5 rounded-full ${p.inventory > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
+                     <span className="text-[10px] font-bold text-white/40 uppercase">{p.inventory > 0 ? 'In Stock' : 'Depleted'}</span>
+                   </div>
+                </td>
+                <td className="px-6 py-5 text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <button className="p-2 rounded-lg hover:bg-white/5 text-white/20 hover:text-zeneio-accent transition-all">
+                      <Edit2 size={16} />
+                    </button>
+                    <button 
+                      onClick={() => deleteProduct(p.id)}
+                      className="p-2 rounded-lg hover:bg-red-500/10 text-white/20 hover:text-red-400 transition-all"
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -108,6 +163,6 @@ export default function AdminProductsPage() {
           </tbody>
         </table>
       </div>
-    </div><Footer /></div>
+    </div>
   );
 }

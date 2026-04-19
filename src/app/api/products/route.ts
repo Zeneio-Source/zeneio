@@ -1,36 +1,44 @@
-import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 
-const prisma = new PrismaClient();
-
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get('category');
+    
     const products = await prisma.product.findMany({
-      include: { category: true }
-    });
-    return NextResponse.json(products);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const product = await prisma.product.create({
-      data: {
-        name: body.name,
-        slug: body.slug,
-        description: body.description,
-        price: body.price,
-        image: body.image,
-        categoryId: body.categoryId,
-        specs: body.specs,
-        inventory: body.inventory,
+      where: category && category !== 'all' ? {
+        category: {
+          slug: category
+        }
+      } : {},
+      include: {
+        category: true
+      },
+      orderBy: {
+        createdAt: 'desc'
       }
     });
-    return NextResponse.json(product);
+
+    // Map database fields to the frontend expected format
+    const formattedProducts = products.map(p => ({
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      description: p.description,
+      shortDescription: p.description,
+      price: Number(p.price),
+      image: p.image,
+      category: p.category.slug,
+      specifications: p.specs,
+      inventory: p.inventory,
+      isFeatured: p.isFeatured,
+      rating: 5.0,
+      reviewCount: 0
+    }));
+
+    return NextResponse.json(formattedProducts);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
 }

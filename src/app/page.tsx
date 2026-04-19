@@ -278,6 +278,41 @@ export default function HomePage() {
       </section>
 
       {/* ============================================
+          TRUST BADGES SECTION
+          ============================================ */}
+      <section className="py-16 lg:py-20 border-y border-white/[0.04]">
+        <div className="section-container">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+            {[
+              { icon: Shield, title: '30-Day Returns', desc: 'Full refund if not satisfied. No questions.' },
+              { icon: Truck, title: 'Discreet Shipping', desc: 'Plain packaging. "ZNE Logistics" return address.' },
+              { icon: Lock, title: 'Secure Checkout', desc: '256-bit SSL encryption. PCI DSS compliant.' },
+              { icon: Award, title: '1-Year Warranty', desc: 'All products covered against defects.' },
+            ].map((item) => (
+              <div key={item.title} className="text-center group">
+                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-zeneio-accent/10 border border-zeneio-accent/15 flex items-center justify-center group-hover:bg-zeneio-accent/20 transition-all">
+                  <item.icon size={24} className="text-zeneio-accent" />
+                </div>
+                <h3 className="font-bold text-sm text-white mb-1.5">{item.title}</h3>
+                <p className="text-xs text-white/35 leading-relaxed max-w-[180px] mx-auto">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust Seals Bar */}
+          <div className="mt-12 pt-8 border-t border-white/[0.04] flex flex-wrap items-center justify-center gap-6 md:gap-10 opacity-25">
+            <span className="text-xs font-semibold tracking-widest uppercase text-white/50">SSL SECURED</span>
+            <span className="text-white/15">|</span>
+            <span className="text-xs font-semibold tracking-widest uppercase text-white/50">PCI COMPLIANT</span>
+            <span className="text-white/15">|</span>
+            <span className="text-xs font-semibold tracking-widest uppercase text-white/50">GDPR READY</span>
+            <span className="text-white/15">|</span>
+            <span className="text-xs font-semibold tracking-widest uppercase text-white/50">18+ VERIFIED</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ============================================
           CTA / NEWSLETTER SECTION
           ============================================ */}
       <section className="relative py-20 lg:py-32">
@@ -301,7 +336,11 @@ export default function HomePage() {
           </div>
 
           {/* Mini Newsletter */}
-          <form onSubmit={(e) => e.preventDefault()} className="mt-12 flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const email = (e.target as HTMLFormElement).querySelector('input')?.value;
+            if (email) window.location.href = `mailto:hello@zeneio.com?subject=ZENEIO Newsletter Subscription&body=Please add ${email} to the mailing list.`;
+          }} className="mt-12 flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
             <input type="email" placeholder="Get exclusive offers via email..." className="input-field flex-1 rounded-xl text-center sm:text-left" />
             <button type="submit" className="btn-accent whitespace-nowrap px-8 rounded-xl">Join</button>
           </form>

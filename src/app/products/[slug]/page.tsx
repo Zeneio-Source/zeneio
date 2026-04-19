@@ -13,7 +13,7 @@ import { CATEGORIES } from '@/lib/types';
 import {
   Star, Heart, ShoppingBag, Share2, Truck, Shield,
   ChevronRight, Minus, Plus, Check, ArrowLeft,
-  ThumbsUp, MessageCircle, ZoomIn
+  ThumbsUp, MessageCircle, ZoomIn, Award, Lock
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -214,17 +214,27 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Trust Info */}
-            <div className="grid grid-cols-3 gap-3 pt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
               {[
                 { icon: Truck, label: 'Free Shipping $99+' },
                 { icon: Shield, label: 'Discreet Package' },
                 { icon: Check, label: 'Secure Payment' },
+                { icon: Award, label: '30-Day Returns' },
               ].map(item => (
-                <div key={item.label} className="glass rounded-xl p-3 text-center">
-                  <item.icon size={18} className="mx-auto text-zeneio-accent/60 mb-1.5" />
+                <div key={item.label} className="glass rounded-xl p-3 text-center group hover:border-zeneio-accent/20 transition-all">
+                  <item.icon size={18} className="mx-auto text-zeneio-accent/60 mb-1.5 group-hover:text-zeneio-accent" />
                   <p className="text-[11px] font-medium text-white/50 leading-tight">{item.label}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Strong Trust Bar */}
+            <div className="mt-4 rounded-xl bg-green-500/5 border border-green-500/10 p-4 flex items-start gap-3">
+              <Lock size={18} className="text-green-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-bold text-green-400">100% Discreet & Secure</p>
+                <p className="text-[11px] text-white/35 mt-1 leading-relaxed">Plain packaging • "ZNE LLC" billing • 256-bit SSL • 30-day hassle-free returns</p>
+              </div>
             </div>
 
             {/* Features List */}

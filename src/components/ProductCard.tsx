@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Heart, ShoppingBag, Star, Eye } from 'lucide-react';
+import { Heart, ShoppingBag, Star, Check } from 'lucide-react';
 import { Product } from '@/lib/types';
 import { formatPrice } from '@/lib/products-data';
+import { useCart } from '@/lib/cart-context';
 
 interface ProductCardProps {
   product: Product;
@@ -12,7 +13,17 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, className = '' }: ProductCardProps) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
   const hasDiscount = product.comparePrice && product.comparePrice > product.price;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <div className={`product-card ${className}`}>
@@ -40,13 +51,10 @@ export default function ProductCard({ product, className = '' }: ProductCardProp
         {/* Hover Quick Actions */}
         <div className="quick-actions">
           <button
-            className="btn-accent w-full text-sm py-2.5"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            className={`w-full text-sm py-2.5 ${added ? 'bg-green-500 text-white' : 'btn-accent'}`}
+            onClick={handleAddToCart}
           >
-            <ShoppingBag size={16} /> Add to Cart
+            {added ? <><Check size={16} /> Added!</> : <><ShoppingBag size={16} /> Add to Cart</>}
           </button>
         </div>
 
@@ -56,6 +64,7 @@ export default function ProductCard({ product, className = '' }: ProductCardProp
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            alert('Sign in to save to wishlist!');
           }}
           aria-label="Add to wishlist"
         >

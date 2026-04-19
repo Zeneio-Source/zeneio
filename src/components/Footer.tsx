@@ -19,7 +19,14 @@ export default function Footer() {
               <h3 className="text-xl font-bold mb-2">Join the ZENEIO Community</h3>
               <p className="text-sm text-white/50">Exclusive offers, new arrivals & wellness tips. No spam, ever.</p>
             </div>
-            <form className="flex w-full max-w-md gap-2" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex w-full max-w-md gap-2" onSubmit={(e) => {
+              e.preventDefault();
+              const email = (e.target as HTMLFormElement).querySelector('input')?.value;
+              if (email) {
+                window.location.href = `mailto:hello@zeneio.com?subject=Subscribe to ZENEIO Newsletter&body=Please add ${email} to the ZENEIO mailing list.`;
+                alert('Thank you! Your email client has been opened. We\'ll add you shortly.');
+              }
+            }}>
               <input
                 type="email"
                 placeholder="Your email address"
@@ -109,18 +116,23 @@ export default function Footer() {
         {/* Payment Icons */}
         <div className="mt-12 pt-8 border-t border-white/5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3 text-lg opacity-25">
-              💳 🏦 🔒
+            {/* Payment Methods - SVG Icons */}
+            <div className="flex items-center gap-2 opacity-40">
+              <span className="px-2 py-1 rounded bg-white/10 text-[10px] font-bold tracking-wider">VISA</span>
+              <span className="px-2 py-1 rounded bg-white/10 text-[10px] font-bold tracking-wider">MC</span>
+              <span className="px-2 py-1 rounded bg-white/10 text-[10px] font-bold tracking-wider">AMEX</span>
+              <span className="px-2 py-1 rounded bg-white/10 text-[10px] font-bold tracking-wider">PayPal</span>
+              <span className="px-2 py-1 rounded bg-white/10 text-[10px] font-bold tracking-wider">BTC</span>
             </div>
             <p className="text-xs text-white/20">
-              © {year} ZENEIO. All rights reserved. 18+ Only. Discreet billing.
+              © {year} ZENEIO. All rights reserved. 18+ Only. Discreet billing as "ZNE LLC".
             </p>
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-white/30 hover:text-white/70 transition-colors text-sm">𝕏</a>
-              <a href="#" className="text-white/30 hover:text-white/70 transition-colors text-sm">in</a>
-              <a href="#" className="text-white/30 hover:text-white/70 transition-colors text-sm">📷</a>
-              <a href="#" className="text-white/30 hover:text-white/70 transition-colors text-sm">▶️</a>
+            {/* Social Links - Real URLs */}
+            <div className="flex items-center gap-3">
+              <a href="https://twitter.com/zeneio" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-zeneio-accent transition-colors text-xs font-medium" aria-label="Twitter (X)">𝕏</a>
+              <a href="https://linkedin.com/company/zeneio" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-zeneio-accent transition-colors text-xs font-bold">in</a>
+              <a href="https://instagram.com/zeneio" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-pink-400 transition-colors text-xs font-bold" aria-label="Instagram">IG</a>
+              <a href="https://youtube.com/@zeneio" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-red-400 transition-colors text-xs font-bold" aria-label="YouTube">YT</a>
             </div>
           </div>
         </div>

@@ -49,6 +49,7 @@ export const maleProducts: Product[] = [
     isFeatured: true,
     discountPercent: 29,
     sku: 'ZNEO-MR-001',
+    serialNumber: 'ZN-2026-α1',
   },
   {
     id: 'm-002',
@@ -89,6 +90,9 @@ export const maleProducts: Product[] = [
     isNew: true,
     isFeatured: true,
     discountPercent: 24,
+    sku: 'ZNEO-MS-002',
+    serialNumber: 'ZN-2026-X7',
+  },    discountPercent: 24,
     sku: 'ZNEO-MS-002',
   },
   {
@@ -244,6 +248,7 @@ export const femaleProducts: Product[] = [
     isFeatured: true,
     discountPercent: 22,
     sku: 'ZNEO-FW-001',
+    serialNumber: 'ZN-2026-B9',
   },
   {
     id: 'f-002',

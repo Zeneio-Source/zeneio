@@ -310,17 +310,36 @@ export default function ProductDetailPage() {
             )}
 
             {activeTab === 'specs' && product.specifications && (
-              <div className="max-w-2xl">
-                <table className="w-full text-sm">
-                  <tbody>
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                      <tr key={key} className="border-b border-white/5">
-                        <td className="py-3.5 pr-8 font-semibold text-white/70 w-1/3">{key}</td>
-                        <td className="py-3.5 text-white/50">{value}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="max-w-4xl grid lg:grid-cols-2 gap-10">
+                <div className="space-y-1">
+                  <h4 className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase text-zeneio-accent mb-4">Architecture & Hardware</h4>
+                  <table className="w-full text-xs">
+                    <tbody>
+                      {Object.entries(product.specifications).map(([key, value]) => (
+                        <tr key={key} className="border-b border-white/5 group hover:bg-white/[0.01] transition-colors">
+                          <td className="py-4 pr-8 font-mono font-bold text-white/30 uppercase tracking-tighter w-1/3 group-hover:text-zeneio-accent transition-colors">{key}</td>
+                          <td className="py-4 font-mono text-white/60 tracking-tight">{value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {/* Blueprint Graphic Placeholder */}
+                <div className="glass rounded-2xl p-8 flex flex-col items-center justify-center border-dashed border-white/10 relative overflow-hidden group">
+                  <div className="absolute inset-0 grid-bg opacity-10 group-hover:opacity-20 transition-opacity" />
+                  <div className="relative z-10 text-center">
+                    <div className="w-20 h-20 rounded-full border border-zeneio-accent/20 flex items-center justify-center mb-4 animate-pulse">
+                      <Lock size={32} className="text-zeneio-accent/40" />
+                    </div>
+                    <p className="text-[10px] font-mono font-bold tracking-[0.2em] uppercase text-white/30">Proprietary Engineering</p>
+                    <p className="text-[8px] font-mono text-white/20 mt-2 max-w-[200px]">Technical schematics are confidential. Access restricted to verified owners.</p>
+                  </div>
+                  
+                  {/* Decorative Elements */}
+                  <div className="absolute top-4 left-4 text-[8px] font-mono text-zeneio-accent/30">EXT-409/REV-A</div>
+                  <div className="absolute bottom-4 right-4 text-[8px] font-mono text-zeneio-accent/30">ZENEIO LABS © 2026</div>
+                </div>
               </div>
             )}
 

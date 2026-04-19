@@ -26,6 +26,7 @@ export interface Product {
   isFeatured?: boolean;
   discountPercent?: number;
   sku?: string;
+  serialNumber?: string;
   weight?: number;
   dimensions?: { length: number; width: number; height: number };
   createdAt?: string;

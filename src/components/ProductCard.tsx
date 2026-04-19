@@ -39,17 +39,39 @@ export default function ProductCard({ product, className = '' }: ProductCardProp
         />
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
-          {product.isNew && <span className="badge badge-new">New</span>}
-          {product.isHot && <span className="badge badge-hot">Hot 🔥</span>}
-          {hasDiscount && (
-            <span className="badge badge-sale">
-              -{product.discountPercent}%
+          {product.serialNumber && (
+            <span className="text-[9px] font-mono font-bold tracking-widest text-zeneio-accent/60 bg-black/40 px-2 py-0.5 rounded border border-zeneio-accent/20 backdrop-blur-md">
+              SN: {product.serialNumber}
             </span>
           )}
+          {product.isNew && <span className="badge badge-new">NEW MODEL</span>}
+          {product.isHot && <span className="badge badge-hot">HOT 🔥</span>}
+        </div>
+
+        {/* Hover Technical HUD */}
+        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm z-20 flex flex-col justify-end p-4 pointer-events-none">
+          <div className="space-y-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            <div className="flex items-center justify-between border-b border-white/10 pb-1">
+              <span className="text-[10px] font-mono text-white/40 uppercase">Architecture</span>
+              <span className="text-[10px] font-mono text-zeneio-accent">BIO-SILICONE 4.0</span>
+            </div>
+            {product.specifications && Object.entries(product.specifications).slice(0, 3).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between border-b border-white/5 pb-1">
+                <span className="text-[9px] font-mono text-white/30 uppercase">{key}</span>
+                <span className="text-[9px] font-mono text-white/70">{value}</span>
+              </div>
+            ))}
+            <div className="pt-2">
+               <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                 <div className="h-full bg-zeneio-accent/40 w-2/3 animate-pulse" />
+               </div>
+               <p className="text-[8px] font-mono text-zeneio-accent/50 mt-1 text-right">SYSTEM ACTIVE</p>
+            </div>
+          </div>
         </div>
 
         {/* Hover Quick Actions */}
-        <div className="quick-actions">
+        <div className="quick-actions z-30">
           <button
             className={`w-full text-sm py-2.5 ${added ? 'bg-green-500 text-white' : 'btn-accent'}`}
             onClick={handleAddToCart}

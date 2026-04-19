@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { Shield, Target, Users, Globe, Award, Zap, Heart } from 'lucide-react';
 
 const values = [
@@ -90,7 +90,6 @@ export default function AboutPage() {
         <Link href="/products" className="btn-accent btn-lg">Shop Now →</Link>
       </section>
 
-      <Footer />
     </div>
   );
 }

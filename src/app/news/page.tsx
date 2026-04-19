@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 
 const newsArticles = [
   { slug: 'zeneio-launches-ai-vibrator', title: 'ZENEIO Unveils AI-Powered Vibrator with Personalized Learning Technology', excerpt: 'The new APEX Elite learns user preferences over time and syncs with a companion app for long-distance partner control.', date: 'Apr 18, 2026', source: 'TechCrunch' },
@@ -28,6 +28,5 @@ export default function NewsPage() {
         ))}
       </div>
 
-      <Footer /></div>
   );
 }

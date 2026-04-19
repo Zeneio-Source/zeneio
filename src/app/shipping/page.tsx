@@ -1,4 +1,4 @@
-import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { Truck, Shield, Clock, Globe } from 'lucide-react';
+import React from 'react';import Navbar from '@/components/Navbar';import { Truck, Shield, Clock, Globe } from 'lucide-react';
 
 export default function ShippingPage() {
   return (
@@ -24,6 +24,5 @@ export default function ShippingPage() {
         {[{q: 'Can I change my shipping address after ordering?', a: 'Contact us within 1 hour of placing your order. After that window closes, we cannot guarantee changes.'}, {q: 'What if my package is lost?', a: 'Contact support immediately. We\'ll initiate a replacement or full refund after investigation.'}, {q: 'Do you deliver to PO boxes?', a: 'Yes for standard shipping. Express and overnight require a physical street address.'}].map((faq, i) => (<details key={i} className="group border-b border-white/5 py-4 first:pt-0 last:border-b-0"><summary className="cursor-pointer font-medium text-sm text-white/70 group-hover:text-white flex justify-between items-center pr-2 list-none">{faq.q}<span className="text-white/25 group-open:rotate-180 transition-transform">▼</span></summary><p className="mt-3 text-sm text-white/40 leading-relaxed">{faq.a}</p></details>))}</section>
       </div>
 
-      <Footer /></div>
   );
 }

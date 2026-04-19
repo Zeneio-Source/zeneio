@@ -2,7 +2,7 @@
 import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import ProductCard from '@/components/ProductCard';
 import { searchProducts, ALL_PRODUCTS } from '@/lib/products-data';
 import { Search as SearchIcon, SlidersHorizontal, X } from 'lucide-react';
@@ -71,6 +71,5 @@ function SearchContent() {
         )}
       </div>
 
-      <Footer /></div>
   );
 }

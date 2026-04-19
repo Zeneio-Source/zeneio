@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { useCart } from '@/lib/cart-context';
 import { formatPrice, ALL_PRODUCTS } from '@/lib/products-data';
 import {
@@ -41,7 +41,6 @@ export default function CheckoutPage() {
           <p className="text-white/40 mb-8">Add some products before checking out.</p>
           <Link href="/products" className="btn-accent btn-lg">Shop Now</Link>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -405,7 +404,6 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

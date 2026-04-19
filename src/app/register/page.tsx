@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { useAuth, RegisterData } from '@/lib/auth-context';
 import { Mail, Lock, Eye, EyeOff, User, ArrowRight } from 'lucide-react';
 
@@ -169,7 +169,6 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

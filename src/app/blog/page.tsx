@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 
 const blogPosts = [
   { slug: 'guide-to-first-vibrator', title: 'Your First Vibrator: A Complete Buyer\'s Guide for 2026', excerpt: 'Confused by the endless options? We break down everything you need to know to choose your first vibe with confidence.', category: 'Guides', readTime: '8 min', date: 'Apr 15, 2026', image: '' },
@@ -49,6 +49,5 @@ export default function BlogPage() {
         <div className="text-center mt-12"><button className="btn-outline">Load More Articles</button></div>
       </div>
 
-      <Footer /></div>
   );
 }

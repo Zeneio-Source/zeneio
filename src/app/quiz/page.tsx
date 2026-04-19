@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { Sparkles, ArrowRight, CheckCircle2, RotateCcw, Heart, Zap } from 'lucide-react';
 
 const questions = [
@@ -142,6 +142,5 @@ export default function QuizPage() {
         </section>
       )}
 
-      <Footer /></div>
   );
 }

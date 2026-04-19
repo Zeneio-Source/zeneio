@@ -1,4 +1,4 @@
-import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';
+import React from 'react';import Navbar from '@/components/Navbar';
 
 export default function PrivacyPage() {
   return (
@@ -18,6 +18,5 @@ export default function PrivacyPage() {
             </ul>
           </section>
         ))}
-      </div><Footer /></div>
   );
 }

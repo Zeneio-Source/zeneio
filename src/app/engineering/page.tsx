@@ -1,4 +1,4 @@
-import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { Cpu, Battery, Waves, Thermometer } from 'lucide-react';
+import React from 'react';import Navbar from '@/components/Navbar';import { Cpu, Battery, Waves, Thermometer } from 'lucide-react';
 
 const technologies = [
   { icon: Cpu, title: 'AI Learning Engine', desc: 'Our proprietary algorithms learn user preferences over time to deliver personalized experiences that get better with every use.' },
@@ -46,6 +46,5 @@ export default function EngineeringPage() {
             ))}
           </div>
         </section>
-      </div><Footer /></div>
   );
 }

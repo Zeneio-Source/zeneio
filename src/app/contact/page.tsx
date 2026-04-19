@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';import Link from 'next/link';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';import { Mail, Phone, MapPin, MessageCircle, Clock, Send } from 'lucide-react';
+import React from 'react';import Link from 'next/link';import Navbar from '@/components/Navbar';import { Mail, Phone, MapPin, MessageCircle, Clock, Send } from 'lucide-react';
 
 export default function ContactPage() {
   return (
@@ -40,6 +40,5 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <Footer /></div>
   );
 }

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { ChevronDown, HelpCircle } from 'lucide-react';
 
 const faqCategories = [
@@ -132,7 +132,6 @@ export default function FAQPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

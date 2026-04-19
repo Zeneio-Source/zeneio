@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { useAuth } from '@/lib/auth-context';
 import {
   Package, Heart, User as UserIcon, MapPin,
@@ -33,7 +33,6 @@ export default function AccountPage() {
           <p className="text-white/40 mb-8">Please sign in to access your account.</p>
           <Link href="/login" className="btn-accent btn-lg">Sign In</Link>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -183,7 +182,6 @@ export default function AccountPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

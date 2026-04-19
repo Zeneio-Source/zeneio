@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { useCart } from '@/lib/cart-context';
 import { formatPrice } from '@/lib/products-data';
 import {
@@ -29,7 +29,6 @@ export default function CartPage() {
             Start Shopping
           </Link>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -210,7 +209,6 @@ export default function CartPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 }

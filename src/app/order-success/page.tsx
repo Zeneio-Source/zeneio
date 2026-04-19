@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+
 import { CheckCircle2, Package, Mail, Truck, ArrowRight, Home } from 'lucide-react';
 
 export default function OrderSuccessPage() {
@@ -60,6 +60,5 @@ export default function OrderSuccessPage() {
       </div>
     </div>
 
-    <Footer /></div>
   );
 }

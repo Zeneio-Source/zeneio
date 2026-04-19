@@ -1,4 +1,4 @@
-import React from 'react';import Navbar from '@/components/Navbar';import Footer from '@/components/Footer';
+import React from 'react';import Navbar from '@/components/Navbar';
 
 export default function TermsPage() {
   return (
@@ -21,6 +21,5 @@ export default function TermsPage() {
         ))}
 
         <p className="text-xs text-white/20 text-center pt-4">By using zeneio-platform.vercel.app, you agree to these Terms of Service. Questions? <a href="/contact" className="text-zeneio-accent hover:underline">Contact us</a>.</p>
-      </div><Footer /></div>
   );
 }

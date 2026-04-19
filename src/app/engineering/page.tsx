@@ -46,5 +46,7 @@ export default function EngineeringPage() {
             ))}
           </div>
         </section>
+      </div>
+    </div>
   );
 }

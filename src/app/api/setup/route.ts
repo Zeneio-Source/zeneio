@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { products } from '@/lib/products-data';
+import { ALL_PRODUCTS } from '@/lib/products-data';
 
 export async function GET() {
   try {
@@ -23,7 +23,7 @@ export async function GET() {
 
     // 2. Sync Products
     const syncedProducts = await Promise.all(
-      products.map(p => 
+      ALL_PRODUCTS.map(p => 
         prisma.product.upsert({
           where: { slug: p.slug },
           update: {

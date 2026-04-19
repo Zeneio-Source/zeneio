@@ -129,7 +129,7 @@ export default function AdminDashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, i) => (
+        {stats.map((stat: any, i: number) => (
           <div key={i} className="glass p-6 rounded-2xl border-white/5 group hover:border-zeneio-accent/20 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/40 group-hover:bg-zeneio-accent/10 group-hover:text-zeneio-accent transition-all">
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
-                {recentOrders.map((order) => (
+                {recentOrders.map((order: any) => (
                   <tr key={order.id} className="hover:bg-white/[0.01] transition-colors group">
                     <td className="px-6 py-5">
                       <span className="text-xs font-mono text-zeneio-accent/70">{order.id}</span>

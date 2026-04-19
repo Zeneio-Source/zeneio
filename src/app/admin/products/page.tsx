@@ -110,7 +110,7 @@ export default function InventoryLab() {
                    <p className="text-xs font-mono text-white/20 uppercase">No components found in matrix</p>
                 </td>
               </tr>
-            ) : filteredProducts.map((p) => (
+            ) : filteredProducts.map((p: any) => (
               <tr key={p.id} className="hover:bg-white/[0.01] transition-colors group">
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-4">

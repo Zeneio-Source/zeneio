@@ -4,6 +4,7 @@ import { CartProvider } from '@/lib/cart-context';
 import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import AgeVerification from '@/components/AgeVerification';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://zeneio-platform.vercel.app'),
@@ -66,15 +67,10 @@ export default function RootLayout({
             <main className="min-h-screen">{children}</main>
             <Footer />
             {/* Age Verification */}
-            <AgeGate />
+            <AgeVerification />
           </CartProvider>
         </AuthProvider>
       </body>
     </html>
   );
-}
-
-function AgeGate() {
-  // Age verification is handled client-side by the component
-  return null;
 }

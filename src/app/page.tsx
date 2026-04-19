@@ -27,10 +27,12 @@ export default function HomePage() {
           ============================================ */}
       <section className="relative min-h-[90vh] lg:min-h-screen flex items-center overflow-hidden">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-zeneio-black via-zeneio-darker to-black" />
-        <div className="absolute inset-0 opacity-30"
+        <div className="absolute inset-0 bg-zeneio-black" />
+        <div className="absolute inset-0 grid-bg opacity-40" />
+        <div className="scanline" />
+        <div className="absolute inset-0 opacity-40"
           style={{
-            backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(129,216,208,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(155,135,245,0.1) 0%, transparent 50%)',
+            backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(129,216,208,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(155,135,245,0.08) 0%, transparent 50%)',
           }}
         />
 
@@ -38,20 +40,21 @@ export default function HomePage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <div className="space-y-8 animate-fade-up">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-semibold tracking-wider uppercase text-zeneio-accent">
-                <Sparkles size={14} /> Bio-Tech Sensual Wellness
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-[10px] font-bold tracking-[0.2em] uppercase text-zeneio-accent">
+                <div className="w-1.5 h-1.5 rounded-full bg-zeneio-accent animate-pulse" />
+                Neural Privacy Protocol Enabled
               </div>
 
-              <h1 className="text-display sm:text-5xl lg:text-6xl font-black leading-none tracking-tight">
+              <h1 className="text-display text-5xl sm:text-6xl lg:text-7xl font-black leading-[0.9] tracking-tighter text-white">
                 Intimacy{' '}
-                <span className="text-gradient">Evolved</span>
+                <span className="font-serif italic text-zeneio-accent font-normal tracking-normal lowercase opacity-90">evolved</span>
                 <br />
-                Through Pure Engineering
+                <span className="text-white/40">via</span> Pure Engineering
               </h1>
 
-              <p className="text-body-lg text-white/50 max-w-lg leading-relaxed">
-                Precision-crafted products for your most private moments.
-                Where cutting-edge bio-tech meets sensual wellness.
+              <p className="text-body-lg text-white/40 max-w-lg leading-relaxed font-medium">
+                Precision-engineered biological wellness for your most private moments.
+                Where cutting-edge material science meets sentient intimacy.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">

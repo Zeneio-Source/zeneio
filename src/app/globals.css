@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Uncut+Sans:wght@400;500;700;800&display=swap');
+
 /* ============================================
    ZENEIO Global Styles - E-commerce Platform
    ============================================ */
@@ -35,7 +37,7 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Uncut Sans', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -66,6 +68,12 @@ body {
   font-family: 'Instrument Serif', Georgia, serif;
 }
 
+.text-display {
+  font-family: 'Uncut Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
 /* --- Background Effects --- */
 .liquid-bg {
   background: radial-gradient(circle at 50% 50%, #1a1a1a, #0a0a0a);
@@ -86,9 +94,24 @@ body {
   z-index: -1;
 }
 
+.grid-bg {
+  background-size: 40px 40px;
+  background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+}
+
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@keyframes dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; filter: blur(0px); }
+  50% { transform: scale(1.5); opacity: 0.6; filter: blur(4px); }
+}
+
+.animate-dot {
+  animation: dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* --- Glassmorphism System --- */
@@ -97,6 +120,23 @@ body {
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border: 1px solid var(--border-color);
+}
+
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 5;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(129, 216, 208, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+  opacity: 0.1;
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  animation: scanline 8s linear infinite;
+}
+
+@keyframes scanline {
+  0% { bottom: 100%; }
+  100% { bottom: -100px; }
 }
 
 .glass-strong {

@@ -57,8 +57,8 @@ export interface Category {
 export const CATEGORIES: Category[] = [
   {
     slug: 'male',
-    name: "Men's Collection",
-    nameZh: '男性用品',
+    name: "MALE SERIES",
+    nameZh: '男性实验室',
     description: 'Precision-engineered devices designed for male pleasure and performance. From vibrating rings to premium masturbators.',
     image: '/images/categories/male.jpg',
     icon: 'Mars',
@@ -67,8 +67,8 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: 'female',
-    name: "Women's Collection",
-    nameZh: '女性用品',
+    name: "FEMALE SERIES",
+    nameZh: '女性实验室',
     description: 'Elegant intimate wellness products crafted for female pleasure and self-discovery.',
     image: '/images/categories/female.jpg',
     icon: 'Venus',
@@ -77,8 +77,8 @@ export const CATEGORIES: Category[] = [
   },
   {
     slug: 'lingerie',
-    name: 'Sensual Lingerie',
-    nameZh: '情趣内衣',
+    name: 'INTIMATE COUTURE',
+    nameZh: '感官着装',
     description: 'Alluring intimate apparel that celebrates your body and ignites desire.',
     image: '/images/categories/lingerie.jpg',
     icon: 'Sparkles',

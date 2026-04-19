@@ -70,13 +70,16 @@ export default function Navbar() {
             </button>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-xl lg:text-2xl font-black tracking-tighter group-hover:text-zeneio-accent transition-colors duration-300">
-                ZENEIO<span className="text-zeneio-accent">.</span>
-              </span>
-              <span className="hidden sm:block text-[10px] font-medium tracking-[0.25em] uppercase text-white/40 mt-0.5">
-                Bio-Tech Wellness
-              </span>
+            <Link href="/" className="flex items-center gap-3 group">
+              <img src="/logo.png" className="h-8 lg:h-9 w-auto opacity-90 group-hover:opacity-100 transition-all" alt="ZENEIO" />
+              <div className="flex flex-col -space-y-1">
+                <span className="text-xl lg:text-2xl font-black tracking-tighter italic uppercase text-white leading-none">
+                  ZENEIO<span className="relative inline-block w-1.5 h-1.5 ml-0.5 bg-zeneio-accent rounded-full animate-dot" />
+                </span>
+                <span className="hidden sm:block text-[8px] font-bold tracking-[0.4em] uppercase text-white/30 text-center">
+                  Laboratory
+                </span>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}

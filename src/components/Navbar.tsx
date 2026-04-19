@@ -224,8 +224,7 @@ export default function Navbar() {
                   {categoryIcons[cat.slug]}
                 </span>
                 <div>
-                  <span>{cat.name}</span>
-                  <span className="text-sm text-white/40 ml-2">{cat.nameZh}</span>
+                  <span className="uppercase tracking-wide">{cat.name}</span>
                 </div>
               </Link>
             ))}

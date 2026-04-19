@@ -59,6 +59,7 @@ export default function OrderSuccessPage() {
         <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-white/30 hover:text-white transition-colors"><Home size={13} /> Back to Home</Link>
       </div>
     </div>
+    </div>
 
   );
 }

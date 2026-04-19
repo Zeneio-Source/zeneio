@@ -39,6 +39,6 @@ export default function ContactPage() {
           </aside>
         </div>
       </div>
-
+    </div>
   );
 }

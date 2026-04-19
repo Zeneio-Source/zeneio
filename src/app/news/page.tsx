@@ -27,6 +27,6 @@ export default function NewsPage() {
           </Link>
         ))}
       </div>
-
+    </div>
   );
 }

@@ -48,6 +48,6 @@ export default function BlogPage() {
         {/* Load More */}
         <div className="text-center mt-12"><button className="btn-outline">Load More Articles</button></div>
       </div>
-
+    </div>
   );
 }

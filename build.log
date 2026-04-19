@@ -1,0 +1,21 @@
+
+> secret-garden@0.1.0 build
+> next build
+
+ ⚠ Disabling SWC Minifer will not be an option in the next major version. Please report any issues you may be experiencing to https://github.com/vercel/next.js/issues
+   ▲ Next.js 14.1.0
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ⚠ Attempted to load @next/swc-darwin-arm64, but an error occurred: dlopen(/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node, 0x0001): tried: '/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (code signature in <8DE307F9-922B-3A45-909F-594F7FB43A1F> '/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' not valid for use in process: mapping process and mapped file (non-platform) have different Team IDs), '/System/Volumes/Preboot/Cryptexes/OS/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (no such file), '/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' (code signature in <8DE307F9-922B-3A45-909F-594F7FB43A1F> '/Users/jiugege/Desktop/æè¶£ç½ç«/zeneio-platform/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node' not valid for use in process: mapping process and mapped file (non-platform) have different Team IDs)
+ ⨯ Failed to load SWC binary for darwin/arm64, see more info here: https://nextjs.org/docs/messages/failed-loading-swc
+Compiler server unexpectedly exited with code: 1 and signal: null
+
+> Build error occurred
+Error: Jest worker encountered 1 child process exceptions, exceeding retry limit
+    at ChildProcessWorker.initialize (/Users/jiugege/Desktop/情趣网站/zeneio-platform/node_modules/next/dist/compiled/jest-worker/index.js:1:11580)
+    at ChildProcessWorker._onExit (/Users/jiugege/Desktop/情趣网站/zeneio-platform/node_modules/next/dist/compiled/jest-worker/index.js:1:12545)
+    at ChildProcess.emit (node:events:530:35)
+    at ChildProcess._handle.onexit (node:internal/child_process:294:12) {
+  type: 'WorkerError'
+}

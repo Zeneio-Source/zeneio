@@ -54,9 +54,9 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-zeneio-black/95 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/30'
-            : 'bg-transparent'
-        } ${!isScrolled ? 'lg:bg-transparent' : ''}`}
+            ? 'bg-zeneio-black/80 backdrop-blur-2xl border-b border-white/[0.08] shadow-lg shadow-black/20'
+            : 'bg-black/40 backdrop-blur-xl border-b border-white/[0.06]'
+        }`}
       >
         <div className="section-container">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">

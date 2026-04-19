@@ -53,7 +53,7 @@ export default function AdminDashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
         <Loader2 className="w-10 h-10 text-zeneio-accent animate-spin" />
-        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">Initializing Neural Uplink...</p>
+        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">正在连接神经链路 (Initializing Uplink)...</p>
       </div>
     );
   }

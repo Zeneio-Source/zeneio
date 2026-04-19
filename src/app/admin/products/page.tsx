@@ -54,14 +54,14 @@ export default function InventoryLab() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black tracking-tighter uppercase italic text-white mb-2">
-            Inventory Lab<span className="text-zeneio-accent">.</span>
+            库存实验室<span className="text-zeneio-accent">.</span>
           </h1>
           <p className="text-sm text-white/30 font-medium tracking-wide uppercase">
-            Managing hardware specifications and stockpile integrity
+            管理硬件规格与库存完整性
           </p>
         </div>
         <button className="btn-accent flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest">
-          <Plus size={18} /> Add New Component
+          <Plus size={18} /> 添加新组件
         </button>
       </div>
 
@@ -71,14 +71,14 @@ export default function InventoryLab() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" size={18} />
           <input 
             type="text" 
-            placeholder="Search by name, slug, or SKU..."
+            placeholder="通过名称、别名或 SKU 搜索..."
             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-zeneio-accent/50 transition-all"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <div className="hidden md:flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 uppercase tracking-widest">
-          Status: Operational
+          状态: 正常运行 (Operational)
         </div>
       </div>
 
@@ -87,12 +87,12 @@ export default function InventoryLab() {
         <table className="w-full text-left">
           <thead>
             <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
-              <th className="px-6 py-4">Component / SKU</th>
-              <th className="px-6 py-4">Category</th>
-              <th className="px-6 py-4">Price</th>
-              <th className="px-6 py-4">Stock</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right">Actions</th>
+              <th className="px-6 py-4">组件 / SKU</th>
+              <th className="px-6 py-4">分类</th>
+              <th className="px-6 py-4">单价</th>
+              <th className="px-6 py-4">库存</th>
+              <th className="px-6 py-4">状态</th>
+              <th className="px-6 py-4 text-right">操作</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/5">
@@ -100,14 +100,14 @@ export default function InventoryLab() {
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <Loader2 className="w-8 h-8 text-zeneio-accent animate-spin mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">Scanning Inventory...</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">正在扫描库存 (Scanning Inventory)...</p>
                 </td>
               </tr>
             ) : filteredProducts.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <Package className="w-8 h-8 text-white/10 mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">No components found in matrix</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">矩阵中未发现组件 (No components found)</p>
                 </td>
               </tr>
             ) : filteredProducts.map((p: any) => (

@@ -39,7 +39,7 @@ export default function AdminSidebar() {
         </Link>
         <div className="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-zeneio-accent/5 border border-zeneio-accent/10">
           <div className="w-1.5 h-1.5 rounded-full bg-zeneio-accent animate-pulse" />
-          <span className="text-[10px] font-mono font-bold text-zeneio-accent uppercase tracking-tighter">System: Optimal</span>
+          <span className="text-[10px] font-mono font-bold text-zeneio-accent uppercase tracking-tighter">系统状态: 最佳</span>
         </div>
       </div>
 

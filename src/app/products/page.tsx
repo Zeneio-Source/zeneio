@@ -14,6 +14,7 @@ import {
   SlidersHorizontal, Grid3X3, List,
   ChevronDown, X, ArrowUpDown
 } from 'lucide-react';
+import { Suspense } from 'react';
 
 type SortOption = 'newest' | 'price-asc' | 'price-desc' | 'rating' | 'popular';
 
@@ -26,6 +27,14 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 ];
 
 export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zeneio-black"><Navbar /><div className="flex items-center justify-center h-[60vh]"><div className="animate-spin w-8 h-8 border-2 border-zeneio-accent border-t-transparent rounded-full" /></div></div>}>
+      <ProductsContent />
+    </Suspense>
+  );
+}
+
+function ProductsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

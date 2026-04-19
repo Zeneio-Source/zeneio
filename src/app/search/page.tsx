@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -8,6 +8,14 @@ import { searchProducts, ALL_PRODUCTS } from '@/lib/products-data';
 import { Search as SearchIcon, SlidersHorizontal, X } from 'lucide-react';
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zeneio-black"><Navbar /><div className="flex items-center justify-center h-[60vh]"><div className="animate-spin w-8 h-8 border-2 border-zeneio-accent border-t-transparent rounded-full" /></div></div>}>
+      <SearchContent />
+    </Suspense>
+  );
+}
+
+function SearchContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   const [query, setQuery] = useState(initialQuery);
@@ -16,7 +24,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-zeneio-black"><Navbar /><div className="page-header">
       <h1>Search Results</h1>
-      <p>{results.length > 0 ? `${results.length} product${results.length !== 1 ? 's' : ''} found for &quot;{query}&quot;` : query ? `No results for &quot;{query}&quot;` : 'Search for products'}</p></div>
+      <p>{results.length > 0 ? `${results.length} product${results.length !== 1 ? 's' : ''} found for "${query}"` : query ? `No results for "${query}"` : 'Search for products'}</p></div>
 
       <div className="section-container pb-24">
         {/* Search Bar */}
@@ -53,7 +61,7 @@ export default function SearchPage() {
           <div className="text-center glass rounded-2xl p-16 max-w-lg mx-auto">
             <SearchIcon size={48} className="mx-auto text-white/10 mb-4" />
             <h3 className="font-bold text-lg mb-2">No Results Found</h3>
-            <p className="text-sm text-white/40 mb-6">We couldn&apos;t find any products matching &ldquo;{query}&rdquo;</p>
+            <p className="text-sm text-white/40 mb-6">We couldn't find any products matching "{query}"</p>
             <div className="flex flex-wrap justify-center gap-2">
               {['vibrator', 'ring', 'lingerie', 'wand'].map(s => (
                 <button key={s} onClick={() => setQuery(s)} className="px-4 py-2 rounded-full glass text-sm hover:bg-white/5 transition-all">{s}</button>

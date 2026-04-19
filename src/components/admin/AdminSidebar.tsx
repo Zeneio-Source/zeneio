@@ -75,14 +75,14 @@ export default function AdminSidebar() {
               AD
             </div>
             <div>
-              <p className="text-xs font-bold text-white/80">Admin Root</p>
-              <p className="text-[10px] text-white/30 font-mono">Level 5 Access</p>
+              <p className="text-xs font-bold text-white/80">超级管理员</p>
+              <p className="text-[10px] text-white/30 font-mono">5级最高权限</p>
             </div>
           </div>
         </div>
         <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400/60 hover:text-red-400 hover:bg-red-400/5 transition-all">
           <LogOut size={18} />
-          <span>Terminate Session</span>
+          <span>终止当前会话</span>
         </button>
       </div>
     </div>

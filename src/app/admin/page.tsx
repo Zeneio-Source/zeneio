@@ -108,18 +108,18 @@ export default function AdminDashboard() {
         {/* Recent Activity Table */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold tracking-tight text-white/80">Acquisition Logs</h2>
-            <button className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">View All Logs</button>
+            <h2 className="text-lg font-bold tracking-tight text-white/80">采购日志 (实时)</h2>
+            <button className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">查看完整日志</button>
           </div>
           <div className="glass rounded-2xl overflow-hidden border-white/5">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
-                  <th className="px-6 py-4">Ref ID</th>
-                  <th className="px-6 py-4">Subject</th>
-                  <th className="px-6 py-4">Component</th>
-                  <th className="px-6 py-4">Value</th>
-                  <th className="px-6 py-4 text-right">Status</th>
+                  <th className="px-6 py-4">参考 ID</th>
+                  <th className="px-6 py-4">主体</th>
+                  <th className="px-6 py-4">采购组件</th>
+                  <th className="px-6 py-4">价值</th>
+                  <th className="px-6 py-4 text-right">状态</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -136,8 +136,8 @@ export default function AdminDashboard() {
                     <td className="px-6 py-5 text-sm font-bold text-white/80">{order.amount}</td>
                     <td className="px-6 py-5 text-right">
                       <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
-                        order.status === 'Delivered' ? 'bg-green-500/10 text-green-400' : 
-                        order.status === 'Processing' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
+                        order.status === '已送达' ? 'bg-green-500/10 text-green-400' : 
+                        order.status === '处理中' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
                       }`}>
                         {order.status}
                       </span>
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
         {/* System Health / Right Column */}
         <div className="space-y-8">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold tracking-tight text-white/80">Neural Status</h2>
+            <h2 className="text-lg font-bold tracking-tight text-white/80">神经状态</h2>
           </div>
           <div className="glass p-8 rounded-2xl border-white/5 space-y-6 relative overflow-hidden group">
              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
@@ -161,8 +161,8 @@ export default function AdminDashboard() {
              
              <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">Database Uplink</span>
-                   <span className="text-[10px] font-mono text-green-400">ENCRYPTED</span>
+                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">数据库上行</span>
+                   <span className="text-[10px] font-mono text-green-400">已加密 (ENCRYPTED)</span>
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                    <div className="h-full bg-zeneio-accent w-[92%] animate-pulse" />
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
 
              <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">API Latency</span>
+                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">API 延迟</span>
                    <span className="text-[10px] font-mono text-white/60">12ms</span>
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -185,8 +185,8 @@ export default function AdminDashboard() {
                       <ShieldCheck size={18} />
                    </div>
                    <div>
-                      <p className="text-[11px] font-bold text-white/80 uppercase tracking-widest leading-none mb-1">PCI Level 1</p>
-                      <p className="text-[9px] text-white/30 leading-none">Compliance verified by Root</p>
+                      <p className="text-[11px] font-bold text-white/80 uppercase tracking-widest leading-none mb-1">PCI 1级安全认证</p>
+                      <p className="text-[9px] text-white/30 leading-none">合规性由 Root 验证</p>
                    </div>
                 </div>
              </div>
@@ -194,8 +194,8 @@ export default function AdminDashboard() {
 
           <div className="glass p-6 rounded-2xl border-white/5 flex items-center justify-between group cursor-pointer hover:border-zeneio-accent/30 transition-all">
              <div>
-                <p className="text-[10px] font-bold text-zeneio-accent uppercase tracking-widest mb-1">Launch New Product</p>
-                <p className="text-[9px] text-white/20 uppercase font-mono tracking-tighter">Access Inventory Lab →</p>
+                <p className="text-[10px] font-bold text-zeneio-accent uppercase tracking-widest mb-1">发布新组件 (新产品)</p>
+                <p className="text-[9px] text-white/20 uppercase font-mono tracking-tighter">进入库存实验室 →</p>
              </div>
              <div className="w-10 h-10 rounded-xl bg-zeneio-accent/10 flex items-center justify-center text-zeneio-accent group-hover:scale-110 transition-transform">
                 <ArrowUpRight size={20} />

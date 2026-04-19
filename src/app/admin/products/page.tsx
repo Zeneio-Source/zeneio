@@ -89,7 +89,7 @@ export default function InventoryLab() {
             <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
               <th className="px-6 py-4">组件 / SKU</th>
               <th className="px-6 py-4">分类</th>
-              <th className="px-6 py-4">单价</th>
+              <th className="px-6 py-4">价格</th>
               <th className="px-6 py-4">库存</th>
               <th className="px-6 py-4">状态</th>
               <th className="px-6 py-4 text-right">操作</th>
@@ -142,7 +142,7 @@ export default function InventoryLab() {
                 <td className="px-6 py-5">
                    <div className="flex items-center gap-1.5">
                      <div className={`w-1.5 h-1.5 rounded-full ${p.inventory > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
-                     <span className="text-[10px] font-bold text-white/40 uppercase">{p.inventory > 0 ? 'In Stock' : 'Depleted'}</span>
+                     <span className="text-[10px] font-bold text-white/40 uppercase">{p.inventory > 0 ? '有现货 (In Stock)' : '已售罄 (Depleted)'}</span>
                    </div>
                 </td>
                 <td className="px-6 py-5 text-right">

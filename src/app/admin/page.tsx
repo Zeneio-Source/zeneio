@@ -78,7 +78,7 @@ export default function AdminDashboard() {
     { 
       label: '采购日志', 
       value: data?.stats?.totalOrders || '0', 
-      trend: 'Total', 
+      trend: '累计', 
       trendUp: true, 
       icon: ShoppingCart,
       description: '成功完成的安全交付'

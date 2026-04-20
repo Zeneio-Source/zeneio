@@ -21,18 +21,24 @@ export default function AcquisitionLogs() {
     try {
       const res = await fetch('/api/admin/orders');
       const data = await res.json();
-      setOrders(data);
+      if (Array.isArray(data)) {
+        setOrders(data);
+      } else {
+        setOrders([]);
+        console.error('Expected array but got:', data);
+      }
     } catch (err) {
       console.error(err);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
   }
 
-  const filteredOrders = orders.filter(o => 
+  const filteredOrders = Array.isArray(orders) ? orders.filter(o => 
     (o.id && o.id.toLowerCase().includes(search.toLowerCase())) || 
     (o.customerEmail && o.customerEmail.toLowerCase().includes(search.toLowerCase()))
-  );
+  ) : [];
 
   function formatDate(dateString: string) {
     try {

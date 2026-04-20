@@ -23,9 +23,15 @@ export default function InventoryLab() {
     try {
       const res = await fetch('/api/admin/products');
       const data = await res.json();
-      setProducts(data);
+      if (Array.isArray(data)) {
+        setProducts(data);
+      } else {
+        setProducts([]);
+        console.error('Expected array but got:', data);
+      }
     } catch (err) {
       console.error(err);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -35,16 +41,18 @@ export default function InventoryLab() {
     if (!confirm('确定要销毁该组件吗？此操作无法撤销。')) return;
     try {
       await fetch(`/api/admin/products?id=${id}`, { method: 'DELETE' });
-      setProducts(products.filter(p => p.id !== id));
+      if (Array.isArray(products)) {
+        setProducts(products.filter(p => p.id !== id));
+      }
     } catch (err) {
       alert('Failed to delete');
     }
   }
 
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(search.toLowerCase()) || 
-    p.slug.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredProducts = Array.isArray(products) ? products.filter(p => 
+    (p.name && p.name.toLowerCase().includes(search.toLowerCase())) || 
+    (p.slug && p.slug.toLowerCase().includes(search.toLowerCase()))
+  ) : [];
 
   return (
     <div className="space-y-8 relative z-10">

@@ -3,14 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Search, 
-  Filter, 
-  ExternalLink,
   Loader2,
   ShoppingCart,
-  Eye,
-  CheckCircle2,
-  Clock,
-  Truck
+  Eye
 } from 'lucide-react';
 
 export default function AcquisitionLogs() {

@@ -6,11 +6,8 @@ import {
   Search, 
   Edit2, 
   Trash2, 
-  ExternalLink,
   Loader2,
-  Package,
-  CheckCircle2,
-  XCircle
+  Package
 } from 'lucide-react';
 
 export default function InventoryLab() {

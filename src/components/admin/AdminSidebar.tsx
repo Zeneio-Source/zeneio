@@ -16,12 +16,12 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { name: '指挥中心', icon: LayoutDashboard, href: '/admin' },
-  { name: '订单日志', icon: ShoppingCart, href: '/admin/orders' },
-  { name: '产品实验室', icon: Package, href: '/admin/products' },
-  { name: '神经流量', icon: BarChart3, href: '/admin/analytics' },
+  { name: '控制中心', icon: LayoutDashboard, href: '/admin' },
+  { name: '采购日志', icon: ShoppingCart, href: '/admin/orders' },
+  { name: '库存实验室', icon: Package, href: '/admin/products' },
+  { name: '流量分析', icon: BarChart3, href: '/admin/analytics' },
   { name: '用户矩阵', icon: Users, href: '/admin/users' },
-  { name: '系统核心', icon: Settings, href: '/admin/settings' },
+  { name: '系统设置', icon: Settings, href: '/admin/settings' },
 ];
 
 export default function AdminSidebar() {
@@ -34,12 +34,12 @@ export default function AdminSidebar() {
         <Link href="/" className="flex items-center gap-2 group">
           <img src="/logo.png" className="h-6 w-auto" alt="ZENEIO" />
           <span className="text-sm font-black tracking-widest text-white italic uppercase">
-            指挥中心<span className="text-zeneio-accent">.</span>
+            后台管理<span className="text-zeneio-accent">.</span>
           </span>
         </Link>
         <div className="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-zeneio-accent/5 border border-zeneio-accent/10">
           <div className="w-1.5 h-1.5 rounded-full bg-zeneio-accent animate-pulse" />
-          <span className="text-[10px] font-mono font-bold text-zeneio-accent uppercase tracking-tighter">系统状态: 最佳</span>
+          <span className="text-[10px] font-mono font-bold text-zeneio-accent uppercase tracking-tighter">系统状态: 运行良好</span>
         </div>
       </div>
 

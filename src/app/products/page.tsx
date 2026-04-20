@@ -75,36 +75,36 @@ function ProductsContent() {
 
     // Filter by category
     if (activeCategory) {
-      products = products.filter(p => p.category === activeCategory);
+      products = products.filter((p: any) => p.category === activeCategory);
     }
 
     // Filter by search
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      products = products.filter(p =>
+      products = products.filter((p: any) =>
         p.name.toLowerCase().includes(q) ||
         p.description.toLowerCase().includes(q) ||
-        p.tags?.some(t => t.toLowerCase().includes(q))
+        p.tags?.some((t: string) => t.toLowerCase().includes(q))
       );
     }
 
     // Sort
     switch (sortBy) {
       case 'price-asc':
-        products.sort((a, b) => a.price - b.price);
+        products.sort((a: any, b: any) => a.price - b.price);
         break;
       case 'price-desc':
-        products.sort((a, b) => b.price - a.price);
+        products.sort((a: any, b: any) => b.price - a.price);
         break;
       case 'rating':
-        products.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        products.sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0));
         break;
       case 'popular':
-        products.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0));
+        products.sort((a: any, b: any) => (b.reviewCount || 0) - (a.reviewCount || 0));
         break;
       case 'newest':
       default:
-        products.sort((a, b) => ((b.isNew ? 1 : 0)) - ((a.isNew ? 1 : 0)));
+        products.sort((a: any, b: any) => ((b.isNew ? 1 : 0)) - ((a.isNew ? 1 : 0)));
         break;
     }
 

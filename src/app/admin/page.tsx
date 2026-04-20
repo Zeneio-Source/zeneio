@@ -53,7 +53,7 @@ export default function AdminDashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
         <Loader2 className="w-10 h-10 text-zeneio-accent animate-spin" />
-        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">正在连接神经链路 (Initializing Uplink)...</p>
+        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">正在连接神经链路 (初始化)...</p>
       </div>
     );
   }
@@ -208,7 +208,7 @@ export default function AdminDashboard() {
              <div className="space-y-4 relative z-10">
                 <div className="flex items-center justify-between">
                    <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">数据库上行</span>
-                   <span className="text-[10px] font-mono text-green-400">已加密 (ENCRYPTED)</span>
+                   <span className="text-[10px] font-mono text-green-400">已加密保护</span>
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                    <div className="h-full bg-zeneio-accent w-[92%] animate-pulse" />

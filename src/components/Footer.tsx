@@ -2,10 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { CATEGORIES } from '@/lib/types';
 
 export default function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  // Hide footer on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   const categoryIcons: Record<string, string> = { male: '♂', female: '♀', lingerie: '✦' };
 

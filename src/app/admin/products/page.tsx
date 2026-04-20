@@ -75,7 +75,7 @@ export default function InventoryLab() {
           />
         </div>
         <div className="hidden md:flex items-center gap-2 px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white/40 uppercase tracking-widest">
-          状态: 正常运行 (Operational)
+          系统状态: 正常运行
         </div>
       </div>
 
@@ -97,14 +97,14 @@ export default function InventoryLab() {
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <Loader2 className="w-8 h-8 text-zeneio-accent animate-spin mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">正在扫描库存 (Scanning Inventory)...</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">正在扫描库存组件...</p>
                 </td>
               </tr>
             ) : filteredProducts.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <Package className="w-8 h-8 text-white/10 mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">矩阵中未发现组件 (No components found)</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">未发现库存组件</p>
                 </td>
               </tr>
             ) : filteredProducts.map((p: any) => (
@@ -122,7 +122,7 @@ export default function InventoryLab() {
                 </td>
                 <td className="px-6 py-5">
                   <span className="text-[10px] font-bold px-2 py-1 rounded bg-white/5 border border-white/10 text-white/40 uppercase tracking-widest">
-                    {p.category.name}
+                    {p.category.nameZh || p.category.name}
                   </span>
                 </td>
                 <td className="px-6 py-5 text-sm font-mono text-white/70">${Number(p.price).toFixed(2)}</td>
@@ -139,7 +139,7 @@ export default function InventoryLab() {
                 <td className="px-6 py-5">
                    <div className="flex items-center gap-1.5">
                      <div className={`w-1.5 h-1.5 rounded-full ${p.inventory > 0 ? 'bg-green-500' : 'bg-red-500'}`} />
-                     <span className="text-[10px] font-bold text-white/40 uppercase">{p.inventory > 0 ? '有现货 (In Stock)' : '已售罄 (Depleted)'}</span>
+                     <span className="text-[10px] font-bold text-white/40 uppercase">{p.inventory > 0 ? '有现货' : '已售罄'}</span>
                    </div>
                 </td>
                 <td className="px-6 py-5 text-right">

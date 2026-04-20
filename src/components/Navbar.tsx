@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { CATEGORIES, CategorySlug } from '@/lib/types';
 import { useCart } from '@/lib/cart-context';
 import { useAuth } from '@/lib/auth-context';
@@ -11,6 +12,7 @@ import {
 } from 'lucide-react';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [categoryDropdown, setCategoryDropdown] = useState<string | null>(null);
@@ -18,6 +20,11 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const { state: cartState } = useCart();
   const { isAuthenticated, user } = useAuth();
+
+  // Hide navbar on admin routes
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {

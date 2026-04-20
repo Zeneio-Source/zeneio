@@ -30,9 +30,18 @@ export default function AcquisitionLogs() {
   }
 
   const filteredOrders = orders.filter(o => 
-    o.id.toLowerCase().includes(search.toLowerCase()) || 
-    o.customerEmail.toLowerCase().includes(search.toLowerCase())
+    (o.id && o.id.toLowerCase().includes(search.toLowerCase())) || 
+    (o.customerEmail && o.customerEmail.toLowerCase().includes(search.toLowerCase()))
   );
+
+  function formatDate(dateString: string) {
+    try {
+      if (!dateString) return '---';
+      return new Date(dateString).toLocaleString('zh-CN');
+    } catch (e) {
+      return '---';
+    }
+  }
 
   return (
     <div className="space-y-8 relative z-10">
@@ -79,14 +88,14 @@ export default function AcquisitionLogs() {
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <Loader2 className="w-8 h-8 text-zeneio-accent animate-spin mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">同步神经日志 (Syncing Logs)...</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">正在同步采购日志...</p>
                 </td>
               </tr>
             ) : filteredOrders.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-6 py-20 text-center">
                    <ShoppingCart className="w-8 h-8 text-white/10 mx-auto mb-4" />
-                   <p className="text-xs font-mono text-white/20 uppercase">暂无采购记录 (No logs found)</p>
+                   <p className="text-xs font-mono text-white/20 uppercase">未发现采购记录</p>
                 </td>
               </tr>
             ) : filteredOrders.map((order: any) => (
@@ -95,10 +104,10 @@ export default function AcquisitionLogs() {
                   <span className="text-xs font-mono text-zeneio-accent/70">{order.id}</span>
                 </td>
                 <td className="px-6 py-5">
-                  <span className="text-sm font-medium text-white/70">{order.customerEmail.split('@')[0]}</span>
+                  <span className="text-sm font-medium text-white/70">{order.customerEmail ? order.customerEmail.split('@')[0] : '匿名用户'}</span>
                 </td>
-                <td className="px-6 py-5 text-sm font-bold text-white/80">${Number(order.totalAmount).toFixed(2)}</td>
-                <td className="px-6 py-5 text-sm text-white/40">{new Date(order.createdAt).toLocaleString('zh-CN')}</td>
+                <td className="px-6 py-5 text-sm font-bold text-white/80">${Number(order.totalAmount || 0).toFixed(2)}</td>
+                <td className="px-6 py-5 text-sm text-white/40">{formatDate(order.createdAt)}</td>
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-2">
                     <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${

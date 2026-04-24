@@ -5,9 +5,10 @@ import { AuthProvider } from '@/lib/auth-context';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AgeVerification from '@/components/AgeVerification';
+import CookieConsent from '@/components/CookieConsent';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zeneio-platform.vercel.app'),
+  metadataBase: new URL('https://www.zeneio.com'),
   title: {
     default: 'ZENEIO | Bio-Tech & Sensual Wellness',
     template: '%s | ZENEIO',
@@ -68,6 +69,8 @@ export default function RootLayout({
             <Footer />
             {/* Age Verification */}
             <AgeVerification />
+            {/* Cookie Consent Banner */}
+            <CookieConsent />
           </CartProvider>
         </AuthProvider>
       </body>

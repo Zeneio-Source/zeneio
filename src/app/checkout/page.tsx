@@ -1,17 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   Shield, Lock, Truck, Award, Check, ChevronRight,
-  CreditCard, Package, ArrowLeft, AlertCircle
+  CreditCard, Package, ArrowLeft, AlertCircle, Loader2, Zap
 } from 'lucide-react';
 import { useCart } from '@/lib/cart-context';
+import { useSearchParams } from 'next/navigation';
 
 export default function CheckoutPage() {
   const { items, getTotalItems, getTotalPrice, clearCart } = useCart();
   const [step, setStep] = useState(1);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [paddleReady, setPaddleReady] = useState(false);
+  const [paddleConfigured, setPaddleConfigured] = useState(false);
+  const [isCreatingCheckout, setIsCreatingCheckout] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -34,6 +39,103 @@ export default function CheckoutPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Initialize Paddle.js
+  useEffect(() => {
+    const initPaddle = async () => {
+      try {
+        const res = await fetch('/api/paddle/initialize', { method: 'POST' });
+        const data = await res.json();
+
+        if (!data.configured) {
+          setPaddleConfigured(false);
+          return;
+        }
+
+        // Dynamically load Paddle JS
+        const paddleScript = document.createElement('script');
+        paddleScript.src = data.env === 'live'
+          ? 'https://cdn.paddle.com/paddle/v2/paddle.js'
+          : 'https://cdn.paddle.com/paddle/v2/sandbox/paddle.js';
+        paddleScript.async = true;
+        paddleScript.onload = () => {
+          (window as any).Paddle.Environment.set(data.env === 'live' ? 'live' : 'sandbox');
+          (window as any).Paddle.Initialize({ token: data.token, complete: () => {
+            setPaddleReady(true);
+            setPaddleConfigured(true);
+          }});
+        };
+        document.body.appendChild(paddleScript);
+        setPaddleConfigured(true);
+      } catch (err) {
+        console.error('Paddle init error:', err);
+        setPaddleConfigured(false);
+      }
+    };
+    initPaddle();
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    if (!ageConfirmed) return;
+    setIsCreatingCheckout(true);
+    setCheckoutError('');
+
+    try {
+      const res = await fetch('/api/paddle/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map(i => ({
+            id: i.product.id,
+            name: i.product.name,
+            price: i.product.price,
+            quantity: i.quantity,
+          })),
+          customerEmail: formData.email,
+          customerName: `${formData.firstName} ${formData.lastName}`.trim(),
+          shippingAddress: formData.address,
+          shippingCity: formData.city,
+          shippingCountry: formData.country,
+          shippingZip: formData.zip,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.mode === 'demo') {
+        // Demo mode — no real Paddle credentials configured
+        clearCart();
+        window.location.href = '/order-success?demo=true';
+        return;
+      }
+
+      if (data.checkoutUrl) {
+        // Open Paddle hosted checkout
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
+      // Fallback: use Paddle overlay checkout with token
+      if ((window as any).Paddle && data.checkoutToken) {
+        (window as any).Paddle.Checkout.open({
+          token: data.checkoutToken,
+          settings: {
+            displayMode: 'overlay',
+            theme: 'dark',
+            locale: 'en',
+          },
+        });
+        // Cart will be cleared when webhook confirms payment
+      } else {
+        setCheckoutError('Unable to open payment. Please try again.');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      setCheckoutError('Something went wrong. Please try again.');
+    } finally {
+      setIsCreatingCheckout(false);
+    }
   };
 
   if (getTotalItems() === 0) {
@@ -243,80 +345,102 @@ export default function CheckoutPage() {
                   <ArrowLeft size={13} /> Back to Shipping
                 </button>
 
-                <h2 className="text-lg font-bold text-white">Payment Details</h2>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="input-label">Card Number</label>
-                    <div className="relative">
-                      <CreditCard size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20" />
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        placeholder="1234 5678 9012 3456"
-                        className="input-field pl-12"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="input-label">Expiry Date</label>
-                      <input type="text" name="cardExpiry" value={formData.cardExpiry} onChange={handleInputChange} placeholder="MM/YY" className="input-field" />
-                    </div>
-                    <div>
-                      <label className="input-label">CVC</label>
-                      <input type="text" name="cardCvc" value={formData.cardCvc} onChange={handleInputChange} placeholder="123" className="input-field" maxLength={4} />
-                    </div>
-                  </div>
-                </div>
+                <h2 className="text-lg font-bold text-white">Payment</h2>
 
-                {/* Payment Security Notice */}
-                <div className="rounded-xl p-4 bg-zeneio-accent/5 border border-zeneio-accent/10 flex items-start gap-3">
-                  <Lock size={17} className="text-zeneio-accent shrink-0 mt-0.5" />
-                  <div className="space-y-1.5">
-                    <p className="text-xs font-bold text-zeneio-accent">Your Payment is Secure</p>
-                    <p className="text-[11px] text-white/40 leading-relaxed">
-                      All transactions are encrypted with 256-bit SSL. We never store your full 
-                      card number on our servers. Payment processing is handled by PCI DSS Level 1 
-                      certified partners.
-                    </p>
-                    <div className="flex items-center gap-3 pt-1">
-                      {['VISA', 'MC', 'AMEX'].map(card => (
-                        <span key={card} className="text-[10px] font-bold tracking-wider px-2 py-0.5 rounded bg-white/5 text-white/30">{card}</span>
+                {/* Paddle Payment Panel */}
+                <div className="rounded-2xl overflow-hidden border border-zeneio-accent/20">
+                  {/* Paddle Branding Header */}
+                  <div className="bg-gradient-to-r from-zeneio-accent/10 to-purple-500/5 px-6 py-4 border-b border-zeneio-accent/10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-zeneio-accent/10 border border-zeneio-accent/20 flex items-center justify-center">
+                        <Lock size={14} className="text-zeneio-accent" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-white">Secure Payment via Paddle</p>
+                        <p className="text-[11px] text-white/35">Powered by Paddle — PCI DSS Level 1</p>
+                      </div>
+                    </div>
+                    {!paddleConfigured ? (
+                      <span className="text-[10px] font-mono text-amber-400/70 bg-amber-400/10 px-2 py-1 rounded-md">DEMO MODE</span>
+                    ) : paddleReady ? (
+                      <span className="text-[10px] font-mono text-green-400/70 bg-green-400/10 px-2 py-1 rounded-md flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block" /> READY
+                      </span>
+                    ) : (
+                      <Loader2 size={12} className="text-white/30 animate-spin" />
+                    )}
+                  </div>
+
+                  <div className="p-6 space-y-5 bg-[#0a0a0a]/50">
+                    {/* Payment Methods Visual */}
+                    <div className="flex items-center justify-center gap-4 py-3 border-y border-white/5">
+                      {['Visa', 'Mastercard', 'Amex', 'PayPal', 'Apple Pay'].map(method => (
+                        <span key={method} className="text-[10px] font-bold tracking-wider text-white/25 px-2 py-1 rounded bg-white/[0.03] border border-white/5">
+                          {method}
+                        </span>
                       ))}
                     </div>
+
+                    {/* Paddle 合规说明 */}
+                    <div className="rounded-xl p-4 bg-white/[0.02] border border-white/8 text-xs text-white/35 leading-relaxed space-y-2">
+                      <p className="font-bold text-white/50 text-[11px] uppercase tracking-wider">Paddle Payment Information</p>
+                      <p>Your payment is processed securely by <strong className="text-white/50">Paddle</strong>, our authorized payment service provider. ZENEIO never sees or stores your credit card details.</p>
+                      <p>Charges appear on your statement as <strong className="text-white/50">"ZNE LLC"</strong> — completely discreet. Paddle handles all VAT/GST collection for international orders.</p>
+                      <Link href="/paddle-terms" className="inline-block text-zeneio-accent hover:underline mt-1">
+                        Learn how Paddle processes your payment →
+                      </Link>
+                    </div>
+
+                    {/* Age Confirmation */}
+                    <label className="flex items-start gap-3 p-4 rounded-xl bg-white/3 border border-white/10 cursor-pointer hover:bg-white/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={ageConfirmed}
+                        onChange={(e) => setAgeConfirmed(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 accent-zeneio-accent flex-shrink-0 cursor-pointer"
+                      />
+                      <span className="text-xs text-white/50 leading-relaxed">
+                        I confirm that I am at least <strong className="text-white/70">18 years of age</strong> and legally permitted to purchase these products. I agree to the{' '}
+                        <Link href="/terms" className="underline hover:text-white/60">Terms of Service</Link>.
+                      </span>
+                    </label>
+
+                    {/* Error */}
+                    {checkoutError && (
+                      <div className="flex items-center gap-3 p-4 rounded-xl bg-red-500/5 border border-red-500/20">
+                        <AlertCircle size={16} className="text-red-400 flex-shrink-0" />
+                        <p className="text-xs text-red-400">{checkoutError}</p>
+                      </div>
+                    )}
+
+                    {/* Place Order Button */}
+                    <button
+                      onClick={handlePlaceOrder}
+                      disabled={!ageConfirmed || isCreatingCheckout}
+                      className="btn-zeneio w-full py-4 text-base flex items-center justify-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {isCreatingCheckout ? (
+                        <>
+                          <Loader2 size={16} className="animate-spin" />
+                          Connecting to Paddle...
+                        </>
+                      ) : (
+                        <>
+                          <Lock size={16} />
+                          Pay ${total.toFixed(2)} Securely
+                        </>
+                      )}
+                    </button>
+
+                    <div className="flex items-center justify-center gap-4 text-[10px] text-white/20">
+                      <span className="flex items-center gap-1"><Lock size={10} /> 256-bit SSL</span>
+                      <span>•</span>
+                      <span>PCI DSS Level 1</span>
+                      <span>•</span>
+                      <span>Discreet Billing</span>
+                    </div>
                   </div>
                 </div>
-
-                {/* Age Confirmation */}
-                <label className="flex items-start gap-3 p-4 rounded-xl bg-white/3 border border-white/10 cursor-pointer hover:bg-white/5 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={ageConfirmed}
-                    onChange={(e) => setAgeConfirmed(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-zeneio-accent flex-shrink-0 cursor-pointer"
-                  />
-                  <span className="text-xs text-white/50 leading-relaxed">
-                    I confirm that I am at least <strong className="text-white/70">18 years of age</strong> and legally permitted to purchase these products in my country of residence. I have read and agree to the{' '}
-                    <Link href="/terms" className="underline hover:text-white/60">Terms of Service</Link>.
-                  </span>
-                </label>
-
-                <button
-                  onClick={() => {
-                    if (!ageConfirmed) return;
-                    clearCart();
-                    window.location.href = '/order-success';
-                  }}
-                  disabled={!ageConfirmed}
-                  className="btn-zeneio w-full py-4 text-base mt-2 hover:shadow-lg hover:shadow-zeneio-accent/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:shadow-none"
-                >
-                  <Lock size={16} className="mr-2" />
-                  Place Order — ${total.toFixed(2)}
-                </button>
 
                 <p className="text-[11px] text-white/20 text-center">
                   By placing this order, you agree to our{' '}

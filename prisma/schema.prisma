@@ -27,15 +27,21 @@ model Product {
   image        String
   category     Category @relation(fields: [categoryId], references: [id])
   categoryId   String
-  
+
   // Tech Specs (JSON for flexibility)
   specs        Json?    // e.g. { "battery": "240m", "motor": "Gen-4", "waterproof": "IPX8" }
-  
+
+  // SEO fields
+  metaTitle    String?
+  metaDesc     String?
+  tags         String[] @default([])
+
   inventory    Int      @default(0)
   isFeatured   Boolean  @default(false)
+  isPublished  Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  
+
   orders       OrderProduct[]
 }
 
@@ -44,12 +50,24 @@ model Order {
   status          OrderStatus    @default(PENDING)
   totalAmount     Decimal
   customerEmail   String
+  customerName    String?
   shippingAddress String?
-  
+  shippingCity    String?
+  shippingCountry String?
+  shippingZip     String?
+
   // Payment info for 4th party integration
   paymentId       String?        @unique
   paymentStatus   String?
-  
+  paddleOrderId   String?
+
+  // Shipping info
+  trackingNumber  String?
+  carrier         String?
+
+  // Notes
+  notes           String?
+
   items           OrderProduct[]
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
@@ -64,10 +82,47 @@ model OrderProduct {
   quantity  Int
 }
 
+model Coupon {
+  id           String       @id @default(cuid())
+  code         String       @unique
+  type         CouponType  @default(PERCENTAGE)
+  value        Decimal
+  minAmount    Decimal?     // Minimum order amount to apply
+  maxUses      Int?         // Maximum total uses (null = unlimited)
+  usedCount    Int          @default(0)
+  startsAt     DateTime     @default(now())
+  expiresAt    DateTime?
+  isActive     Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+}
+
+model EmailTemplate {
+  id      String   @id @default(cuid())
+  key     String   @unique // e.g. "order_confirmation", "shipping_notification", "refund_confirmed"
+  subject String
+  body    String   @db.Text
+  vars    String[] @default([]) // Available template variables
+  updatedAt DateTime @updatedAt
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  date      DateTime @default(now())
+  visitors  Int      @default(0)
+  pageviews Int      @default(0)
+  orders    Int      @default(0)
+  revenue   Decimal  @default(0)
+}
+
 enum OrderStatus {
   PENDING
   PAID
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+enum CouponType {
+  PERCENTAGE
+  FIXED
 }

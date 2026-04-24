@@ -3,24 +3,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  Users, 
-  Settings, 
-  BarChart3, 
-  ShieldCheck,
-  LogOut,
-  Database
+import {
+  LayoutDashboard, Package, ShoppingCart, BarChart3,
+  Users, Settings, ShieldCheck, LogOut, Tag, Mail,
+  Search, CreditCard
 } from 'lucide-react';
 
 const navItems = [
   { name: '控制中心', icon: LayoutDashboard, href: '/admin' },
   { name: '采购日志', icon: ShoppingCart, href: '/admin/orders' },
   { name: '库存实验室', icon: Package, href: '/admin/products' },
+  { name: '折扣码', icon: Tag, href: '/admin/coupons' },
   { name: '流量分析', icon: BarChart3, href: '/admin/analytics' },
   { name: '用户矩阵', icon: Users, href: '/admin/users' },
+  { name: '邮件模板', icon: Mail, href: '/admin/email-templates' },
+  { name: 'SEO 设置', icon: Search, href: '/admin/seo' },
+  { name: 'Paddle 对账', icon: CreditCard, href: '/admin/paddle' },
   { name: '系统设置', icon: Settings, href: '/admin/settings' },
 ];
 
@@ -52,8 +50,8 @@ export default function AdminSidebar() {
               key={item.name}
               href={item.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group ${
-                isActive 
-                  ? 'bg-zeneio-accent/10 text-zeneio-accent' 
+                isActive
+                  ? 'bg-zeneio-accent/10 text-zeneio-accent'
                   : 'text-white/40 hover:text-white/70 hover:bg-white/[0.02]'
               }`}
             >
@@ -72,17 +70,17 @@ export default function AdminSidebar() {
         <div className="px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-zeneio-accent to-zeneio-purple flex items-center justify-center text-[10px] font-bold text-black">
-              AD
+              ZE
             </div>
             <div>
-              <p className="text-xs font-bold text-white/80">超级管理员</p>
-              <p className="text-[10px] text-white/30 font-mono">5级最高权限</p>
+              <p className="text-xs font-bold text-white/80">ZENEIO Admin</p>
+              <p className="text-[10px] text-white/30 font-mono">support@zeneio.com</p>
             </div>
           </div>
         </div>
         <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400/60 hover:text-red-400 hover:bg-red-400/5 transition-all">
           <LogOut size={18} />
-          <span>终止当前会话</span>
+          <span>退出登录</span>
         </button>
       </div>
     </div>

@@ -1,17 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { 
-  TrendingUp, 
-  Users, 
-  ShoppingCart, 
-  Activity, 
-  ArrowUpRight, 
-  ArrowDownRight,
-  Database,
-  ShieldCheck,
-  Zap,
-  Loader2
+import Link from 'next/link';
+import {
+  TrendingUp, Users, ShoppingCart, Activity, ArrowUpRight, ArrowDownRight,
+  Database, ShieldCheck, Zap, Loader2, Package, ShoppingBag, BarChart3,
+  Tag, Mail, CreditCard, ArrowRight
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -53,47 +47,29 @@ export default function AdminDashboard() {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
         <Loader2 className="w-10 h-10 text-zeneio-accent animate-spin" />
-        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">正在连接神经链路 (初始化)...</p>
+        <p className="text-xs font-mono text-white/20 uppercase tracking-widest">正在连接神经链路...</p>
       </div>
     );
   }
 
   const stats = [
-    { 
-      label: '营收通量', 
-      value: data?.stats?.totalRevenue || '$0.00', 
-      trend: '+12.5%', 
-      trendUp: true, 
-      icon: Zap,
-      description: '累计采购总额'
-    },
-    { 
-      label: '活跃矩阵', 
-      value: '1,284', 
-      trend: '+3.2%', 
-      trendUp: true, 
-      icon: Users,
-      description: '实时神经流量监测'
-    },
-    { 
-      label: '采购日志', 
-      value: data?.stats?.totalOrders || '0', 
-      trend: '累计', 
-      trendUp: true, 
-      icon: ShoppingCart,
-      description: '成功完成的安全交付'
-    },
-    { 
-      label: '系统完整性', 
-      value: data?.stats?.systemIntegrity || '100%', 
-      trend: '稳定', 
-      trendUp: true, 
-      icon: ShieldCheck,
-      description: '端到端加密健康度'
-    },
+    { label: '营收通量', value: data?.stats?.totalRevenue || '$0.00', trend: '+12.5%', trendUp: true, icon: Zap, description: '累计采购总额' },
+    { label: '活跃矩阵', value: data?.stats?.totalOrders || '0', trend: '+3.2%', trendUp: true, icon: Users, description: '总订单数' },
+    { label: '库存组件', value: data?.stats?.totalProducts || '0', trend: '实时', trendUp: true, icon: Package, description: '在架产品数' },
+    { label: '系统完整性', value: data?.stats?.systemIntegrity || '99.98%', trend: '稳定', trendUp: true, icon: ShieldCheck, description: '端到端加密健康度' },
   ];
 
   const recentOrders = data?.recentOrders || [];
+
+  const quickLinks = [
+    { label: '添加产品', href: '/admin/products', icon: Package, color: '#81D8D0', desc: '上架新组件' },
+    { label: '查看订单', href: '/admin/orders', icon: ShoppingBag, color: '#9B87F5', desc: '处理采购' },
+    { label: '创建优惠券', href: '/admin/coupons', icon: Tag, color: '#F472B6', desc: '促销活动' },
+    { label: '流量分析', href: '/admin/analytics', icon: BarChart3, color: '#FBBF24', desc: '数据看板' },
+    { label: 'Paddle 对账', href: '/admin/paddle', icon: CreditCard, color: '#60A5FA', desc: '收款核对' },
+    { label: '邮件模板', href: '/admin/email-templates', icon: Mail, color: '#34D399', desc: '自动化邮件' },
+  ];
+
   return (
     <div className="relative z-10 space-y-10">
       {/* Header */}
@@ -107,18 +83,20 @@ export default function AdminDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button 
+          <button
             onClick={syncDatabase}
             disabled={syncing}
             className="glass px-4 py-2 rounded-xl flex items-center gap-2 border-white/5 text-[10px] font-bold uppercase tracking-[0.2em] text-zeneio-accent hover:bg-zeneio-accent/10 transition-all"
           >
             <Database size={14} className={syncing ? 'animate-spin' : ''} />
-            {syncing ? '矩阵同步中...' : '同步研究数据'}
+            {syncing ? '同步中...' : '同步数据'}
           </button>
           <div className="glass px-4 py-2 rounded-xl flex items-center gap-3 border-white/5">
             <div className="flex flex-col items-end">
-              <span className="text-[10px] font-mono text-white/30 uppercase tracking-tighter leading-none mb-1">最后同步时间</span>
-              <span className="text-[11px] font-mono text-white/70 leading-none">2026.04.19 17:42:05</span>
+              <span className="text-[10px] font-mono text-white/30 uppercase tracking-tighter leading-none mb-1">最后同步</span>
+              <span className="text-[11px] font-mono text-white/70 leading-none">
+                {new Date().toLocaleDateString('zh-CN')} {new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}
+              </span>
             </div>
             <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/40">
               <Activity size={16} />
@@ -149,104 +127,70 @@ export default function AdminDashboard() {
         ))}
       </div>
 
-      {/* Main Grid */}
-      <div className="grid lg:grid-cols-3 gap-8">
-        {/* Recent Activity Table */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold tracking-tight text-white/80">采购日志 (实时)</h2>
-            <button className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">查看完整日志</button>
-          </div>
-          <div className="glass rounded-2xl overflow-hidden border-white/5">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
-                  <th className="px-6 py-4">参考 ID</th>
-                  <th className="px-6 py-4">主体</th>
-                  <th className="px-6 py-4">采购组件</th>
-                  <th className="px-6 py-4">价值</th>
-                  <th className="px-6 py-4 text-right">状态</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {recentOrders.map((order: any) => (
-                  <tr key={order.id} className="hover:bg-white/[0.01] transition-colors group">
-                    <td className="px-6 py-5">
-                      <span className="text-xs font-mono text-zeneio-accent/70">{order.id}</span>
-                    </td>
-                    <td className="px-6 py-5">
-                      <span className="text-sm font-medium text-white/70">{order.user}</span>
-                      <p className="text-[10px] text-white/20">{order.time}</p>
-                    </td>
-                    <td className="px-6 py-5 text-sm text-white/50">{order.product}</td>
-                    <td className="px-6 py-5 text-sm font-bold text-white/80">{order.amount}</td>
-                    <td className="px-6 py-5 text-right">
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
-                        order.status === '已送达' ? 'bg-green-500/10 text-green-400' : 
-                        order.status === '处理中' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
-                      }`}>
-                        {order.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+      {/* Quick Links */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {quickLinks.map((link, i) => (
+          <Link key={i} href={link.href}
+            className="glass p-5 rounded-2xl border-white/5 hover:border-white/10 transition-all group">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: link.color + '20', color: link.color }}>
+              <link.icon size={18} />
+            </div>
+            <p className="text-xs font-bold text-white/80 mb-0.5">{link.label}</p>
+            <p className="text-[10px] text-white/30">{link.desc}</p>
+            <ArrowRight size={12} className="text-white/10 group-hover:text-white/30 mt-2 transition-all" />
+          </Link>
+        ))}
+      </div>
+
+      {/* Recent Orders Table */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-bold tracking-tight text-white/80">最近采购</h2>
+          <Link href="/admin/orders" className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">
+            查看全部 →
+          </Link>
         </div>
-
-        {/* System Health / Right Column */}
-        <div className="space-y-8">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold tracking-tight text-white/80">神经状态</h2>
-          </div>
-          <div className="glass p-8 rounded-2xl border-white/5 space-y-6 relative overflow-hidden group">
-             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
-                <Database size={80} />
-             </div>
-             
-             <div className="space-y-4 relative z-10">
-                <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">数据库上行</span>
-                   <span className="text-[10px] font-mono text-green-400">已加密保护</span>
-                </div>
-                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                   <div className="h-full bg-zeneio-accent w-[92%] animate-pulse" />
-                </div>
-             </div>
-
-             <div className="space-y-4 relative z-10">
-                <div className="flex items-center justify-between">
-                   <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-white/30 uppercase">API 延迟</span>
-                   <span className="text-[10px] font-mono text-white/60">12ms</span>
-                </div>
-                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                   <div className="h-full bg-white/20 w-[15%]" />
-                </div>
-             </div>
-
-             <div className="pt-6 border-t border-white/5">
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-zeneio-accent/5 border border-zeneio-accent/10">
-                   <div className="w-8 h-8 rounded-lg bg-zeneio-accent/20 flex items-center justify-center text-zeneio-accent">
-                      <ShieldCheck size={18} />
-                   </div>
-                   <div>
-                      <p className="text-[11px] font-bold text-white/80 uppercase tracking-widest leading-none mb-1">PCI 1级安全认证</p>
-                      <p className="text-[9px] text-white/30 leading-none">合规性由 Root 验证</p>
-                   </div>
-                </div>
-             </div>
-          </div>
-
-          <div className="glass p-6 rounded-2xl border-white/5 flex items-center justify-between group cursor-pointer hover:border-zeneio-accent/30 transition-all">
-             <div>
-                <p className="text-[10px] font-bold text-zeneio-accent uppercase tracking-widest mb-1">发布新组件 (新产品)</p>
-                <p className="text-[9px] text-white/20 uppercase font-mono tracking-tighter">进入库存实验室 →</p>
-             </div>
-             <div className="w-10 h-10 rounded-xl bg-zeneio-accent/10 flex items-center justify-center text-zeneio-accent group-hover:scale-110 transition-transform">
-                <ArrowUpRight size={20} />
-             </div>
-          </div>
+        <div className="glass rounded-2xl overflow-hidden border-white/5">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="bg-white/5 text-[10px] font-bold tracking-[0.2em] uppercase text-white/30 border-b border-white/5">
+                <th className="px-6 py-4">参考 ID</th>
+                <th className="px-6 py-4">客户</th>
+                <th className="px-6 py-4">产品</th>
+                <th className="px-6 py-4">金额</th>
+                <th className="px-6 py-4 text-right">状态</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {recentOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-16 text-center">
+                    <ShoppingCart className="w-8 h-8 text-white/10 mx-auto mb-3" />
+                    <p className="text-xs font-mono text-white/20 uppercase">暂无订单数据</p>
+                  </td>
+                </tr>
+              ) : recentOrders.map((order: any) => (
+                <tr key={order.id} className="hover:bg-white/[0.01] transition-colors group">
+                  <td className="px-6 py-5">
+                    <span className="text-xs font-mono text-zeneio-accent/70">{order.id.slice(0, 20)}...</span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="text-sm font-medium text-white/70">{order.user}</span>
+                  </td>
+                  <td className="px-6 py-5 text-sm text-white/50">{order.product}</td>
+                  <td className="px-6 py-5 text-sm font-bold text-white/80">{order.amount}</td>
+                  <td className="px-6 py-5 text-right">
+                    <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                      order.status === 'DELIVERED' ? 'bg-green-500/10 text-green-400' :
+                      order.status === 'PROCESSING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'
+                    }`}>
+                      {order.status === 'DELIVERED' ? '已送达' : order.status === 'PROCESSING' ? '处理中' : order.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

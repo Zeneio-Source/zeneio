@@ -19,7 +19,7 @@ Thank you for your order from ZENEIO!
 Order #{{order_id}}
 {{product_names}}
 
-Total: ${{total_amount}}
+Total: \${total_amount}}
 
 We'll send you a shipping notification once your discreet package is on its way.
 
@@ -57,7 +57,7 @@ Your package will arrive in a plain, unmarked box. We never include any adult co
 
 We've processed your refund request for order #{{order_id}}.
 
-Refund Amount: ${{refund_amount}}
+Refund Amount: \${refund_amount}}
 Processing Time: 5-10 business days (depending on your payment provider)
 
 If you have any questions, please reply to this email. We're here to help.

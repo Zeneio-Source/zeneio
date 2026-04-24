@@ -155,7 +155,7 @@ export default function AnalyticsPage() {
               <div key={i} className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-white/60">{s.source}</span>
-                  <span className="text-xs font-mono text-white/40">{s.visitors.toLocaleString()} ({s.pct}%)</span>
+                  <span className="text-xs font-mono text-white/40">{s.visits.toLocaleString()} ({s.pct}%)</span>
                 </div>
                 <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
                   <div className="h-full rounded-full transition-all" style={{ width: `${s.pct}%`, background: s.color }} />

@@ -198,7 +198,9 @@ export default function InventoryLab() {
     URL.revokeObjectURL(url);
   }
 
-  const categories = [...new Map(products.map(p => [p.categoryId, p.category]).filter(([k]) => k)).values()];
+  const categoryMap: Record<string, any> = {};
+  products.forEach(p => { if (p.categoryId && p.category && !categoryMap[p.categoryId]) categoryMap[p.categoryId] = p.category; });
+  const categories = Object.values(categoryMap);
 
   const filtered = products.filter(p => {
     const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.slug.toLowerCase().includes(search.toLowerCase());

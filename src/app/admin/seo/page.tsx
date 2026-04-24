@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Search, Globe, Save, Loader2, Eye, Edit2, Copy, Check, AlertTriangle, BarChart3
+  Search, Save, Edit2, AlertTriangle, Check
 } from 'lucide-react';
 
 interface ProductSEO {
@@ -12,7 +12,6 @@ interface ProductSEO {
   metaTitle: string;
   metaDesc: string;
   tags: string[];
-  preview?: string;
 }
 
 const SAMPLE_PRODUCTS: ProductSEO[] = [
@@ -21,46 +20,44 @@ const SAMPLE_PRODUCTS: ProductSEO[] = [
   { id: '3', name: 'ZENEIO Arc Classic', slug: 'zeneio-arc-classic', metaTitle: '', metaDesc: '', tags: [] },
 ];
 
+function titleLen(t: string) { return t.length; }
+function descLen(d: string) { return d.length; }
+
 export default function SEOPage() {
   const [products, setProducts] = useState<ProductSEO[]>(SAMPLE_PRODUCTS);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState<ProductSEO | null>(null);
+  const [formTitle, setFormTitle] = useState('');
+  const [formDesc, setFormDesc] = useState('');
+  const [formTags, setFormTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
   const [saved, setSaved] = useState(false);
-  const [copied, setCopied] = useState('');
   const [search, setSearch] = useState('');
 
   function startEdit(p: ProductSEO) {
     setEditId(p.id);
-    setForm({ ...p, tags: [...p.tags] });
+    setFormTitle(p.metaTitle);
+    setFormDesc(p.metaDesc);
+    setFormTags([...p.tags]);
   }
 
   function save() {
-    if (!form) return;
-    setProducts(ps => ps.map(p => p.id === editId ? form : p));
+    if (!editId) return;
+    setProducts(ps => ps.map(p => p.id === editId ? { ...p, metaTitle: formTitle, metaDesc: formDesc, tags: formTags } : p));
     setEditId(null);
-    setForm(null);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }
 
-  function copy(text: string, key: string) {
-    navigator.clipboard.writeText(text).catch(() => {});
-    setCopied(key);
-    setTimeout(() => setCopied(''), 2000);
-  }
-
-  function addTag(tag: string) {
-    if (!form || !tag.trim() || form.tags.includes(tag.trim())) return;
-    setForm({ ...form, tags: [...form.tags, tag.trim()] });
+  function addTag() {
+    const t = tagInput.trim().toLowerCase();
+    if (!t || formTags.includes(t)) return;
+    setFormTags([...formTags, t]);
+    setTagInput('');
   }
 
   function removeTag(tag: string) {
-    if (!form) return;
-    setForm({ ...form, tags: form.tags.filter(t => t !== tag) });
+    setFormTags(formTags.filter(t => t !== tag));
   }
-
-  function titleLength(t: string) { return t.length; }
-  function descLength(d: string) { return d.length; }
 
   const filtered = products.filter(p => !search || p.name.toLowerCase().includes(search.toLowerCase()));
 
@@ -77,44 +74,39 @@ export default function SEOPage() {
         </div>
         <button onClick={save} disabled={!editId}
           className="btn-accent flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold uppercase tracking-widest disabled:opacity-50">
-          {saved ? <Check size={16} /> : <Save size={16} />}
-          {saved ? '已保存 ✓' : '保存更改'}
+          {saved ? <><Check size={16} /> 已保存 ✓</> : <><Save size={16} /> 保存更改</>}
         </button>
       </div>
 
-      {/* Tips */}
       <div className="glass p-5 rounded-xl border-zeneio-accent/20 bg-zeneio-accent/5 text-xs text-white/40">
-        💡 Google 推荐 Title 50-60 字符，Description 150-160 字符。良好的 SEO 可提升自然搜索排名，增加免费流量。
+        💡 Google 推荐 Title 50-60 字符，Description 150-160 字符。良好的 SEO 可提升自然搜索排名。
       </div>
 
-      {/* Search */}
       <div className="glass p-4 rounded-2xl border-white/5 flex items-center gap-4">
         <Search size={18} className="text-white/20" />
-        <input type="text" placeholder="搜索产品..."
-          className="flex-1 bg-transparent text-sm text-white placeholder:text-white/20 focus:outline-none"
-          value={search} onChange={e => setSearch(e.target.value)} />
+        <input type="text" placeholder="搜索产品..." value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="flex-1 bg-transparent text-sm text-white placeholder:text-white/20 focus:outline-none" />
       </div>
 
-      {/* Products List */}
       <div className="space-y-4">
         {filtered.map(p => (
           <div key={p.id} className="glass rounded-2xl border-white/5 p-6">
-            {editId === p.id && form ? (
+            {editId === p.id ? (
               <div className="space-y-5">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-white/60">{form.name}</p>
-                  <button onClick={() => { setEditId(null); setForm(null); }}
-                    className="text-xs text-white/30 hover:text-white/60">取消</button>
+                  <p className="text-sm font-bold text-white/60">{p.name}</p>
+                  <button onClick={() => setEditId(null)} className="text-xs text-white/30 hover:text-white/60">取消</button>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-xs font-bold text-white/50 uppercase tracking-wider">Meta Title</label>
-                    <span className={`text-[10px] font-mono ${titleLength(form.metaTitle) > 60 ? 'text-red-400' : titleLength(form.metaTitle) > 50 ? 'text-amber-400' : 'text-green-400'}`}>
-                      {titleLength(form.metaTitle)}/60
+                    <span className={`text-[10px] font-mono ${titleLen(formTitle) > 60 ? 'text-red-400' : titleLen(formTitle) > 50 ? 'text-amber-400' : 'text-green-400'}`}>
+                      {titleLen(formTitle)}/60
                     </span>
                   </div>
-                  <input value={form.metaTitle} onChange={e => setForm(f => f && { ...f, metaTitle: e.target.value }))}
+                  <input value={formTitle} onChange={e => setFormTitle(e.target.value)}
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-zeneio-accent/50"
                     placeholder="输入 SEO 标题..." />
                 </div>
@@ -122,12 +114,11 @@ export default function SEOPage() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-xs font-bold text-white/50 uppercase tracking-wider">Meta Description</label>
-                    <span className={`text-[10px] font-mono ${descLength(form.metaDesc) > 160 ? 'text-red-400' : descLength(form.metaDesc) > 150 ? 'text-amber-400' : 'text-green-400'}`}>
-                      {descLength(form.metaDesc)}/160
+                    <span className={`text-[10px] font-mono ${descLen(formDesc) > 160 ? 'text-red-400' : descLen(formDesc) > 150 ? 'text-amber-400' : 'text-green-400'}`}>
+                      {descLen(formDesc)}/160
                     </span>
                   </div>
-                  <textarea value={form.metaDesc} onChange={e => setForm(f => f && { ...f, metaDesc: e.target.value }))}
-                    rows={3}
+                  <textarea value={formDesc} onChange={e => setFormDesc(e.target.value)} rows={3}
                     className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:border-zeneio-accent/50 resize-none"
                     placeholder="输入 SEO 描述..." />
                 </div>
@@ -135,28 +126,23 @@ export default function SEOPage() {
                 <div>
                   <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-2">Tags</label>
                   <div className="flex flex-wrap gap-2 mb-2">
-                    {form.tags.map(tag => (
+                    {formTags.map(tag => (
                       <span key={tag} className="flex items-center gap-1 text-[10px] font-mono px-2 py-1 rounded bg-zeneio-accent/10 text-zeneio-accent border border-zeneio-accent/20">
-                        {tag} <button onClick={() => removeTag(tag)} className="hover:text-red-400">×</button>
+                        {tag} <button onClick={() => removeTag(tag)} className="hover:text-red-400 ml-1">×</button>
                       </span>
                     ))}
                   </div>
-                  <input
-                    placeholder="输入后回车添加 tag..."
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-zeneio-accent/50"
-                    onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addTag((e.target as HTMLInputElement).value); (e.target as HTMLInputElement).value = ''; } }}
-                  />
+                  <div className="flex gap-2">
+                    <input value={tagInput} onChange={e => setTagInput(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } }}
+                      className="flex-1 bg-white/5 border border-white/10 rounded-xl py-2 px-3 text-xs text-white focus:outline-none focus:border-zeneio-accent/50"
+                      placeholder="输入后回车添加 tag..." />
+                    <button onClick={addTag} className="px-4 py-2 rounded-xl bg-zeneio-accent/10 text-zeneio-accent text-xs font-bold hover:bg-zeneio-accent/20 transition-all">添加</button>
+                  </div>
                 </div>
 
-                {/* Google Preview */}
-                <div className="p-4 rounded-xl bg-white border border-gray-200">
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-2">Google 搜索预览</p>
-                  <p className="text-sm text-blue-600 truncate">{form.metaTitle || 'ZENEIO ' + form.name}</p>
-                  <p className="text-xs text-green-700 truncate">{window?.location?.origin || 'https://zeneio.com'}/{form.slug}</p>
-                  <p className="text-xs text-gray-600 leading-relaxed mt-1">{form.metaDesc || 'Add a meta description to improve SEO...'}</p>
-                </div>
-
-                <button onClick={save} className="btn-accent w-full py-3 rounded-xl text-sm font-bold uppercase tracking-widest">
+                <button onClick={save}
+                  className="btn-accent w-full py-3 rounded-xl text-sm font-bold uppercase tracking-widest">
                   保存 SEO 设置
                 </button>
               </div>

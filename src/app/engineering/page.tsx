@@ -41,10 +41,17 @@ export default function EngineeringPage() {
         <section className="max-w-2xl mx-auto text-center space-y-8">
           <h2 className="text-heading-3 font-bold">Quality You Can Trust</h2>
           <div className="grid sm:grid-cols-3 gap-5">
-            {[{ label: 'ISO 13485', sub: 'Certified' }, { label: 'CE Marked', sub: 'EU Compliant' }, { label: 'FDA Registered', sub: 'Facility' }].map(cert => (
+            {[
+              { label: 'Phthalate-Free', sub: 'Body-Safe Materials' },
+              { label: 'RoHS Compliant', sub: 'No Hazardous Substances' },
+              { label: 'Lab Tested', sub: 'Third-Party Verified' },
+            ].map(cert => (
               <div key={cert.label} className="glass rounded-xl p-5"><p className="font-black text-xl text-gradient">{cert.label}</p><p className="text-xs text-white/35 mt-1">{cert.sub}</p></div>
             ))}
           </div>
+          <p className="text-xs text-white/20 leading-relaxed">
+            All ZENEIO products are made from body-safe, phthalate-free materials. Our products undergo third-party lab testing for material safety and electrical compliance. They are not medical devices and are not FDA-cleared or approved for medical use.
+          </p>
         </section>
       </div>
     </div>

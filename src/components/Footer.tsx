@@ -10,7 +10,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   // Hide footer on admin routes
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/houtai')) {
     return null;
   }
 

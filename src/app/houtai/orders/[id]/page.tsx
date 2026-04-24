@@ -82,7 +82,7 @@ export default function OrderDetailPage() {
     return (
       <div className="text-center py-20">
         <p className="text-white/30 text-sm">订单不存在</p>
-        <button onClick={() => router.push('/admin/orders')} className="mt-4 text-zeneio-accent text-sm font-bold">返回订单列表</button>
+        <button onClick={() => router.push('/houtai/orders')} className="mt-4 text-zeneio-accent text-sm font-bold">返回订单列表</button>
       </div>
     );
   }
@@ -94,7 +94,7 @@ export default function OrderDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <button onClick={() => router.push('/admin/orders')} className="flex items-center gap-2 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest mb-4 transition-colors">
+          <button onClick={() => router.push('/houtai/orders')} className="flex items-center gap-2 text-white/30 hover:text-white/60 text-xs font-bold uppercase tracking-widest mb-4 transition-colors">
             <ArrowLeft size={14} /> 采购日志
           </button>
           <h1 className="text-3xl font-black tracking-tighter uppercase italic text-white mb-2">

@@ -22,7 +22,7 @@ export default function Navbar() {
   const { isAuthenticated, user } = useAuth();
 
   // Hide navbar on admin routes
-  if (pathname?.startsWith('/admin')) {
+  if (pathname?.startsWith('/houtai')) {
     return null;
   }
 

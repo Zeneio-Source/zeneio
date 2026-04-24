@@ -62,12 +62,12 @@ export default function AdminDashboard() {
   const recentOrders = data?.recentOrders || [];
 
   const quickLinks = [
-    { label: '添加产品', href: '/admin/products', icon: Package, color: '#81D8D0', desc: '上架新组件' },
-    { label: '查看订单', href: '/admin/orders', icon: ShoppingBag, color: '#9B87F5', desc: '处理采购' },
-    { label: '创建优惠券', href: '/admin/coupons', icon: Tag, color: '#F472B6', desc: '促销活动' },
-    { label: '流量分析', href: '/admin/analytics', icon: BarChart3, color: '#FBBF24', desc: '数据看板' },
-    { label: 'Paddle 对账', href: '/admin/paddle', icon: CreditCard, color: '#60A5FA', desc: '收款核对' },
-    { label: '邮件模板', href: '/admin/email-templates', icon: Mail, color: '#34D399', desc: '自动化邮件' },
+    { label: '添加产品', href: '/houtai/products', icon: Package, color: '#81D8D0', desc: '上架新组件' },
+    { label: '查看订单', href: '/houtai/orders', icon: ShoppingBag, color: '#9B87F5', desc: '处理采购' },
+    { label: '创建优惠券', href: '/houtai/coupons', icon: Tag, color: '#F472B6', desc: '促销活动' },
+    { label: '流量分析', href: '/houtai/analytics', icon: BarChart3, color: '#FBBF24', desc: '数据看板' },
+    { label: 'Paddle 对账', href: '/houtai/paddle', icon: CreditCard, color: '#60A5FA', desc: '收款核对' },
+    { label: '邮件模板', href: '/houtai/email-templates', icon: Mail, color: '#34D399', desc: '自动化邮件' },
   ];
 
   return (
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold tracking-tight text-white/80">最近采购</h2>
-          <Link href="/admin/orders" className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">
+          <Link href="/houtai/orders" className="text-xs font-bold text-zeneio-accent/60 hover:text-zeneio-accent transition-colors uppercase tracking-widest">
             查看全部 →
           </Link>
         </div>

@@ -10,16 +10,16 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  { name: '控制中心', icon: LayoutDashboard, href: '/admin' },
-  { name: '采购日志', icon: ShoppingCart, href: '/admin/orders' },
-  { name: '库存实验室', icon: Package, href: '/admin/products' },
-  { name: '折扣码', icon: Tag, href: '/admin/coupons' },
-  { name: '流量分析', icon: BarChart3, href: '/admin/analytics' },
-  { name: '用户矩阵', icon: Users, href: '/admin/users' },
-  { name: '邮件模板', icon: Mail, href: '/admin/email-templates' },
-  { name: 'SEO 设置', icon: Search, href: '/admin/seo' },
-  { name: 'Paddle 对账', icon: CreditCard, href: '/admin/paddle' },
-  { name: '系统设置', icon: Settings, href: '/admin/settings' },
+  { name: '控制中心', icon: LayoutDashboard, href: '/houtai' },
+  { name: '采购日志', icon: ShoppingCart, href: '/houtai/orders' },
+  { name: '库存实验室', icon: Package, href: '/houtai/products' },
+  { name: '折扣码', icon: Tag, href: '/houtai/coupons' },
+  { name: '流量分析', icon: BarChart3, href: '/houtai/analytics' },
+  { name: '用户矩阵', icon: Users, href: '/houtai/users' },
+  { name: '邮件模板', icon: Mail, href: '/houtai/email-templates' },
+  { name: 'SEO 设置', icon: Search, href: '/houtai/seo' },
+  { name: 'Paddle 对账', icon: CreditCard, href: '/houtai/paddle' },
+  { name: '系统设置', icon: Settings, href: '/houtai/settings' },
 ];
 
 export default function AdminSidebar() {
